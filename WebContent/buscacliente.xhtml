@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+
+    <h:body>
+         
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+        </p:breadCrumb>
+        <p:panel header="Clientes">
+
+            <h:form id="formBuscar">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
+                    <p:inputText value="#{clienteFinalMB.campoBusca}" />
+
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search">
+                        <p:ajax event="click" listener="#{clienteFinalMB.buscarClientes}"
+                                process="formBuscar"
+                                update=":formResult:tableResultado formBuscar" />
+                    </p:commandButton>
+
+
+                </h:panelGrid>
+            </h:form>
+
+
+
+
+            <h:form id="formResult">
+                <p:outputPanel id="pnlTabelaResult">
+
+                    <p:dataTable id="tableResultado"
+                                 value="#{clienteFinalMB.listaClientes}" var="cliente">
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{cliente.razaoSocial}" />
+                        </p:column>
+                        <p:column headerText="CNPJ">
+                            <h:outputText value="#{cliente.inscricaoFederal}" />
+                        </p:column>
+                        <p:column headerText="Matrícula">
+                            <h:outputText value="#{cliente.matriculaFinal}" />
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton action="#{clienteFinalMB.abrirCliente}"
+                                             icon="ui-icon-search" title="Visualizar/Alterar dados do Cliente">
+                                <f:setPropertyActionListener value="#{cliente}"
+                                                             target="#{clienteFinalMB.clienteSelecionado}" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:panel>
+
+    </h:body>
+</html>
