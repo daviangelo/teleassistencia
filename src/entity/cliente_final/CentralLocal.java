@@ -10,6 +10,7 @@ import javax.persistence.Entity;
  * @author Davi
  *
  */
+@Deprecated
 @Entity
 public abstract class CentralLocal extends Equipamento {
 	

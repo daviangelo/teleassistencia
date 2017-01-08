@@ -78,7 +78,7 @@
                         <p:dataTable id="tabelaPrestadores"
                                      value="#{clienteFinalMB.listaPrestadores}" var="prestador">
                             <p:column headerText="Matrícula">
-                                <h:outputText value="#{prestador.matriculaSocorro}" />
+                                <h:outputText value="#{prestador.idPrestadorSocorro}" />
                             </p:column>
                             <p:column headerText="CNPJ">
                                 <h:outputText value="#{prestador.inscricaoFederal}" />
@@ -115,11 +115,6 @@
                           widgetVar="alterarPrestador" modal="true" showEffect="fade"
                           hideEffect="fade" resizable="false">
                     <h:panelGrid columns="2" cellpadding="5">
-
-                        <h:outputLabel for="matricula" value="Matricula:" />
-                        <p:inputText id="matricula"
-                                     value="#{clienteFinalMB.prestadorSelecionado.matriculaSocorro}"
-                                     required="true" />
 
                         <h:outputLabel for="inscFederal" value="Inscrição Federal" />
                         <p:inputText id="inscFederal"

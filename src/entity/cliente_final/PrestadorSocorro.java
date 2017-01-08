@@ -15,7 +15,6 @@ import javax.persistence.Table;
 public class PrestadorSocorro {
 
 	private int idPrestadorSocorro;
-	private int matriculaSocorro;
 	private String inscricaoEstadual;
 	private String inscricaoFederal;
 	private String telefone;
@@ -26,10 +25,8 @@ public class PrestadorSocorro {
 	
 	
 
-	public PrestadorSocorro(int matriculaSocorro,
-			String inscricaoEstadual, String inscricaoFederal, String telefone) {
+	public PrestadorSocorro(String inscricaoEstadual, String inscricaoFederal, String telefone) {
 		super();
-		this.matriculaSocorro = matriculaSocorro;
 		this.inscricaoEstadual = inscricaoEstadual;
 		this.inscricaoFederal = inscricaoFederal;
 		this.telefone = telefone;
@@ -44,11 +41,6 @@ public class PrestadorSocorro {
 	@Column(name="id_prestador_socorro")
 	public int getIdPrestadorSocorro() {
 		return idPrestadorSocorro;
-	}
-	
-	@Column
-	public int getMatriculaSocorro() {
-		return matriculaSocorro;
 	}
 
 	@Column
@@ -75,10 +67,6 @@ public class PrestadorSocorro {
 
 	public void setIdPrestadorSocorro(int idPrestadorSocorro) {
 		this.idPrestadorSocorro = idPrestadorSocorro;
-	}
-
-	public void setMatriculaSocorro(int matriculaSocorro) {
-		this.matriculaSocorro = matriculaSocorro;
 	}
 
 	public void setInscricaoEstadual(String inscricaoEstadual) {

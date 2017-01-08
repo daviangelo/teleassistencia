@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-
+@Deprecated
 @Entity
 @Table(name = "central_raspberry")
 public class CentralRaspberry extends CentralLocal {

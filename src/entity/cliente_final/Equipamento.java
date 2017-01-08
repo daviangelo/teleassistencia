@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Deprecated
 @Entity
 @Table(name = "equipamento")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

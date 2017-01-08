@@ -49,7 +49,7 @@ public class Mediador {
 
 		private void criarNovoClienteFinal(){
 			
-			PrestadorSocorro ps = new PrestadorSocorro(1, "11111", "222222", "3333333");
+			PrestadorSocorro ps = new PrestadorSocorro("11111", "222222", "3333333");
 			
 			Set<PrestadorSocorro> setps = new HashSet<>();
 			
@@ -70,7 +70,7 @@ public class Mediador {
 //			
 			setcm.add(cm);
 			
-			ClienteFinal cf = new ClienteFinal(1, "111111", "2222222",
+			ClienteFinal cf = new ClienteFinal("111111", "2222222",
 					"Empresa1", "31512613", setu, setcm);
 			
 			ps.setUsuario(u);

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Deprecated
 @Entity
 @Table(name = "central_mobile")
 public class CentralMobile extends CentralLocal {

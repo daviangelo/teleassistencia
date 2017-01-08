@@ -25,7 +25,6 @@ import javax.persistence.Table;
 public class ClienteFinal {
 
     private int idClienteFinal;
-    private int matriculaFinal;
     private String inscricaoFederal;
     private String inscricaoEstadual;
     private String razaoSocial;
@@ -41,12 +40,10 @@ public class ClienteFinal {
 
     }
 
-    public ClienteFinal(int matriculaFinal,
-            String inscricaoFederal, String inscricaoEstadual,
+    public ClienteFinal(String inscricaoFederal, String inscricaoEstadual,
             String razaoSocial, String telefone, Set<Usuario> usuarios,
             Set<Equipamento> equipamentos) {
         super();
-        this.matriculaFinal = matriculaFinal;
         this.inscricaoFederal = inscricaoFederal;
         this.inscricaoEstadual = inscricaoEstadual;
         this.razaoSocial = razaoSocial;
@@ -61,13 +58,6 @@ public class ClienteFinal {
     @Column(name = "id_cliente_final")
     public int getIdClienteFinal() {
         return idClienteFinal;
-    }
-
-    @SequenceGenerator(name = "matricula_final_seq", sequenceName = "matricula_final_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matricula_final_seq")
-    @Column(name = "matricula_final")
-    public int getMatriculaFinal() {
-        return matriculaFinal;
     }
 
     @Column(name = "inscricao_federal")
@@ -102,10 +92,6 @@ public class ClienteFinal {
 
     public void setIdClienteFinal(int idClienteFinal) {
         this.idClienteFinal = idClienteFinal;
-    }
-
-    public void setMatriculaFinal(int matriculaFinal) {
-        this.matriculaFinal = matriculaFinal;
     }
 
     public void setInscricaoFederal(String inscricaoFederal) {
