@@ -19,6 +19,7 @@ import entity.cliente_final.Usuario;
 import java.io.IOException;
 import javax.faces.component.UIViewRoot;
 import com.google.common.collect.Lists;
+import entity.cliente_final.Pulseira;
 
 @ManagedBean
 @SessionScoped
@@ -41,12 +42,15 @@ public class ClienteFinalMB {
     private List<PrestadorSocorro> listaPrestadores = new ArrayList<>();
 
     private PrestadorSocorro prestadorSelecionado;
+    
+    private Pulseira pulseira;
 
     DAOClienteFinal daoCliente = new DAOClienteFinal();
 
     DAO<Usuario> daoUsuario = new DAO<>(Usuario.class);
 
     DAO<PrestadorSocorro> daoPrestador = new DAO<>(PrestadorSocorro.class);
+    DAO<Pulseira> daoPulseira = new DAO<>(Pulseira.class);
 
     public ClienteFinalMB() {
         carregarClientes();
@@ -56,6 +60,8 @@ public class ClienteFinalMB {
         novoUsuario = new Usuario();
         novoEquipamento = new CentralMobile();
         prestadorSelecionado = new PrestadorSocorro();
+        pulseira = new Pulseira();
+        
     }
 
     /**
@@ -173,7 +179,33 @@ public class ClienteFinalMB {
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso",
-                "Cliente excluído com sucesso."));
+                "Prestador excluído com sucesso."));
+
+        context.getExternalContext().getFlash().setKeepMessages(true);
+
+        context.getExternalContext().redirect("dadosusuario.xhtml");
+
+        return null;
+    }
+    
+    public String excluirPulseira() throws Exception {
+        try {
+
+            daoPulseira.apagar(pulseira);
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       pulseira = new Pulseira();
+        
+        carregarClientes();
+        
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Sucesso",
+                "Pulseira excluída com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
 
@@ -281,7 +313,43 @@ public class ClienteFinalMB {
                 e.printStackTrace();
             }
 
-            mensagem = "Usuário cadastrado com sucesso.";
+            mensagem = "Prestador cadastrado com sucesso.";
+
+        }
+
+        listaPrestadores = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.addMessage(null, new FacesMessage("Sucesso",
+                mensagem));
+    }
+    
+        public void manterPulseira() {
+
+        String mensagem;
+
+        if (pulseira.getIdPulseira()!= 0) {
+            try {
+                daoPulseira.atualizar(pulseira);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            mensagem = "A alteração foi efetuada com sucesso.";
+        } else {
+
+            pulseira.setUsuario(usuarioSelecionado);
+            usuarioSelecionado.setPulseira(pulseira);
+            try {
+
+                daoUsuario.atualizar(usuarioSelecionado);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            mensagem = "Pulseira cadastrado com sucesso.";
 
         }
 
@@ -299,6 +367,8 @@ public class ClienteFinalMB {
         if (u != null) {
 
             listaPrestadores = new ArrayList<>(u.getPrestadoresSocorro());
+            
+            pulseira = u.getPulseira();
 
             // Redirecionando
             FacesContext faces = FacesContext.getCurrentInstance();
@@ -426,5 +496,15 @@ public class ClienteFinalMB {
     public void setNovoCliente(ClienteFinal novoCliente) {
         this.novoCliente = novoCliente;
     }
+
+    public Pulseira getPulseira() {
+        return pulseira;
+    }
+
+    public void setPulseira(Pulseira pulseira) {
+        this.pulseira = pulseira;
+    }
+    
+    
 
 }

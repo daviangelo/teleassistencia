@@ -1,5 +1,6 @@
 package entity.cliente_final;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cliente_final")
-public class ClienteFinal {
+public class ClienteFinal implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     private int idClienteFinal;
     private String inscricaoFederal;

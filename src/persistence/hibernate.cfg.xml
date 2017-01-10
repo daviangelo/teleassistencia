@@ -25,6 +25,7 @@
   <mapping class="entity.cliente_final.Equipamento"/>
   <mapping class="entity.cliente_final.Usuario"/>
   <mapping class="entity.cliente_final.PrestadorSocorro"/>
+  <mapping class="entity.cliente_final.Pulseira"/>
 
  </session-factory>
 </hibernate-configuration>

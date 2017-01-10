@@ -14,76 +14,60 @@ import javax.persistence.Table;
 @Table(name = "prestador_socorro")
 public class PrestadorSocorro {
 
-	private int idPrestadorSocorro;
-	private String inscricaoEstadual;
-	private String inscricaoFederal;
-	private String telefone;
-	
-	private Usuario usuario;
-	
-	public PrestadorSocorro(){}
-	
-	
+    private int idPrestadorSocorro;
+    private String telefone;
+    private String nome;
 
-	public PrestadorSocorro(String inscricaoEstadual, String inscricaoFederal, String telefone) {
-		super();
-		this.inscricaoEstadual = inscricaoEstadual;
-		this.inscricaoFederal = inscricaoFederal;
-		this.telefone = telefone;
-	
-	}
+    private Usuario usuario;
 
+    public PrestadorSocorro() {
+    }
 
+    public PrestadorSocorro(String telefone, String nome) {
+        super();
+        this.telefone = telefone;
+        this.nome = nome;
 
-	@Id
-	@SequenceGenerator(name = "prestador_socorro_seq", sequenceName = "prestador_socorro_seq", allocationSize = 1)
+    }
+
+    @Id
+    @SequenceGenerator(name = "prestador_socorro_seq", sequenceName = "prestador_socorro_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prestador_socorro_seq")
-	@Column(name="id_prestador_socorro")
-	public int getIdPrestadorSocorro() {
-		return idPrestadorSocorro;
-	}
+    @Column(name = "id_prestador_socorro")
+    public int getIdPrestadorSocorro() {
+        return idPrestadorSocorro;
+    }
 
-	@Column
-	public String getInscricaoEstadual() {
-		return inscricaoEstadual;
-	}
+    @Column
+    public String getTelefone() {
+        return telefone;
+    }
 
-	@Column
-	public String getInscricaoFederal() {
-		return inscricaoFederal;
-	}
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	@Column
-	public String getTelefone() {
-		return telefone;
-	}
+    public void setIdPrestadorSocorro(int idPrestadorSocorro) {
+        this.idPrestadorSocorro = idPrestadorSocorro;
+    }
 
-	
-	@ManyToOne
-	@JoinColumn(name = "id_usuario")
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
-	public void setIdPrestadorSocorro(int idPrestadorSocorro) {
-		this.idPrestadorSocorro = idPrestadorSocorro;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    @Column
+    public String getNome() {
+        return nome;
+    }
 
-	public void setInscricaoEstadual(String inscricaoEstadual) {
-		this.inscricaoEstadual = inscricaoEstadual;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setInscricaoFederal(String inscricaoFederal) {
-		this.inscricaoFederal = inscricaoFederal;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
-	
 }

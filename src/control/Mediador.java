@@ -49,7 +49,7 @@ public class Mediador {
 
 		private void criarNovoClienteFinal(){
 			
-			PrestadorSocorro ps = new PrestadorSocorro("11111", "222222", "3333333");
+			PrestadorSocorro ps = new PrestadorSocorro("3333333","prestador1");
 			
 			Set<PrestadorSocorro> setps = new HashSet<>();
 			
