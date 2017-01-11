@@ -9,6 +9,82 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+    
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+            body .ui-breadcrumb {
+                background: #6bb4f3;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                margin: 0;
+                background: #ffffff;
+            }
+
+            body .ui-breadcrumb ul li a {color: #fff;text-decoration: none;font-family: 'Open Sans', sans-serif;font-size: 15px;padding: 15px 30px;border-right: 1px solid rgba(204, 204, 204, 0.46);margin-top: 0 !important;transition: .5s ease;}
+
+            body .ui-breadcrumb ul li a:hover {
+                background: #7bbbf1;
+            }
+
+            body .ui-dialog {
+                box-shadow: none;
+                width: 600PX !important;
+            }
+
+            body .ui-dialog .ui-dialog-titlebar {
+                padding: 20px 30px 0;
+                font-family: 'Open Sans', sans-serif;
+                cursor: auto;
+                color: #545454;
+            }
+
+            body .ui-dialog .ui-dialog-content {
+                padding: 20px 26px;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td label {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 15px;
+                color: #545454;
+            }
+            body .ui-dialog .ui-dialog-title {
+                margin: 0;
+                float: none;
+                text-align: center;
+                width: 100%;
+                display: block;
+                margin-bottom: 10px;
+            }
+            body .ui-inputfield {
+                width: 100%;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td:last-child {
+                width: 74%;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td input {
+                padding: 9px;
+                border: 1px solid #ccc;
+                border-radius: 1px;
+                margin-bottom: 10px;
+            }
+
+            body .ui-button {
+                border: 0;
+                padding: 8px 0;
+                width: 143px;
+                margin-top: 20px;
+                background: #4cae4c;
+                color: #fff;
+                font-family: 'Open Sans', sans-serif;
+                text-transform: uppercase;
+                border-radius: 2px;
+            }
+        </style>
     <h:head>
         <title>Cadastrar novo cliente</title>
     </h:head>

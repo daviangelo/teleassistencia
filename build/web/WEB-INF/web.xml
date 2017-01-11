@@ -31,8 +31,8 @@
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/webservice/*</url-pattern>
     </servlet-mapping>
-    <context-param>
-        <param-name>primefaces.THEME</param-name>
-        <param-value>ui-lightness</param-value>
-    </context-param>
+    <context-param>  
+        <param-name>primefaces.THEME</param-name>  
+        <param-value>none</param-value>  
+    </context-param> 
 </web-app>

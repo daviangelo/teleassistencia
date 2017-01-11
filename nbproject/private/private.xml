@@ -12,5 +12,19 @@
             <file>file:/C:/Users/Davi/Google%20Drive/Projetos/webapp/ServidorCentral/WebContent/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Davi/Google%20Drive/Projetos/webapp/ServidorCentral/WebContent/login.xhtml</file>
         </group>
+        <group>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/Registro.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/registro.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/cliente_final/ClienteFinal.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/cliente_final/Usuario.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/index.jsp</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/WEB-INF/primefaces.css</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/novocliente.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/persistence/dao/DAOClienteFinal.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/persistence/GestorBancoDados.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/login.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/MainMB.java</file>
+        </group>
     </open-files>
 </project-private>
