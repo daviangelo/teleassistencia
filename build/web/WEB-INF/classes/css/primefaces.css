@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body.pageBody {
+    background: #f1f1f1;
+    margin: 0;
+}
+.centro {
+    margin-left:auto; 
+    margin-right:auto; 
+
+}
+
+body.pageBody .ui-shadow {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    background: #fff;
+    width: 360px !important;
+}
+
+body.pageBody .ui-dialog .ui-dialog-title {
+    float: none;
+    display: block;
+    text-align: center;
+    padding: 5px 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+}
+
+body.pageBody .ui-draggable .ui-dialog-titlebar {
+    background: #6bb4f3;
+    margin-bottom: 10px;
+}
+
+body.pageBody .ui-panelgrid td {
+    border: none;
+    padding: 0;
+    display: inline-block;
+}
+
+body.pageBody .ui-dialog .ui-dialog-content {
+    margin: 0 auto;
+}
+
+body.pageBody .ui-outputlabel {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #717171;
+    margin-top: 10px;
+    display: block;
+}
+
+body.pageBody .ui-widget-header .ui-inputfield,body.pageBody .ui-widget-content .ui-inputfield {
+    border: 1px solid #ccc;
+    width: 93.4%;
+    padding: 7px;
+    margin: 9px 0;
+    color: #909090;
+}
+
+body.pageBody .ui-panelgrid td:first-child {
+    width: 80px;
+    margin-top: -8px;
+}
+
+body.pageBody .ui-button {
+    margin: 20px 0;
+    width: 100%;
+    padding: 9px;
+    border: none;
+    border-radius: 2px;
+}
+
+body.pageBody .ui-panelgrid:first-child td {width: 100%;}
+
+body.pageBody .ui-button .ui-button-text.ui-c {
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #3c3c3c;
+}
+body.pageBody .ui-button .ui-button-text.ui-c {
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #3c3c3c;
+}
+
+/* Novo cliente */
+
+body.newClient .ui-breadcrumb {
+    background: #6bb4f3;
+    margin: 0;
+    padding: 0;
+}
+
+body.newClient .ui-breadcrumb ul li a {color: #fff;text-decoration: none;font-family: 'Open Sans', sans-serif;font-size: 15px;padding: 15px 30px;border-right: 1px solid rgba(204, 204, 204, 0.46);margin-top: 0 !important;transition: .5s ease;}
+
+body.newClient .ui-breadcrumb ul li a:hover {
+    background: #7bbbf1;
+}
+
+body.newClient .ui-dialog {
+    box-shadow: none;
+    width: 600PX !important;
+}
+
+body.newClient .ui-dialog .ui-dialog-titlebar {
+    padding: 20px 30px 0;
+    font-family: 'Open Sans', sans-serif;
+    cursor: auto;
+    color: #545454;
+}
+
+body.newClient .ui-dialog .ui-dialog-content {
+    padding: 20px 26px;
+}
+
+body.newClient .ui-dialog .ui-dialog-content table tbody tr td label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: #545454;
+}
+body.newClient .ui-dialog .ui-dialog-title {
+    margin: 0;
+    float: none;
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+body.newClient .ui-inputfield {
+    width: 100%;
+}
+
+body.newClient .ui-dialog .ui-dialog-content table tbody tr td:last-child {
+    width: 74%;
+}
+
+body.newClient .ui-dialog .ui-dialog-content table tbody tr td input {
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    margin-bottom: 10px;
+}
+
+body.newClient .ui-button {
+    border: 0;
+    padding: 8px 0;
+    width: 143px;
+    margin-top: 20px;
+    background: #4cae4c;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    border-radius: 2px;
+}

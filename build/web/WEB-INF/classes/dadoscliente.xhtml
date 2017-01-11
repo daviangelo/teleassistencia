@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+    </h:head>
+
+    <h:body>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+        </p:breadCrumb>
+        <p:panel id="painelCliente" header="Cliente"
+                 style="margin-bottom:10px;">
+            <h:form id="formCliente">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <h:panelGrid columns="2" cellpadding="10">
+
+                    <h:outputLabel value="Matrícula:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{clienteFinalMB.clienteSelecionado.idClienteFinal}" />
+
+                    <h:outputLabel value="Razão Social:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{clienteFinalMB.clienteSelecionado.razaoSocial}" />
+
+                    <h:outputLabel value="CNPJ:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}" />
+
+                    <h:outputLabel value="Inscrição Estadual:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}" />
+
+                    <h:outputLabel value="Telefone:" style="font-weight:bold" />
+                    <h:outputLabel value="#{clienteFinalMB.clienteSelecionado.telefone}" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Alterar dados do cliente"
+                                 icon="ui-icon-pencil" onclick="alterarCliente.show()" ajax="true" />
+                <p:commandButton title="Excluir" icon="ui-icon-trash"
+                                 onclick="confirmarExcluir.show()" ajax="true" />
+
+
+                <p:dialog header="Alterar dados do Cliente"
+                          widgetVar="alterarCliente" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <h:outputLabel for="nome" value="Razão Social:" />
+                        <p:inputText id="nome"
+                                     value="#{clienteFinalMB.clienteSelecionado.razaoSocial}"
+                                     required="true" />
+
+                        <h:outputLabel for="cnpj" value="CNPJ:" />
+                        <p:inputText id="cnpj"
+                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}"
+                                     required="true" />
+
+                        <h:outputLabel for="inscE" value="Inscricao Estadual:" />
+                        <p:inputText id="inscE"
+                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}"
+                                     required="true" />
+
+                        <h:outputLabel for="telefone" value="Telefone:" />
+                        <p:inputText id="telefone"
+                                     value="#{clienteFinalMB.clienteSelecionado.telefone}"
+                                     required="true" />
+
+                    </h:panelGrid>
+
+                    <p:commandButton title="Salvar" value="Salvar alterações"
+                                     oncomplete="alterarCliente.hide();"
+                                     actionListener="#{clienteFinalMB.alterarCliente}"
+                                     update=":formCliente" />
+
+                </p:dialog>
+
+            </h:form>
+
+            <p:separator />
+
+            <p:panel id="painelUsuario" header="Usuários"
+                     style="margin-bottom:5px;">
+                <h:form id="formUsuario">
+                    <p:outputPanel id="painelTabelaUsuario">
+
+                        <p:dataTable id="tabelaUsuario"
+                                     value="#{clienteFinalMB.listaUsuarios}" var="usuario">
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{usuario.nome}" />
+                            </p:column>
+                            <p:column headerText="CPF">
+                                <h:outputText value="#{usuario.cpf}" />
+                            </p:column>
+                            <p:column headerText="RG">
+                                <h:outputText value="#{usuario.rg}" />
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton action="#{clienteFinalMB.abrirUsuario}"
+                                                 icon="ui-icon-search"
+                                                 title="Visualizar/Alterar dados do Usuario" ajax="false">
+                                    <f:setPropertyActionListener value="#{usuario}"
+                                                                 target="#{clienteFinalMB.usuarioSelecionado}" />
+                                </p:commandButton>
+
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton title="Adicionar novo Usuário" icon="ui-icon-plus"
+                                         onclick="criarUsuario.show()" ajax="true" />
+                    </p:outputPanel>
+
+                </h:form>
+
+                <h:form id="usuario">
+                    <p:dialog header="Criar novo Usuário"
+                              widgetVar="criarUsuario" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false">
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <h:outputLabel for="nome" value="Nome:" />
+                            <p:inputText id="nome"
+                                         value="#{clienteFinalMB.novoUsuario.nome}"
+                                         required="true" />
+
+                            <h:outputLabel for="cpf" value="CPF:" />
+                            <p:inputText id="cpf"
+                                         value="#{clienteFinalMB.novoUsuario.cpf}"
+                                         required="true" />
+
+                            <h:outputLabel for="rg" value="RG" />
+                            <p:inputText id="rg"
+                                         value="#{clienteFinalMB.novoUsuario.rg}"
+                                         required="true" />
+
+                        </h:panelGrid>
+
+                        <p:commandButton title="Salvar" value="Salvar Usuário"
+                                         oncomplete="criarUsuario.hide();"
+                                         actionListener="#{clienteFinalMB.criarUsuario}"
+                                         update=":formCliente:growl :formUsuario:tabelaUsuario" />
+
+                    </p:dialog>
+                </h:form>
+
+            </p:panel>
+        </p:panel>
+
+
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir este Cliente? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{clienteFinalMB.excluirCliente}"
+                                 oncomplete="confirmarExcluir.hide() operadorDialog.hide();" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>

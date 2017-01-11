@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+            body .ui-breadcrumb {
+                background: #6bb4f3;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                margin: 0;
+                background: #ffffff;
+            }
+
+            body .ui-breadcrumb ul li a {color: #fff;text-decoration: none;font-family: 'Open Sans', sans-serif;font-size: 15px;padding: 15px 30px;border-right: 1px solid rgba(204, 204, 204, 0.46);margin-top: 0 !important;transition: .5s ease;}
+
+            body .ui-breadcrumb ul li a:hover {
+                background: #7bbbf1;
+            }
+
+            body .ui-dialog {
+                box-shadow: none;
+                width: 600PX !important;
+            }
+
+            body .ui-dialog .ui-dialog-titlebar {
+                padding: 20px 30px 0;
+                font-family: 'Open Sans', sans-serif;
+                cursor: auto;
+                color: #545454;
+            }
+
+            body .ui-dialog .ui-dialog-content {
+                padding: 20px 26px;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td label {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 15px;
+                color: #545454;
+            }
+            body .ui-dialog .ui-dialog-title {
+                margin: 0;
+                float: none;
+                text-align: center;
+                width: 100%;
+                display: block;
+                margin-bottom: 10px;
+            }
+            body .ui-inputfield {
+                width: 100%;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td:last-child {
+                width: 74%;
+            }
+
+            body .ui-dialog .ui-dialog-content table tbody tr td input {
+                padding: 9px;
+                border: 1px solid #ccc;
+                border-radius: 1px;
+                margin-bottom: 10px;
+            }
+
+            body .ui-button {
+                border: 0;
+                padding: 8px 0;
+                width: 143px;
+                margin-top: 20px;
+                background: #4cae4c;
+                color: #fff;
+                font-family: 'Open Sans', sans-serif;
+                text-transform: uppercase;
+                border-radius: 2px;
+            }
+        </style>
+    <h:head>
+        <title>Cadastrar novo cliente</title>
+        <link type="text/css" rel="stylesheet" href="css/primefaces.css" />
+    </h:head>
+    <h:body styleClass="body newClient">
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+        </p:breadCrumb>
+        <h:form id="formCadastro"> 
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+            <p:dialog header="Cadastrar novo cliente"
+                      widgetVar="novoCliente" modal="false" showEffect="fade"
+                      hideEffect="fade" resizable="false" closable="false" visible="true">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <h:outputLabel for="nome" value="Razão Social:" />
+                    <p:inputText id="nome"
+                                 value="#{clienteFinalMB.novoCliente.razaoSocial}"
+                                 required="true" />
+
+                    <h:outputLabel for="cnpj" value="CNPJ:" />
+                    <p:inputText id="cnpj"
+                                 value="#{clienteFinalMB.novoCliente.inscricaoFederal}"
+                                 required="true" />
+
+                    <h:outputLabel for="inscE" value="Inscricao Estadual:" />
+                    <p:inputText id="inscE"
+                                 value="#{clienteFinalMB.novoCliente.inscricaoEstadual}"
+                                 required="true" />
+
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputText id="telefone"
+                                 value="#{clienteFinalMB.novoCliente.telefone}"
+                                 required="true" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Salvar" value="Salvar"
+                                 oncomplete="alterarCliente.hide();"
+                                 actionListener="#{clienteFinalMB.criarCliente}" update="growl" />
+
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>

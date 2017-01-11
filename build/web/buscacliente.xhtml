@@ -4,9 +4,10 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
+        <link type="text/css" rel="stylesheet" href="css/style.css" />
     </h:head>
 
-    <h:body>
+    <h:body styleClass="body searchClient">
          
         <p:breadCrumb>
             <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
@@ -46,7 +47,7 @@
                             <h:outputText value="#{cliente.inscricaoFederal}" />
                         </p:column>
                         <p:column headerText="Matrícula">
-                            <h:outputText value="#{cliente.matriculaFinal}" />
+                            <h:outputText value="#{cliente.idClienteFinal}" />
                         </p:column>
                         <p:column style="width:32px;text-align: center">
                             <p:commandButton action="#{clienteFinalMB.abrirCliente}"
