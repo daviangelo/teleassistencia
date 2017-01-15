@@ -17,7 +17,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 
 /**
- * 
+ * Classe responsável pela gerência e conexao com o banco de dados.
  * @author Davi Lessa
  * @since 01/05/2016
  */

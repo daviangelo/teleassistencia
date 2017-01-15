@@ -13,7 +13,8 @@
             <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
             <p:menuitem value="Registros" url="/registro.xhtml" />
             <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
         </p:breadCrumb>
         <p:panel id="painelCliente" header="Cliente"
                  style="margin-bottom:10px;">
@@ -23,22 +24,18 @@
 
                     <h:outputLabel value="Matrícula:" style="font-weight:bold" />
                     <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.idClienteFinal}" />
+                        value="#{clienteFinalBean.clienteSelecionado.idClienteFinal}" />
 
                     <h:outputLabel value="Razão Social:" style="font-weight:bold" />
                     <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.razaoSocial}" />
+                        value="#{clienteFinalBean.clienteSelecionado.razaoSocial}" />
 
                     <h:outputLabel value="CNPJ:" style="font-weight:bold" />
                     <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}" />
-
-                    <h:outputLabel value="Inscrição Estadual:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}" />
+                        value="#{clienteFinalBean.clienteSelecionado.inscricaoFederal}" />
 
                     <h:outputLabel value="Telefone:" style="font-weight:bold" />
-                    <h:outputLabel value="#{clienteFinalMB.clienteSelecionado.telefone}" />
+                    <h:outputLabel value="#{clienteFinalBean.clienteSelecionado.telefone}" />
 
                 </h:panelGrid>
 
@@ -55,29 +52,24 @@
 
                         <h:outputLabel for="nome" value="Razão Social:" />
                         <p:inputText id="nome"
-                                     value="#{clienteFinalMB.clienteSelecionado.razaoSocial}"
+                                     value="#{clienteFinalBean.clienteSelecionado.razaoSocial}"
                                      required="true" />
 
                         <h:outputLabel for="cnpj" value="CNPJ:" />
                         <p:inputText id="cnpj"
-                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}"
-                                     required="true" />
-
-                        <h:outputLabel for="inscE" value="Inscricao Estadual:" />
-                        <p:inputText id="inscE"
-                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}"
+                                     value="#{clienteFinalBean.clienteSelecionado.inscricaoFederal}"
                                      required="true" />
 
                         <h:outputLabel for="telefone" value="Telefone:" />
                         <p:inputText id="telefone"
-                                     value="#{clienteFinalMB.clienteSelecionado.telefone}"
+                                     value="#{clienteFinalBean.clienteSelecionado.telefone}"
                                      required="true" />
 
                     </h:panelGrid>
 
                     <p:commandButton title="Salvar" value="Salvar alterações"
                                      oncomplete="alterarCliente.hide();"
-                                     actionListener="#{clienteFinalMB.alterarCliente}"
+                                     actionListener="#{clienteFinalBean.alterarCliente}"
                                      update=":formCliente" />
 
                 </p:dialog>
@@ -92,7 +84,7 @@
                     <p:outputPanel id="painelTabelaUsuario">
 
                         <p:dataTable id="tabelaUsuario"
-                                     value="#{clienteFinalMB.listaUsuarios}" var="usuario">
+                                     value="#{clienteFinalBean.listaUsuarios}" var="usuario">
                             <p:column headerText="Nome">
                                 <h:outputText value="#{usuario.nome}" />
                             </p:column>
@@ -103,11 +95,11 @@
                                 <h:outputText value="#{usuario.rg}" />
                             </p:column>
                             <p:column style="width:32px;text-align: center">
-                                <p:commandButton action="#{clienteFinalMB.abrirUsuario}"
+                                <p:commandButton action="#{clienteFinalBean.abrirUsuario}"
                                                  icon="ui-icon-search"
                                                  title="Visualizar/Alterar dados do Usuario" ajax="false">
                                     <f:setPropertyActionListener value="#{usuario}"
-                                                                 target="#{clienteFinalMB.usuarioSelecionado}" />
+                                                                 target="#{clienteFinalBean.usuarioSelecionado}" />
                                 </p:commandButton>
 
                             </p:column>
@@ -126,24 +118,24 @@
 
                             <h:outputLabel for="nome" value="Nome:" />
                             <p:inputText id="nome"
-                                         value="#{clienteFinalMB.novoUsuario.nome}"
+                                         value="#{clienteFinalBean.novoUsuario.nome}"
                                          required="true" />
 
                             <h:outputLabel for="cpf" value="CPF:" />
                             <p:inputText id="cpf"
-                                         value="#{clienteFinalMB.novoUsuario.cpf}"
+                                         value="#{clienteFinalBean.novoUsuario.cpf}"
                                          required="true" />
 
                             <h:outputLabel for="rg" value="RG" />
                             <p:inputText id="rg"
-                                         value="#{clienteFinalMB.novoUsuario.rg}"
+                                         value="#{clienteFinalBean.novoUsuario.rg}"
                                          required="true" />
 
                         </h:panelGrid>
 
                         <p:commandButton title="Salvar" value="Salvar Usuário"
                                          oncomplete="criarUsuario.hide();"
-                                         actionListener="#{clienteFinalMB.criarUsuario}"
+                                         actionListener="#{clienteFinalBean.criarUsuario}"
                                          update=":formCliente:growl :formUsuario:tabelaUsuario" />
 
                     </p:dialog>
@@ -160,7 +152,7 @@
                 hideEffect="explode" header="Aviso" severity="alert"
                 widgetVar="confirmarExcluir">
                 <p:commandButton id="btnSim" value="Sim"
-                                 actionListener="#{clienteFinalMB.excluirCliente}"
+                                 actionListener="#{clienteFinalBean.excluirCliente}"
                                  oncomplete="confirmarExcluir.hide() operadorDialog.hide();" />
                 <p:commandButton id="btnNao" value="Não"
                                  onclick="confirmarExcluir.hide()" type="button" />

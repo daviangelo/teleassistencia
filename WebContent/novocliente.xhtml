@@ -17,7 +17,8 @@ and open the template in the editor.
             <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
             <p:menuitem value="Registros" url="/registro.xhtml" />
             <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
         </p:breadCrumb>
         <h:form id="formCadastro"> 
             <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
@@ -29,29 +30,24 @@ and open the template in the editor.
 
                     <h:outputLabel for="nome" value="Razão Social:" />
                     <p:inputText id="nome"
-                                 value="#{clienteFinalMB.novoCliente.razaoSocial}"
+                                 value="#{clienteFinalBean.novoCliente.razaoSocial}"
                                  required="true" />
 
                     <h:outputLabel for="cnpj" value="CNPJ:" />
                     <p:inputText id="cnpj"
-                                 value="#{clienteFinalMB.novoCliente.inscricaoFederal}"
-                                 required="true" />
-
-                    <h:outputLabel for="inscE" value="Inscricao Estadual:" />
-                    <p:inputText id="inscE"
-                                 value="#{clienteFinalMB.novoCliente.inscricaoEstadual}"
+                                 value="#{clienteFinalBean.novoCliente.inscricaoFederal}"
                                  required="true" />
 
                     <h:outputLabel for="telefone" value="Telefone:" />
                     <p:inputText id="telefone"
-                                 value="#{clienteFinalMB.novoCliente.telefone}"
+                                 value="#{clienteFinalBean.novoCliente.telefone}"
                                  required="true" />
 
                 </h:panelGrid>
 
                 <p:commandButton title="Salvar" value="Salvar"
                                  oncomplete="alterarCliente.hide();"
-                                 actionListener="#{clienteFinalMB.criarCliente}" update="growl" />
+                                 actionListener="#{clienteFinalBean.criarCliente}" update="growl" />
 
             </p:dialog>
         </h:form>

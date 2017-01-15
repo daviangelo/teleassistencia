@@ -1,6 +1,8 @@
 package entity.cliente_final;
 
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,15 +13,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import persistence.dao.DAO;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable {
 
     private int idUsuario;
     private String nome;
@@ -28,7 +33,8 @@ public class Usuario {
 
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
-    private Pulseira pulseira;
+    private Set<Pulseira> pulseiras;
+    private static DAO<Usuario> daoUsuario;
 
     public Usuario() {
     }
@@ -70,18 +76,21 @@ public class Usuario {
         return clienteFinal;
     }
 
-    @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    public Pulseira getPulseira() {
-        return pulseira;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    public Set<Pulseira> getPulseiras() {
+        return pulseiras;
     }
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "usuario_prestador_socorro", joinColumns = 
+     {@JoinColumn(name = "id_usuario")},inverseJoinColumns =
+     {@JoinColumn(name = "id_prestador_socorro")})
     public Set<PrestadorSocorro> getPrestadoresSocorro() {
         return prestadoresSocorro;
     }
 
-    public void setPulseira(Pulseira pulseira) {
-        this.pulseira = pulseira;
+    public void setPulseiras(Set<Pulseira> pulseiras) {
+        this.pulseiras = pulseiras;
     }
 
     public void setPrestadoresSocorro(Set<PrestadorSocorro> prestadoresSocorro) {
@@ -106,6 +115,62 @@ public class Usuario {
 
     public void setClienteFinal(ClienteFinal clienteFinal) {
         this.clienteFinal = clienteFinal;
+    }
+
+    @Transient
+    public static DAO<Usuario> getDAOUsuario() {
+        if (daoUsuario == null) {
+            daoUsuario = new DAO<>(Usuario.class);
+        }
+        return daoUsuario;
+    }
+
+    /**
+     * Apaga um usuário do banco de dados.
+     *
+     * @param usuario
+     *
+     * @throws Exception
+     */
+    public static void apagar(Usuario usuario) throws Exception {
+
+        getDAOUsuario().apagar(usuario);
+    }
+
+    /**
+     * Obtém a lista com todos os usuarios salvos no banco de dados.
+     *
+     * @return
+     * @throws Exception
+     */
+    public static List<Usuario> obterUsuarios() throws Exception {
+
+        return getDAOUsuario().listarTodos();
+    }
+
+    /**
+     * Atualiza os dados de um usuario do banco de dados.
+     *
+     * @param usuario
+     *
+     * @throws Exception
+     */
+    public static void atualizar(Usuario usuario) throws Exception {
+
+        getDAOUsuario().atualizar(usuario);
+    }
+
+    /**
+     * Obtém o usuario salvo no banco de dados correspondente com o idUsuario
+     * pesquisado.
+     *
+     * @param idUsuario
+     * @return
+     * @throws Exception
+     */
+    public static Usuario obterUsuarioPorID(int idUsuario) throws Exception {
+
+        return getDAOUsuario().listarPorID(idUsuario);
     }
 
 }

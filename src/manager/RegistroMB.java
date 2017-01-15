@@ -48,7 +48,6 @@ public class RegistroMB implements Serializable {
 			ClienteFinal cf = daoCliente.listarTodos().get(0);
 
 			System.out.println("\nClienteFinal:" + cf.toString());
-			System.out.println("\nEquipamentos:" + cf.getEquipamentos().size());
 			System.out.println("\nUsuarios:" + cf.getUsuarios().size());
 			System.out.println("\nPrestadores:" + cf.getUsuarios().toString());
 		} catch (Exception e) {

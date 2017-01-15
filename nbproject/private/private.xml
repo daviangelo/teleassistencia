@@ -12,5 +12,17 @@
             <file>file:/C:/Users/Davi/Google%20Drive/Projetos/webapp/ServidorCentral/WebContent/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Davi/Google%20Drive/Projetos/webapp/ServidorCentral/WebContent/login.xhtml</file>
         </group>
+        <group name="projeto_biohelp">
+            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/ClienteFinal.java</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/buscaprestador.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/PrestadorSocorro.java</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/buscacliente.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/dadoscliente.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/src/manager/crud/PrestadorSocorroBean.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOPrestadorSocorro.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOClienteFinal.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/manager/crud/ClienteFinalBean.java</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/dadosprestador.xhtml</file>
+        </group>
     </open-files>
 </project-private>

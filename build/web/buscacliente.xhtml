@@ -4,28 +4,37 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
+        
+        <title>Busca de Clientes</title>
     </h:head>
 
     <h:body>
-         
+
         <p:breadCrumb>
             <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
             <p:menuitem value="Registros" url="/registro.xhtml" />
             <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseiras.xhtml" />
         </p:breadCrumb>
         <p:panel header="Clientes">
 
             <h:form id="formBuscar">
                 <p:growl id="growl" showDetail="true" sticky="true" />
-                <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
-                    <p:inputText value="#{clienteFinalMB.campoBusca}" />
+
+
+
+                <h:panelGrid columns="3" cellspacing="10" style="margin-left:100px">
+                    <p:inputText value="#{clienteFinalBean.campoBusca}" />
 
                     <p:commandButton value="Pesquisar" icon="ui-icon-search">
-                        <p:ajax event="click" listener="#{clienteFinalMB.buscarClientes}"
+                        <p:ajax event="click" listener="#{clienteFinalBean.buscarClientes}"
                                 process="formBuscar"
                                 update=":formResult:tableResultado formBuscar" />
                     </p:commandButton>
+                    <p:commandLink id="nonAjax" action ="/novocliente.xhtml" ajax="false">
+                        <h:outputText value="Novo Cliente" />
+                    </p:commandLink>
 
 
                 </h:panelGrid>
@@ -38,7 +47,7 @@
                 <p:outputPanel id="pnlTabelaResult">
 
                     <p:dataTable id="tableResultado"
-                                 value="#{clienteFinalMB.listaClientes}" var="cliente">
+                                 value="#{clienteFinalBean.listaClientes}" var="cliente">
                         <p:column headerText="Nome">
                             <h:outputText value="#{cliente.razaoSocial}" />
                         </p:column>
@@ -46,13 +55,13 @@
                             <h:outputText value="#{cliente.inscricaoFederal}" />
                         </p:column>
                         <p:column headerText="Matrícula">
-                            <h:outputText value="#{cliente.matriculaFinal}" />
+                            <h:outputText value="#{cliente.idClienteFinal}" />
                         </p:column>
                         <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{clienteFinalMB.abrirCliente}"
+                            <p:commandButton action="#{clienteFinalBean.abrirCliente}"
                                              icon="ui-icon-search" title="Visualizar/Alterar dados do Cliente">
                                 <f:setPropertyActionListener value="#{cliente}"
-                                                             target="#{clienteFinalMB.clienteSelecionado}" />
+                                                             target="#{clienteFinalBean.clienteSelecionado}" />
                             </p:commandButton>
 
                         </p:column>
