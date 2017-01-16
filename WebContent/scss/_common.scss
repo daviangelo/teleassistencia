@@ -1,0 +1,73 @@
+.wrapper {
+    width: 1124px;
+    margin: 0 auto;
+}
+body.login {
+    background: $bgLoginColor;
+    .boxLogin {
+        background: $white;
+        position: absolute;
+        border: 1px solid #eaeaea;
+        left: 34%;
+        top: 25%;
+        width: 400px; 
+        height: auto;
+        padding: 20px 30px; 
+        form {
+            text-align: center;
+            .item {
+                display: block;
+                width: 100%;
+                label {
+                    display: block;
+                    font-family: $font1;
+                    font-size: 15px;
+                    padding-top: 10px;
+                    text-align: left;
+                } 
+                input {
+                    display: block;
+                    width: 96%;
+                    border: 1px solid #ccc;
+                    border-radius: 1px;
+                    font-family: $font1;
+                    padding: 8px;
+                    margin-top: 10px; 
+                    background: rgba(247, 247, 247, 0.36);
+                    text-align: left;
+                }
+            }
+
+
+            .ui-button {
+                background: red;
+                border: none;
+                margin-top: 20px;
+                width: 120px;
+                padding: 5px;
+                text-align: center;
+                border-radius: 2px;
+                background: #60a2da;
+                color: $white;
+                .ui-icon-check  {
+                    display: none; 
+                }
+            }
+        }
+    }
+
+    .ui-growl {
+        .ui-growl-item-container  {
+            box-shadow: none;
+            border-radius: 2px;
+            color: $white;
+            font-family: $font1;
+            background: #e67e22;
+            .ui-growl-image {
+                background: url(../images/iconAlert.png) no-repeat;
+                background-size: 100%;
+                margin-top: 13px;
+            }
+        } 
+    }
+}

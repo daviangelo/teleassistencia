@@ -2,10 +2,7 @@ package control;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import persistence.GestorBancoDados;
 import persistence.dao.DAO;
@@ -29,10 +26,11 @@ public class Mediador {
         registros = new ArrayList<>();
 //			criarNovoClienteFinal();
     }
-    
+
     /**
-     * Obtém a instância salva do mediador, caso não exista ela é criada. 
-     * @return 
+     * Obtém a instância salva do mediador, caso não exista ela é criada.
+     *
+     * @return
      */
     public static Mediador getInstance() {
         if (instance == null) {
@@ -47,7 +45,6 @@ public class Mediador {
         return instance;
     }
 
-    
     public List<Registro> getRegistros() {
         List<Registro> lista = new ArrayList<>();
         try {

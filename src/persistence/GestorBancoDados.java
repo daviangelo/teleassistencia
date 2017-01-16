@@ -59,7 +59,7 @@ public class GestorBancoDados {
 		}
 
 	        usuario = "postgres";
-	        senha = "postgres";
+	        senha = "camilasiqueira";
 	        host = "localhost";
 	        porta = "5432";
 	        bd = "teleassistencia";

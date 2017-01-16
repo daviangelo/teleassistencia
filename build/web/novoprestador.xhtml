@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cadastrar novo Prestador de Serviços</title>
+    </h:head>
+    <h:body>
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
+        </p:breadCrumb>
+        <h:form id="formCadastro"> 
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+            <p:dialog header="Cadastrar novo Prestador de Socorro"
+                      widgetVar="novoPrestador" modal="false" showEffect="fade"
+                      hideEffect="fade" resizable="false" closable="false" visible="true">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{prestadorSocorroBean.novoPrestador.nome}"
+                                 required="true" />
+
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputText id="cnpj"
+                                 value="#{prestadorSocorroBean.novoPrestador.telefone}"
+                                 required="true" />
+
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="telefone"
+                                 value="#{prestadorSocorroBean.novoPrestador.descricao}"
+                                 required="true" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Salvar" value="Salvar"
+                                 oncomplete="alterarCliente.hide();"
+                                 actionListener="#{prestadorSocorroBean.criarPrestador()}" update="growl" />
+
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>

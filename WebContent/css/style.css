@@ -1,0 +1,171 @@
+/*reset*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, dd, dt, dl {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  list-style: none; }
+
+*, *:after, *:before {
+  box-sizing: border-box;
+  outline: none; }
+
+input, textarea {
+  outline: none; }
+
+input[type=radio] {
+  margin: 3px 3px 3px 0; }
+
+div:after, ol:after, form:after, ul:after, dl:after, section:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden; }
+
+a, a:hover {
+  cursor: pointer;
+  text-decoration: none; }
+
+label {
+  display: inline-block; }
+
+.pageHeader {
+  background: #9cd0ec; }
+  .pageHeader nav.pageNavigator {
+    float: left; }
+    .pageHeader nav.pageNavigator ul li {
+      display: inline-block;
+      padding: 18px 0; }
+      .pageHeader nav.pageNavigator ul li a {
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        padding: 0 17px;
+        display: block;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 0 17px; }
+  .pageHeader .boxLogin {
+    float: right; }
+    .pageHeader .boxLogin .boxContent {
+      display: block;
+      padding: 5px 10px 5px 0;
+      cursor: pointer; }
+      .pageHeader .boxLogin .boxContent .imgProfile {
+        width: 43px;
+        float: left; }
+        .pageHeader .boxLogin .boxContent .imgProfile img {
+          border-radius: 50%;
+          width: 100%;
+          height: auto; }
+      .pageHeader .boxLogin .boxContent .nameProfile {
+        float: right;
+        padding: 12px 0 14px 10px; }
+        .pageHeader .boxLogin .boxContent .nameProfile h2 {
+          color: #fff;
+          font-family: "Open Sans", sans-serif;
+          font-size: 15px; }
+          .pageHeader .boxLogin .boxContent .nameProfile h2 i.icon-arrow {
+            background: url(../images/arrowProfile.png) no-repeat;
+            display: inline-block;
+            width: 15px;
+            height: 8px;
+            background-size: 100%;
+            margin-left: 8px; }
+    .pageHeader .boxLogin .submenu-profile {
+      display: none;
+      width: 270px;
+      height: 200px;
+      position: absolute;
+      border: 1px solid #efefef;
+      right: 80px;
+      background: #fff; }
+      .pageHeader .boxLogin .submenu-profile:before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 150px;
+        margin-left: -22px;
+        border-right: 10px solid transparent;
+        border-top: 0px solid transparent;
+        border-left: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        z-index: 1; }
+      .pageHeader .boxLogin .submenu-profile.active {
+        display: block; }
+
+.wrapper {
+  width: 1124px;
+  margin: 0 auto; }
+
+body.login {
+  background: #f1f1f1; }
+  body.login .boxLogin {
+    background: #fff;
+    position: absolute;
+    border: 1px solid #eaeaea;
+    left: 34%;
+    top: 25%;
+    width: 400px;
+    height: auto;
+    padding: 20px 30px; }
+    body.login .boxLogin form {
+      text-align: center; }
+      body.login .boxLogin form .item {
+        display: block;
+        width: 100%; }
+        body.login .boxLogin form .item label {
+          display: block;
+          font-family: "Open Sans", sans-serif;
+          font-size: 15px;
+          padding-top: 10px;
+          text-align: left; }
+        body.login .boxLogin form .item input {
+          display: block;
+          width: 96%;
+          border: 1px solid #ccc;
+          border-radius: 1px;
+          font-family: "Open Sans", sans-serif;
+          padding: 8px;
+          margin-top: 10px;
+          background: rgba(247, 247, 247, 0.36);
+          text-align: left; }
+      body.login .boxLogin form .ui-button {
+        background: red;
+        border: none;
+        margin-top: 20px;
+        width: 120px;
+        padding: 5px;
+        text-align: center;
+        border-radius: 2px;
+        background: #60a2da;
+        color: #fff; }
+        body.login .boxLogin form .ui-button .ui-icon-check {
+          display: none; }
+  body.login .ui-growl .ui-growl-item-container {
+    box-shadow: none;
+    border-radius: 2px;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    background: #e67e22; }
+    body.login .ui-growl .ui-growl-item-container .ui-growl-image {
+      background: url(../images/iconAlert.png) no-repeat;
+      background-size: 100%;
+      margin-top: 13px; }
+
+/*# sourceMappingURL=style.css.map */
