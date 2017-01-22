@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import persistence.dao.DAO;
 import persistence.dao.DAOPrestadorSocorro;
 
 @Entity
@@ -51,7 +51,7 @@ public class PrestadorSocorro implements Serializable {
         return telefone;
     }
 
-    @ManyToMany(mappedBy = "prestadoresSocorro")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "prestadoresSocorro")
     public Set<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -142,6 +142,17 @@ public class PrestadorSocorro implements Serializable {
     public static PrestadorSocorro obterPrestadorPorID(int idPrestadorSocorro) throws Exception {
 
         return getDAOPrestador().listarPorID(idPrestadorSocorro);
+    }
+    /**
+     * Obtém os prestadores de socorro associados ao usuário buscado.
+     *
+     * @param idUsuario
+     * @return
+     * @throws Exception
+     */
+    public static List<PrestadorSocorro> obterDesassociados(Integer idUsuario) throws Exception {
+
+        return getDAOPrestador().obterDesassociados(idUsuario);
     }
     
     /**

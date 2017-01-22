@@ -3,6 +3,7 @@ package entity.cliente_final;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -172,5 +173,41 @@ public class Usuario implements Serializable {
 
         return getDAOUsuario().listarPorID(idUsuario);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + this.idUsuario;
+        hash = 23 * hash + Objects.hashCode(this.nome);
+        hash = 23 * hash + Objects.hashCode(this.cpf);
+        hash = 23 * hash + Objects.hashCode(this.rg);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (this.idUsuario != other.idUsuario) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.cpf, other.cpf)) {
+            return false;
+        }
+        if (!Objects.equals(this.rg, other.rg)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

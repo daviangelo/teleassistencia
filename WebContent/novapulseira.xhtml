@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cadastrar nova Pulseira</title>
+    </h:head>
+    <h:body>
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
+        </p:breadCrumb>
+        <h:form id="formCadastro"> 
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+            <p:dialog header="Cadastrar nova Pulseira"
+                      widgetVar="novoPrestador" modal="false" showEffect="fade"
+                      hideEffect="fade" resizable="false" closable="false" visible="true">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <h:outputLabel for="codigo" value="Código Identificador:" />
+                    <p:inputText id="nome"
+                                 value="#{pulseiraBean.novaPulseira.codigoIdentificador}"
+                                 required="true" />
+
+                    <h:outputLabel for="liberada" value="Liberada para Uso:" />
+                    <p:selectBooleanCheckbox id="liberada"
+                                                 value="#{pulseiraBean.novaPulseira.liberadaUso}"
+                                                 required="true" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Salvar" value="Salvar"
+                                 actionListener="#{pulseiraBean.criarPulseira}" update="growl" />
+
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>

@@ -7,10 +7,11 @@ import javax.faces.context.FacesContext;
 
 import control.Mediador;
 import entity.Operador;
+import java.io.Serializable;
 
 @ManagedBean(name = "login_mb")
 @ViewScoped 
-public class LoginMB {	
+public class LoginMB implements Serializable {	
 	
 	private Operador operador;
 

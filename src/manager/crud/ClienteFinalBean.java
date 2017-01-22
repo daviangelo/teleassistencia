@@ -14,6 +14,7 @@ import entity.cliente_final.Usuario;
 import java.io.IOException;
 import com.google.common.collect.Lists;
 import entity.cliente_final.Pulseira;
+import org.primefaces.event.DragDropEvent;
 
 /**
  * Bean para construção de tela de gerência do Cliente Final.
@@ -34,11 +35,15 @@ public class ClienteFinalBean {
 
     private Usuario usuarioSelecionado, novoUsuario;
 
-    private List<PrestadorSocorro> listaPrestadores = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresDisponiveis = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresSelecionados = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresExibicao = new ArrayList<>();
 
     private PrestadorSocorro prestadorSelecionado;
-    
-    private List<Pulseira> listaPulseiras;
+
+    private List<Pulseira> listaPulseirasDisponiveis = new ArrayList<>();
+    private List<Pulseira> listaPulseirasSelecionadas = new ArrayList<>();
+    private List<Pulseira> listaPulseirasExibicao = new ArrayList<>();
 
     private Pulseira pulseiraSelecionada;
 
@@ -171,23 +176,30 @@ public class ClienteFinalBean {
      * @return
      * @throws Exception
      */
-    public String excluirPrestador() throws Exception {
+    public String desassociarPrestador() throws Exception {
         try {
-
-            PrestadorSocorro.apagar(prestadorSelecionado);
-            listaPrestadores = PrestadorSocorro.obterPrestadores();
-
+                prestadorSelecionado.getUsuarios().remove(usuarioSelecionado);
+                usuarioSelecionado.getPrestadoresSocorro().remove(prestadorSelecionado);
+                PrestadorSocorro.atualizar(prestadorSelecionado);
+                Usuario.atualizar(usuarioSelecionado);
+                
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         prestadorSelecionado = new PrestadorSocorro();
-
+        
+        usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
+        
+        listaPrestadoresExibicao = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
+        
         carregarClientes();
+        
+        preparaDialogPrestadores();
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso",
-                "Prestador excluído com sucesso."));
+                "Prestador de Socorro desassociado com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
 
@@ -197,27 +209,33 @@ public class ClienteFinalBean {
     }
 
     /**
-     * Exclui a pulseiraSelecionada selecionada.
+     * Desassocia a pulseira selecionada.
      *
      * @return
      * @throws Exception
      */
-    public String excluirPulseira() throws Exception {
+    public String desassociarPulseira() throws Exception {
         try {
-
-            Pulseira.apagar(pulseiraSelecionada);
-
+                pulseiraSelecionada.setUsuario(null);
+                Pulseira.atualizar(pulseiraSelecionada);
+                
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         pulseiraSelecionada = new Pulseira();
-
+        
+        usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
+        
+        listaPulseirasExibicao = new ArrayList<>(usuarioSelecionado.getPulseiras());
+        
         carregarClientes();
+        
+        preparaDialogPulseiras();
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso",
-                "Pulseira excluída com sucesso."));
+                "Pulseira desassociada com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
 
@@ -293,35 +311,13 @@ public class ClienteFinalBean {
                 "A alteração foi efetuada com sucesso."));
     }
 
-    /**
-     * Substitui prestador por um limpo e completamente novo.
+/**
+     * Salva a associacao dos prestadores de socorro escolhidoss.
      */
-    public void novoPrestador() {
-        prestadorSelecionado = new PrestadorSocorro();
-    }
+    public void associarPrestador() {
 
-    /**
-     * Salva as modificações nos dados do prestador selecionado.
-     */
-    public void manterPrestador() {
-
-        String mensagem;
-
-        if (prestadorSelecionado.getIdPrestadorSocorro() != 0) {
-            try {
-                PrestadorSocorro.atualizar(prestadorSelecionado);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            mensagem = "A alteração foi efetuada com sucesso.";
-
-            novoPrestador();
-        } else {
-
-            prestadorSelecionado.getUsuarios().add(usuarioSelecionado);
-            usuarioSelecionado.getPrestadoresSocorro().add(prestadorSelecionado);
+       listaPrestadoresSelecionados.forEach(prestador -> ((PrestadorSocorro) prestador).getUsuarios().add(usuarioSelecionado));
+            usuarioSelecionado.getPrestadoresSocorro().addAll(listaPrestadoresSelecionados);
             try {
 
                 Usuario.atualizar(usuarioSelecionado);
@@ -329,11 +325,13 @@ public class ClienteFinalBean {
                 e.printStackTrace();
             }
 
-            mensagem = "Prestador cadastrado com sucesso.";
+            String mensagem = "Prestadores de Socorro associados com sucesso.";
 
-        }
+        
 
-        listaPrestadores = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
+        listaPrestadoresExibicao = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
+        
+        preparaDialogPrestadores();
 
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -342,25 +340,13 @@ public class ClienteFinalBean {
     }
 
     /**
-     * Salva a alteração nos dados da pulseiraSelecionada selecionada.
+     * Salva a associacao das pulseiras escolhidas.
      */
-    public void manterPulseira() {
+    public void associarPulseira() {
 
-        String mensagem;
-
-        if (pulseiraSelecionada.getIdPulseira() != 0) {
-            try {
-                Pulseira.atualizar(pulseiraSelecionada);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            mensagem = "A alteração foi efetuada com sucesso.";
-        } else {
-
-            pulseiraSelecionada.setUsuario(usuarioSelecionado);
-            usuarioSelecionado.getPulseiras().add(pulseiraSelecionada);
+       
+            listaPulseirasSelecionadas.forEach(pulseira -> ((Pulseira) pulseira).setUsuario(usuarioSelecionado));
+            usuarioSelecionado.getPulseiras().addAll(listaPulseirasSelecionadas);
             try {
 
                 Usuario.atualizar(usuarioSelecionado);
@@ -368,11 +354,13 @@ public class ClienteFinalBean {
                 e.printStackTrace();
             }
 
-            mensagem = "Pulseira cadastrado com sucesso.";
+            String mensagem = "Pulseiras associadas com sucesso.";
 
-        }
+        
 
-        listaPrestadores = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
+        listaPulseirasExibicao = new ArrayList<>(usuarioSelecionado.getPulseiras());
+        
+        preparaDialogPulseiras();
 
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -391,10 +379,11 @@ public class ClienteFinalBean {
         Usuario u = Usuario.obterUsuarioPorID(this.usuarioSelecionado
                 .getIdUsuario());
         if (u != null) {
+            listaPulseirasExibicao = new ArrayList<>(u.getPulseiras());
+            listaPrestadoresExibicao = new ArrayList<>(u.getPrestadoresSocorro());
 
-            listaPrestadores = new ArrayList<>(u.getPrestadoresSocorro());
-
-            listaPulseiras = new ArrayList<>(u.getPulseiras());
+            preparaDialogPulseiras();
+            preparaDialogPrestadores();
 
             // Redirecionando
             FacesContext faces = FacesContext.getCurrentInstance();
@@ -406,7 +395,7 @@ public class ClienteFinalBean {
 
         return null;
     }
-    
+
     /**
      * Salva os dados de um novo usuário no banco de dados.
      */
@@ -429,6 +418,55 @@ public class ClienteFinalBean {
 
         novoUsuario = new Usuario();
     }
+    
+    /**
+     * Evento de drag and drop da tabela de associação das pulseiras com o usuário.
+     * @param ddEvent 
+     */
+    public void onPulseiraDrop(DragDropEvent ddEvent) {
+        Pulseira pulseira = ((Pulseira) ddEvent.getData());
+
+        listaPulseirasSelecionadas.add(pulseira);
+        listaPulseirasDisponiveis.remove(pulseira);
+    }
+    /**
+     * Evento de drag and drop da tabela de associação dos prestadores de socorro com o usuário.
+     * @param ddEvent 
+     */
+    public void onPrestadorDrop(DragDropEvent ddEvent) {
+        PrestadorSocorro prestador = ((PrestadorSocorro) ddEvent.getData());
+
+        listaPrestadoresSelecionados.add(prestador);
+        listaPrestadoresDisponiveis.remove(prestador);
+    }
+
+    /**
+     * Prepara as tabelas do dialog de associação das pulseiras.
+     */
+    public synchronized void preparaDialogPulseiras() {
+        try {
+            listaPulseirasDisponiveis = Pulseira.obterDesassociadas();
+            listaPulseirasSelecionadas = new ArrayList<>();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao obter prestadores de socorro");
+        }
+
+    }
+    
+     /**
+     * Prepara as tabelas do dialog de associação dos prestadores de socorro.
+     */
+    public synchronized void preparaDialogPrestadores() {
+        try {
+            listaPrestadoresDisponiveis = PrestadorSocorro.obterDesassociados(usuarioSelecionado.getIdUsuario());
+            listaPrestadoresSelecionados = new ArrayList<>();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao obter prestadores de socorro");
+        }
+
+    }
 
     public List<ClienteFinal> getListaClientes() {
         return listaClientes;
@@ -450,8 +488,8 @@ public class ClienteFinalBean {
         return novoUsuario;
     }
 
-    public List<PrestadorSocorro> getListaPrestadores() {
-        return listaPrestadores;
+    public List<PrestadorSocorro> getListaPrestadoresDisponiveis() {
+        return listaPrestadoresDisponiveis;
     }
 
     public PrestadorSocorro getPrestadorSelecionado() {
@@ -486,8 +524,8 @@ public class ClienteFinalBean {
         this.novoUsuario = novoUsuario;
     }
 
-    public void setListaPrestadores(List<PrestadorSocorro> listaPrestadores) {
-        this.listaPrestadores = listaPrestadores;
+    public void setListaPrestadoresDisponiveis(List<PrestadorSocorro> listaPrestadoresDisponiveis) {
+        this.listaPrestadoresDisponiveis = listaPrestadoresDisponiveis;
     }
 
     public void setPrestadorSelecionado(PrestadorSocorro prestadorSelecionado) {
@@ -510,12 +548,44 @@ public class ClienteFinalBean {
         this.pulseiraSelecionada = pulseiraSelecionada;
     }
 
-    public List<Pulseira> getListaPulseiras() {
-        return listaPulseiras;
+    public List<Pulseira> getListaPulseirasDisponiveis() {
+        return listaPulseirasDisponiveis;
     }
 
-    public void setListaPulseiras(List<Pulseira> listaPulseiras) {
-        this.listaPulseiras = listaPulseiras;
+    public void setListaPulseirasDisponiveis(List<Pulseira> listaPulseirasDisponiveis) {
+        this.listaPulseirasDisponiveis = listaPulseirasDisponiveis;
+    }
+
+    public List<PrestadorSocorro> getListaPrestadoresSelecionados() {
+        return listaPrestadoresSelecionados;
+    }
+
+    public void setListaPrestadoresSelecionados(List<PrestadorSocorro> listaPrestadoresSelecionados) {
+        this.listaPrestadoresSelecionados = listaPrestadoresSelecionados;
+    }
+
+    public List<Pulseira> getListaPulseirasSelecionadas() {
+        return listaPulseirasSelecionadas;
+    }
+
+    public void setListaPulseirasSelecionadas(List<Pulseira> listaPulseirasSelecionadas) {
+        this.listaPulseirasSelecionadas = listaPulseirasSelecionadas;
+    }
+
+    public List<PrestadorSocorro> getListaPrestadoresExibicao() {
+        return listaPrestadoresExibicao;
+    }
+
+    public void setListaPrestadoresExibicao(List<PrestadorSocorro> listaPrestadoresExibicao) {
+        this.listaPrestadoresExibicao = listaPrestadoresExibicao;
+    }
+
+    public List<Pulseira> getListaPulseirasExibicao() {
+        return listaPulseirasExibicao;
+    }
+
+    public void setListaPulseirasExibicao(List<Pulseira> listaPulseirasExibicao) {
+        this.listaPulseirasExibicao = listaPulseirasExibicao;
     }
 
 }
