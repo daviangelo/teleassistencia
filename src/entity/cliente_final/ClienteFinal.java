@@ -179,7 +179,6 @@ public class ClienteFinal implements Serializable {
      * @throws Exception
      */
     public static void atualizar(ClienteFinal clienteFinal) throws Exception {
-
         getDAOCliente().atualizar(clienteFinal);
     }
 

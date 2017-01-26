@@ -37,7 +37,7 @@ public class ClienteFinalBean {
     private List<PrestadorSocorro> listaPrestadores = new ArrayList<>();
 
     private PrestadorSocorro prestadorSelecionado;
-    
+
     private List<Pulseira> listaPulseiras;
 
     private Pulseira pulseiraSelecionada;
@@ -95,9 +95,7 @@ public class ClienteFinalBean {
      */
     public void criarCliente() throws IOException {
         try {
-
             ClienteFinal.criar(novoCliente);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,14 +112,13 @@ public class ClienteFinalBean {
         context.getExternalContext().getFlash().setKeepMessages(true);
 
         context.getExternalContext().redirect("buscacliente.xhtml");
-
     }
 
     //Carrega os dados referentes ao cliente selecionado (//@TODO NECESSIDADE)
     public String abrirCliente() throws Exception {
-        ClienteFinal cf = ClienteFinal.obterClientePorID(this.clienteSelecionado
-                .getIdClienteFinal());
-        if (cf != null) {
+//        ClienteFinal cf = ClienteFinal.obterClientePorID(this.clienteSelecionado
+//                .getIdClienteFinal());
+//        if (cf != null) {
 
             listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
 
@@ -129,7 +126,7 @@ public class ClienteFinalBean {
             FacesContext faces = FacesContext.getCurrentInstance();
             ExternalContext context = faces.getExternalContext();
             context.redirect("dadoscliente.xhtml");
-        }
+//        }
 
         return null;
     }
@@ -406,15 +403,15 @@ public class ClienteFinalBean {
 
         return null;
     }
-    
+
     /**
      * Salva os dados de um novo usuário no banco de dados.
      */
     public void criarUsuario() {
         novoUsuario.setClienteFinal(clienteSelecionado);
         clienteSelecionado.getUsuarios().add(novoUsuario);
+        
         try {
-
             ClienteFinal.atualizar(clienteSelecionado);
         } catch (Exception e) {
             e.printStackTrace();

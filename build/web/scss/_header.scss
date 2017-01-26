@@ -6,6 +6,12 @@
             li {
                 display: inline-block;
                 padding: 18px 0;
+                &.current {
+                    background: #83c6ea;
+                    a {
+                        border-right: 0;
+                    }
+                }
                 a {
                     color: $white;
                     font-family: $font1;

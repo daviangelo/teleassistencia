@@ -32,7 +32,7 @@ public class LoginMB {
         if (!valido) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado ou senha inválida!",
                             "Erro no Login!"));
             return null;
         } else {

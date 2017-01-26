@@ -1,1 +1,33 @@
-
+.pageFooter {
+    background: $colorFooter;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 20px 0;
+    .txtFooter {
+        float: left;
+        p {
+            font-family: $font1;
+            color: $white;
+            font-size: 13px;
+            text-transform: uppercase;
+            a {
+                color: #f27b53;
+            }
+        }
+    }
+    .help {
+        float: right;
+        ul {
+            li {
+                display: inline-block;
+                a {
+                    color: $white;
+                    font-family: $font1;
+                    font-size: 13px;
+                    padding-left: 10px;
+                }
+            }
+        }
+    }
+}

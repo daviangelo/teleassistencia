@@ -1,73 +1,106 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <h:head>
-        <title>Busca de Prestadores de Socorro</title>
+        <title>Prestadores de Socorro</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
     <h:body>
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
 
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
-            <p:menuitem value="Pulseiras" url="/buscapulseiras.xhtml" />
-        </p:breadCrumb>
-        <p:panel header="Prestadores de Socorro">
+        <div class="wrapper">
+            <div class="inputSearch">
+                <input type="text" class="input-search" alt="lista-prestadores" placeholder="Buscar prestador de socorro..." />
 
-            <h:form id="formBuscar">
-                <p:growl id="growl" showDetail="true" sticky="true" />
+                <div class="boxCadastro">
+                    <h:form id="formBuscar">
+                        <p:growl id="growl" showDetail="true" sticky="true" />
 
-
-
-                <h:panelGrid columns="3" cellspacing="10" style="margin-left:100px">
-                    <p:inputText value="#{prestadorSocorroBean.campoBusca}" />
-
-                    <p:commandButton value="Pesquisar" icon="ui-icon-search">
-                        <p:ajax event="click" listener="#{prestadorSocorroBean.buscarPrestadores}"
-                                process="formBuscar"
-                                update=":formResult:tableResultado formBuscar" />
-                    </p:commandButton>
-                    <p:commandLink id="nonAjax" action ="/novoprestador.xhtml" ajax="false">
-                        <h:outputText value="Novo Prestador" />
-                    </p:commandLink>
-
-
-                </h:panelGrid>
-            </h:form>
-
-
-
+                        <p:commandLink id="nonAjax" action ="/novoprestador.xhtml" ajax="false">
+                            <h:outputText value="Cadastrar Prestador de Socorro" />
+                        </p:commandLink>
+                    </h:form>
+                </div>
+            </div>
 
             <h:form id="formResult">
                 <p:outputPanel id="pnlTabelaResult">
 
-                    <p:dataTable id="tableResultado"
+                    <p:dataTable id="tableResultado" styleClass="lista-prestadores"
                                  value="#{prestadorSocorroBean.listaPrestadores}" var="prestador">
+
                         <p:column headerText="Nome">
                             <h:outputText value="#{prestador.nome}" />
                         </p:column>
-                        <p:column headerText="Matrícula">
-                            <h:outputText value="#{prestador.idPrestadorSocorro}" />
-                        </p:column>
+
                         <p:column headerText="Telefone">
                             <h:outputText value="#{prestador.telefone}" />
                         </p:column>
+
                         <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{prestadorSocorroBean.abrirPrestador}"
-                                             icon="ui-icon-search" title="Visualizar/Alterar dados do Prestador de Socorro">
+                            <p:commandButton action="#{prestadorSocorroBean.abrirPrestador}" styleClass="btnEdit" 
+                                                 title="Visualizar/Alterar dados do Cliente">
                                 <f:setPropertyActionListener value="#{prestador}"
                                                              target="#{prestadorSocorroBean.prestadorSelecionado}" />
                             </p:commandButton>
-
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
-        </p:panel>
+        </div>
 
+        <div id="boxPrestador">
+            <h:form id="formCadastro" styleClass="lightBoxCad prestador"> 
+                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+                <div class="item">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{prestadorSocorroBean.novoPrestador.nome}"
+                                 required="true" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputText id="cnpj"
+                                 value="#{prestadorSocorroBean.novoPrestador.telefone}"
+                                 required="true" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="telefone"
+                                     value="#{prestadorSocorroBean.novoPrestador.descricao}"
+                                     required="true" />
+                </div>
+
+                <p:commandButton title="Salvar" value="Salvar"
+                                 oncomplete="alterarCliente.hide();"
+                                 actionListener="#{prestadorSocorroBean.criarPrestador()}" update="growl" />
+
+            </h:form>
+        </div>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
     </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+
+    <script type="text/javascript" src="js/jquery.quick.search.js"></script>
 </html>
