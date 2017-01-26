@@ -13,16 +13,24 @@
             <file>file:/C:/Users/Davi/Google%20Drive/Projetos/webapp/ServidorCentral/WebContent/login.xhtml</file>
         </group>
         <group name="projeto_biohelp">
-            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/ClienteFinal.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/manager/crud/PulseiraBean.java</file>
             <file>file:/C:/projetos/ServidorCentral/WebContent/buscaprestador.xhtml</file>
-            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/PrestadorSocorro.java</file>
-            <file>file:/C:/projetos/ServidorCentral/WebContent/buscacliente.xhtml</file>
-            <file>file:/C:/projetos/ServidorCentral/WebContent/dadoscliente.xhtml</file>
-            <file>file:/C:/projetos/ServidorCentral/src/manager/crud/PrestadorSocorroBean.java</file>
-            <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOPrestadorSocorro.java</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/novapulseira.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/novoprestador.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/dadosusuario.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/buscapulseira.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/dadospulseira.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/WebContent/dadosprestador.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOPulseira.java</file>
             <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOClienteFinal.java</file>
             <file>file:/C:/projetos/ServidorCentral/src/manager/crud/ClienteFinalBean.java</file>
-            <file>file:/C:/projetos/ServidorCentral/WebContent/dadosprestador.xhtml</file>
+            <file>file:/C:/projetos/ServidorCentral/nbproject/build-impl.xml</file>
+            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/Pulseira.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/persistence/dao/DAOPrestadorSocorro.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/manager/LoginMB.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/PrestadorSocorro.java</file>
+            <file>file:/C:/projetos/ServidorCentral/src/persistence/hibernate.cfg.xml</file>
+            <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/Usuario.java</file>
         </group>
         <group>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/persistence/dao/DAO.java</file>

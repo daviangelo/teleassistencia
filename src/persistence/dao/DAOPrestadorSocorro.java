@@ -47,5 +47,18 @@ public class DAOPrestadorSocorro extends DAO<PrestadorSocorro> {
 		return lista;
 
 	}
+        
+        public List<PrestadorSocorro> obterDesassociados(Integer idUsuario) throws Exception {
+		Session session = GestorBancoDados.getInstancia().getSession();
+		Criteria criteria = session.createCriteria(PrestadorSocorro.class);
+		criteria.createAlias("usuarios", "usuario");
+		criteria.add(Restrictions.or(Restrictions.ne("usuario.idUsuario", idUsuario), Restrictions.isEmpty("usuarios")));
+		System.out.println("prestadores desassociados " + criteria.list().size());
+		List<PrestadorSocorro> lista = CastUtil.castList(PrestadorSocorro.class,
+				criteria.list());
+
+		return lista;
+
+	}
 
 }

@@ -17,9 +17,9 @@
             <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
         </p:breadCrumb>
         
-        <p:panel id="painelCliente" header="Prestador de Socorro"
+        <p:panel id="painelPrestador" header="Prestador de Socorro"
                  style="margin-bottom:10px;">
-            <h:form id="formCliente">
+            <h:form id="formPrestador">
                 <p:growl id="growl" showDetail="true" sticky="true" />
                 <h:panelGrid columns="2" cellpadding="10">
 
@@ -40,15 +40,15 @@
 
                 </h:panelGrid>
 
-                <p:commandButton title="Alterar dados do cliente"
-                                 icon="ui-icon-pencil" onclick="alterarCliente.show()" ajax="true" />
+                <p:commandButton title="Alterar dados do Prestador de Socorro"
+                                 icon="ui-icon-pencil" onclick="PF('alterarPrestador').show()" ajax="true" />
                 <p:commandButton title="Excluir" icon="ui-icon-trash"
-                                 onclick="confirmarExcluir.show()" ajax="true" />
+                                 onclick="PF('confirmarExcluir').show()" ajax="true" />
 
 
-                <p:dialog header="Alterar dados do Cliente"
-                          widgetVar="alterarCliente" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false">
+                <p:dialog header="Alterar dados do Prestador de Socorro"
+                          widgetVar="alterarPrestador" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false" closable="true">
                     <h:panelGrid columns="2" cellpadding="5">
 
                         <h:outputLabel for="nome" value="Nome:" />
@@ -57,21 +57,21 @@
                                      required="true" />
 
                         <h:outputLabel for="telefone" value="Telefone:" />
-                        <p:inputText id="cnpj"
+                        <p:inputText id="telefone"
                                      value="#{prestadorSocorroBean.prestadorSelecionado.telefone}"
                                      required="true" />
 
                         <h:outputLabel for="descricao" value="Descrição:" />
-                        <p:inputTextarea id="telefone"
+                        <p:inputTextarea id="descricao"
                                      value="#{prestadorSocorroBean.prestadorSelecionado.descricao}"
                                      required="true" />
 
                     </h:panelGrid>
 
                     <p:commandButton title="Salvar" value="Salvar alterações"
-                                     oncomplete="alterarCliente.hide();"
+                                     onclick="alterarCliente.hide();"
                                      actionListener="#{prestadorSocorroBean.alterarPrestador}"
-                                     update=":formCliente" />
+                                     update=":formPrestador" />
 
                 </p:dialog>
 
