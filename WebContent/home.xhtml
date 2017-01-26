@@ -1,19 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
     <h:body>
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
-            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
-        </p:breadCrumb>
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+        
         <p:panel header="Atualizaçõs dos clientes"
                  style="margin-bottom:10px;">
         </p:panel>

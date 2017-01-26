@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Prestador de Socorro</title>
+    </h:head>
+
+    <h:body>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
+        </p:breadCrumb>
+        
+        <p:panel id="painelPrestador" header="Prestador de Socorro"
+                 style="margin-bottom:10px;">
+            <h:form id="formPrestador">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <h:panelGrid columns="2" cellpadding="10">
+
+                    <h:outputLabel value="Matrícula:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{prestadorSocorroBean.prestadorSelecionado.idPrestadorSocorro}" />
+
+                    <h:outputLabel value="Nome:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{prestadorSocorroBean.prestadorSelecionado.nome}" />
+
+                    <h:outputLabel value="Telefone:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" />
+
+                    <h:outputLabel value="Descricao:" style="font-weight:bold" />
+                    <h:outputLabel value="#{prestadorSocorroBean.prestadorSelecionado.descricao}" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Alterar dados do Prestador de Socorro"
+                                 icon="ui-icon-pencil" onclick="PF('alterarPrestador').show()" ajax="true" />
+                <p:commandButton title="Excluir" icon="ui-icon-trash"
+                                 onclick="PF('confirmarExcluir').show()" ajax="true" />
+
+
+                <p:dialog header="Alterar dados do Prestador de Socorro"
+                          widgetVar="alterarPrestador" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false" closable="true">
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <h:outputLabel for="nome" value="Nome:" />
+                        <p:inputText id="nome"
+                                     value="#{prestadorSocorroBean.prestadorSelecionado.nome}"
+                                     required="true" />
+
+                        <h:outputLabel for="telefone" value="Telefone:" />
+                        <p:inputText id="telefone"
+                                     value="#{prestadorSocorroBean.prestadorSelecionado.telefone}"
+                                     required="true" />
+
+                        <h:outputLabel for="descricao" value="Descrição:" />
+                        <p:inputTextarea id="descricao"
+                                     value="#{prestadorSocorroBean.prestadorSelecionado.descricao}"
+                                     required="true" />
+
+                    </h:panelGrid>
+
+                    <p:commandButton title="Salvar" value="Salvar alterações"
+                                     onclick="alterarCliente.hide();"
+                                     actionListener="#{prestadorSocorroBean.alterarPrestador}"
+                                     update=":formPrestador" />
+
+                </p:dialog>
+
+            </h:form>
+
+            <p:separator />
+            
+        </p:panel>
+
+
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir este Prestador de Socorro? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{prestadorSocorroBean.excluirPrestador}"
+                                 oncomplete="confirmarExcluir.hide() operadorDialog.hide();" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>

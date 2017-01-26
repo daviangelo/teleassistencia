@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pulseira</title>
+    </h:head>
+
+    <h:body>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
+            <p:menuitem value="Registros" url="/registro.xhtml" />
+            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
+            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
+            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
+        </p:breadCrumb>
+
+        <p:panel id="painelPulseira" header="Pulseira"
+                 style="margin-bottom:10px;">
+            <h:form id="formPrestador">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <h:panelGrid columns="2" cellpadding="10">
+
+                    <h:outputLabel value="Matrícula:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{pulseiraBean.pulseiraSelecionada.idPulseira}" />
+
+                    <h:outputLabel value="Código Identificador:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{pulseiraBean.pulseiraSelecionada.codigoIdentificador}" />
+
+                    <h:outputLabel value="Uso Liberado:" style="font-weight:bold" />
+                    <h:outputLabel
+                        value="#{pulseiraBean.pulseiraSelecionada.status}" />
+
+                </h:panelGrid>
+
+                <p:commandButton title="Alterar dados da Pulseira"
+                                 icon="ui-icon-pencil" onclick="PF('alterarPulseira').show()" ajax="true" />
+                <p:commandButton title="Excluir" icon="ui-icon-trash"
+                                 onclick="PF('confirmarExcluir').show()" ajax="true" />
+
+
+                <p:dialog header="Alterar dados da Pulseira"
+                          widgetVar="alterarPulseira" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false" closable="true">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        
+                        <h:outputLabel for="codigo" value="Código Identificador:" />
+                        <p:inputText id="nome"
+                                     value="#{pulseiraBean.pulseiraSelecionada.codigoIdentificador}"
+                                     required="true" />
+
+                        <h:outputLabel for="liberada" value="Liberada para Uso:" />
+                        <p:selectBooleanCheckbox id="liberada"
+                                                 value="#{pulseiraBean.pulseiraSelecionada.liberadaUso}"
+                                                 required="true" />
+
+                    </h:panelGrid>
+
+                    <p:commandButton title="Salvar" value="Salvar alterações"
+                                     onclick="alterarPulseira.hide();"
+                                     actionListener="#{pulseiraBean.alterarPulseira}"
+                                     update=":formPrestador" />
+
+                </p:dialog>
+
+            </h:form>
+
+            <p:separator />
+
+        </p:panel>
+
+
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir essa Pulseira? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{pulseiraBean.excluirPulseira}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>

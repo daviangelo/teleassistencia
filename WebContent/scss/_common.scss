@@ -1,0 +1,236 @@
+.wrapper {
+    width: 1124px;
+    margin: 0 auto;
+}
+
+body {
+    padding-bottom: 110px;
+}
+
+// Alert Erro
+.ui-growl-item-container {
+    cursor: pointer;
+}
+.ui-growl {
+    .ui-growl-item-container  {
+        box-shadow: none;
+        border-radius: 2px;
+        color: $white;
+        font-family: $font1;
+        background: #e67e22;
+        .ui-growl-image {
+            background: url(../images/iconAlert.png) no-repeat;
+            background-size: 100%;
+            margin-top: 13px;
+        }
+    } 
+}
+
+//btn Cad
+.boxBtn {
+    text-align: center;
+    input {
+        background: red;
+        border: none;
+        margin-top: 20px;
+        width: 120px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 2px;
+        background: #60a2da;
+        color: $white;
+    }  
+}
+
+body.login {
+    background: $bgLoginColor;
+    .boxLogin {
+        background: $white;
+        position: absolute;
+        border: 1px solid #eaeaea;
+        left: 34%;
+        top: 25%;
+        width: 400px; 
+        height: auto;
+        padding: 20px 30px; 
+        form {
+            text-align: center;
+            .item {
+                display: block;
+                width: 100%;
+                label {
+                    display: block;
+                    font-family: $font1;
+                    font-size: 15px;
+                    padding-top: 10px;
+                    text-align: left;
+                } 
+                input {
+                    display: block;
+                    width: 96%;
+                    border: 1px solid #ccc;
+                    border-radius: 1px;
+                    font-family: $font1;
+                    padding: 8px;
+                    margin-top: 10px; 
+                    background: rgba(247, 247, 247, 0.36);
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
+
+// Ligh Box
+.lightboxOverlay {
+    &.open {
+        .lightboxBlock {
+            width: 50%;
+            min-height: 363px !important;
+            background: #fff;
+            padding: 40px;
+            left: 27% !important;
+            top: 15% !important;
+            a.lightboxClose {
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                display: block;
+                width: 40px;
+                height: 40px;
+                text-align: right;
+                &:before {
+                    content: "X";
+                    font-size: 25px;
+                    font-family: Arial;
+                    font-weight: 300;
+                }
+            }
+            .lightboxInner {
+                #formCadastro {
+                    display: block;
+                    .item {
+                        label {
+                            font-family: $font1;
+                            font-size: 15px;
+                            padding: 10px 0;
+                            display: block;
+                        }
+                        input {
+                            display: block;
+                            width: 100%;
+                            border: 1px solid #ccc;
+                            border-radius: 1px;
+                            font-family: $font1;
+                            padding: 8px;
+                            background: rgba(247, 247, 247, 0.36);
+                            text-align: left;
+                        }
+                        textarea {
+                            width: 100%;
+                            min-height: 100px;
+                            border: 1px solid #ccc;
+                            border-radius: 1px;
+                            font-family: $font1;
+                            padding: 8px;
+                            background: rgba(247, 247, 247, 0.36);
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.lightBoxCad {
+    display: none;
+}
+// Search register
+.inputSearch {
+    padding: 30px 0;
+    .input-search {
+        padding: 10px;
+        border-radius: 1px;
+        border: 1px solid #ccc;
+        width: 40%;
+        float: left;
+    }
+    .boxCadastro {
+        float: right;
+        .newClient,.newPrestador {
+            background: #f27b53;
+            border-radius: 1px;
+            color: $white;
+            box-shadow: inset 0px 0px 13px 1px #ef8d6d;
+            padding: 10px 30px;
+            display: block;
+            transition: .5s ease;
+            &:hover {
+                background: #d0623d;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+//Table register Client
+#formResult {
+    .ui-outputpanel {
+        .ui-datatable {
+            .ui-datatable-tablewrapper {
+                table {
+                    border: 1px solid #f1f1f1;
+                    thead {
+                        background: #f1f1f1;
+                        tr {
+                            th {
+                                border: none;
+                                padding: 13px 10px;
+                                text-align: left;
+                                span {
+                                    font-family: $font1;
+                                    font-size: 14px;
+                                    text-transform: uppercase;
+                                    color: #1d1d1d;
+                                }
+                            }
+                        }
+                    }
+                    tbody {
+                        tr {
+                            border-bottom: 1px solid #f1f1f1;
+                            &:nth-child(even) {
+                                background: rgb(251, 251, 251);
+                            }
+                            td {
+                                border: none;
+                                padding: 13px 10px;
+                                font-family: $font1;
+                                font-size: 14px;
+                                color: #1d1d1d;
+                                .btnEdit {
+                                    float: right;
+                                    background: transparent;
+                                    border: none;
+                                    cursor: pointer;
+                                    display: block;
+                                    &:before {
+                                        content: "";
+                                        display: block;
+                                        width: 20px;
+                                        height: 20px;
+                                        background: url(../images/icon-view.png) no-repeat top center;
+                                        background-size: 100%;
+                                    }
+                                    span {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
