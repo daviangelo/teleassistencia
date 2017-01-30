@@ -69,7 +69,7 @@ public class Mediador {
         }
     }
 
-    public boolean verificaLogin(String login, String senha) {
+    public String verificaLogin(String login, String senha) {
         boolean valido = false;
 
         try {
@@ -80,6 +80,6 @@ public class Mediador {
             e.printStackTrace();
         }
 
-        return valido;
+        return valido? "": "Usuário ou senha inválidos";
     }
 }
