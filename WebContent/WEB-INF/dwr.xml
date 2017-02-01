@@ -1,0 +1,21 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://directwebremoting.org/schema/dwr30.dtd">
+
+<dwr>
+
+
+    <allow>
+        <create creator="new" javascript="AtualizacaoAcompanhamento" scope="session">
+            <param name="class" value="dwr.AtualizacaoAcompanhamento"/>
+        </create>
+    </allow>
+    
+    <allow>
+        <create creator="new" javascript="AtualizacaoPermissao" scope="session">
+            <param name="class" value="dwr.AtualizacaoPermissao"/>
+        </create>
+    </allow>
+
+
+</dwr>
