@@ -1,99 +1,127 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <title>Prestador de Socorro</title>
+        <title>Dados Prestador</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
-    <h:body>
+    <h:body class="newObjectAll">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
 
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Prestadores de Socorro" url="/buscaprestador.xhtml" />
-            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
-        </p:breadCrumb>
-        
-        <p:panel id="painelPrestador" header="Prestador de Socorro"
-                 style="margin-bottom:10px;">
-            <h:form id="formPrestador">
-                <p:growl id="growl" showDetail="true" sticky="true" />
-                <h:panelGrid columns="2" cellpadding="10">
+        <div class="titlePage">
+            <h2>Dados da prestador</h2>
+        </div>
 
-                    <h:outputLabel value="Matrícula:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{prestadorSocorroBean.prestadorSelecionado.idPrestadorSocorro}" />
+        <p:panel id="painelNovoPrestador" rendered="#{prestadorSocorroBean.novo}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{prestadorSocorroBean.novoPrestador.nome}"
+                                 required="true" 
+                                 requiredMessage="O campo Nome deve ser preenchido!" />
+                    <p:message for="nome"/>
+                </div>
 
-                    <h:outputLabel value="Nome:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{prestadorSocorroBean.prestadorSelecionado.nome}" />
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputMask id="telefone"
+                                 value="#{prestadorSocorroBean.novoPrestador.telefone}"
+                                 required="true"
+                                 requiredMessage="O campo Telefone deve ser preenchido!"
+                                 mask="(999) 9999-9999"
+                                 converter="convertTelefone" >
+                        <f:validateLength minimum="15" />
+                    </p:inputMask>
+                    <p:message for="telefone"/>
+                </div>
 
-                    <h:outputLabel value="Telefone:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" />
+                <div class="item">
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="descricao"
+                                     value="#{prestadorSocorroBean.novoPrestador.descricao}"
+                                     required="true" 
+                                     requiredMessage="O campo Descrição deve ser preenchido!" />
+                    <p:message for="descricao"/>
+                </div>
 
-                    <h:outputLabel value="Descricao:" style="font-weight:bold" />
-                    <h:outputLabel value="#{prestadorSocorroBean.prestadorSelecionado.descricao}" />
+                <div class="boxBtn">
+                    <h:commandButton title="Salvar" value="Salvar"
+                                     action="#{prestadorSocorroBean.criarPrestador()}" />
 
-                </h:panelGrid>
-
-                <p:commandButton title="Alterar dados do Prestador de Socorro"
-                                 icon="ui-icon-pencil" onclick="PF('alterarPrestador').show()" ajax="true" />
-                <p:commandButton title="Excluir" icon="ui-icon-trash"
-                                 onclick="PF('confirmarExcluir').show()" ajax="true" />
-
-
-                <p:dialog header="Alterar dados do Prestador de Socorro"
-                          widgetVar="alterarPrestador" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false" closable="true">
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                        <h:outputLabel for="nome" value="Nome:" />
-                        <p:inputText id="nome"
-                                     value="#{prestadorSocorroBean.prestadorSelecionado.nome}"
-                                     required="true" />
-
-                        <h:outputLabel for="telefone" value="Telefone:" />
-                        <p:inputText id="telefone"
-                                     value="#{prestadorSocorroBean.prestadorSelecionado.telefone}"
-                                     required="true" />
-
-                        <h:outputLabel for="descricao" value="Descrição:" />
-                        <p:inputTextarea id="descricao"
-                                     value="#{prestadorSocorroBean.prestadorSelecionado.descricao}"
-                                     required="true" />
-
-                    </h:panelGrid>
-
-                    <p:commandButton title="Salvar" value="Salvar alterações"
-                                     onclick="alterarCliente.hide();"
-                                     actionListener="#{prestadorSocorroBean.alterarPrestador}"
-                                     update=":formPrestador" />
-
-                </p:dialog>
-
+                    <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
+                </div>
             </h:form>
-
-            <p:separator />
-            
         </p:panel>
 
+        <p:panel id="painelPrestador" rendered="#{!prestadorSocorroBean.novo}">
+            <h:form id="formContentEdit"> 
+                <div class="item">
+                    <h:outputLabel value="Nome:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 required="true" 
+                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
+                                 value="#{prestadorSocorroBean.prestadorSelecionado.nome}" />
+                </div>
 
+                <div class="item">
+                    <h:outputLabel value="Telefone:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 required="true" 
+                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
+                                 value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel value="Descrição:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 required="true" 
+                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
+                                 value="#{prestadorSocorroBean.prestadorSelecionado.descricao}" />
+                </div>
+
+                <div class="boxBtn btnIcon">
+                    <p:commandButton title="Alterar dados da Pulseira" value="btnAlterar" 
+                                     styleClass="btnAlterar" ajax="true" />
+                    <p:commandButton title="Excluir" value="btnExcluir" styleClass="btnExcluir"
+                                     onclick="confirmarExcluir.show()" ajax="true" />      
+                    <a href="/servidorcentral/buscapulseira.xhtml" class="btn-back visible">Cancelar</a>
+                    <p:commandButton title="Salvar alterações dos dados da Pulseira" value="Salvar" 
+                                     action="#{pulseiraBean.alterarPulseira}"
+                                     styleClass="btnBlue visible" />
+                </div>
+            </h:form>
+        </p:panel>
 
         <h:form id="excluir">
             <p:confirmDialog
-                message="Deseja realmente excluir este Prestador de Socorro? Esta ação não poderá ser desfeita."
+                message="Deseja realmente excluir esse Prestador? Esta ação não poderá ser desfeita."
                 hideEffect="explode" header="Aviso" severity="alert"
                 widgetVar="confirmarExcluir">
                 <p:commandButton id="btnSim" value="Sim"
-                                 actionListener="#{prestadorSocorroBean.excluirPrestador}"
-                                 oncomplete="confirmarExcluir.hide() operadorDialog.hide();" />
+                                 actionListener="#{prestadorSocorroBean.excluirPrestador()}"
+                                 oncomplete="confirmarExcluir.hide()" />
                 <p:commandButton id="btnNao" value="Não"
-                                 onclick="confirmarExcluir.hide()" type="button" />
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
             </p:confirmDialog>
         </h:form>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
     </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
 </html>

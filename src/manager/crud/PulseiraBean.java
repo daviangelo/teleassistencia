@@ -16,25 +16,29 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 /**
- *Bean para construção da tela de gerência da pulseira.
+ * Bean para construção da tela de gerência da pulseira.
+ *
  * @author Davi Lessa
  * @since 15/01/2017
  */
 @ManagedBean
 @SessionScoped
 public class PulseiraBean {
-    
+
     private String campoBusca;
+    
     private List<Pulseira> listaPulseiras = new ArrayList<>();
+    
     private Pulseira pulseiraSelecionada, novaPulseira;
+    
+    private boolean nova;
 
     public PulseiraBean() {
         carregarPulseiras();
         pulseiraSelecionada = new Pulseira();
         novaPulseira = new Pulseira();
-    
     }
-    
+
     /**
      * Carrega todos as pulseiras para popular tabela.
      */
@@ -47,10 +51,9 @@ public class PulseiraBean {
             System.out.println("Erro ao carregar a lista de pulseiras");
         }
     }
-    
+
     /**
-     * Busca pulseiras com o campo de busca. A lista de pulseiras é
-     * atualizada.
+     * Busca pulseiras com o campo de busca. A lista de pulseiras é atualizada.
      */
     public void buscarPulseiras() {
         try {
@@ -69,7 +72,7 @@ public class PulseiraBean {
             System.out.println("Erro ao buscar pulseira por campo");
         }
     }
-    
+
     //Carrega os dados referentes ao pulseira selecionado (//@TODO NECESSIDADE)
     public String abrirPulseira() throws Exception {
 //        Pulseira ps = Pulseira.obterPulseiraPorID(this.pulseiraSelecionado
@@ -78,15 +81,17 @@ public class PulseiraBean {
 //
 //            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
 
-            // Redirecionando
-            FacesContext faces = FacesContext.getCurrentInstance();
-            ExternalContext context = faces.getExternalContext();
-            context.redirect("dadospulseira.xhtml");
+        nova = false;
+        
+        // Redirecionando
+        FacesContext faces = FacesContext.getCurrentInstance();
+        ExternalContext context = faces.getExternalContext();
+        context.redirect("dadospulseira.xhtml");
 //        }
 
         return null;
     }
-    
+
     /**
      * Salva alteração de dados do pulseira selecionado.
      */
@@ -103,7 +108,7 @@ public class PulseiraBean {
         context.addMessage(null, new FacesMessage("Sucesso",
                 "A alteração foi efetuada com sucesso."));
     }
-    
+
     /**
      * Exclui uma pulseira e seus dados do banco.
      *
@@ -112,7 +117,6 @@ public class PulseiraBean {
      *
      */
     public String excluirPulseira() throws Exception {
-
         try {
 
             Pulseira.apagar(pulseiraSelecionada);
@@ -126,7 +130,7 @@ public class PulseiraBean {
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso",
-                "Pulseira excluído com sucesso."));
+                "Pulseira excluída com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
 
@@ -134,7 +138,7 @@ public class PulseiraBean {
 
         return null;
     }
-    
+
     /**
      * Salva o nova pulseira no banco de dados.
      *
@@ -156,12 +160,11 @@ public class PulseiraBean {
         carregarPulseiras();
 
         context.addMessage(null, new FacesMessage("Sucesso",
-                "Pulseira criado com sucesso."));
+                "Pulseira criada com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
 
         context.getExternalContext().redirect("buscapulseira.xhtml");
-
     }
 
     public String getCampoBusca() {
@@ -196,6 +199,21 @@ public class PulseiraBean {
         this.novaPulseira = novaPulseira;
     }
     
+    /**
+     * Abre a página responsável pelo cadastro, alterando também o valor do
+     * atributo que indica se o objeto é novo ou é uma alteração.
+     * 
+     * @throws IOException 
+     */
+    public void abrirNovaPulseira() throws IOException{
+        nova = true;
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.getExternalContext().redirect("dadospulseira.xhtml");
+    }
     
-    
+    public boolean isNova(){
+        return nova;
+    }
 }

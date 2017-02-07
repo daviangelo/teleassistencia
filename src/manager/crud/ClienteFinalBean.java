@@ -25,27 +25,26 @@ import org.primefaces.event.DragDropEvent;
 @SessionScoped
 public class ClienteFinalBean {
 
-    private List<ClienteFinal> listaClientes = new ArrayList<>();
-
     private ClienteFinal clienteSelecionado, novoCliente;
-
-    private String campoBusca;
-
-    private List<Usuario> listaUsuarios = new ArrayList<>();
 
     private Usuario usuarioSelecionado, novoUsuario;
 
-    private List<PrestadorSocorro> listaPrestadoresDisponiveis = new ArrayList<>();
-    private List<PrestadorSocorro> listaPrestadoresSelecionados = new ArrayList<>();
-    private List<PrestadorSocorro> listaPrestadoresExibicao = new ArrayList<>();
-
     private PrestadorSocorro prestadorSelecionado;
 
+    private Pulseira pulseiraSelecionada;
+    
+    private String campoBusca;
+    
+    private List<ClienteFinal> listaClientes = new ArrayList<>();
+    private List<Usuario> listaUsuarios = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresDisponiveis = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresSelecionados = new ArrayList<>();
+    private List<PrestadorSocorro> listaPrestadoresExibicao = new ArrayList<>(); 
     private List<Pulseira> listaPulseirasDisponiveis = new ArrayList<>();
     private List<Pulseira> listaPulseirasSelecionadas = new ArrayList<>();
     private List<Pulseira> listaPulseirasExibicao = new ArrayList<>();
-
-    private Pulseira pulseiraSelecionada;
+    
+    private boolean novo;
 
     public ClienteFinalBean() {
         carregarClientes();
@@ -125,12 +124,14 @@ public class ClienteFinalBean {
 //                .getIdClienteFinal());
 //        if (cf != null) {
 
-            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
+        listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
+        
+        novo = false;
 
-            // Redirecionando
-            FacesContext faces = FacesContext.getCurrentInstance();
-            ExternalContext context = faces.getExternalContext();
-            context.redirect("dadoscliente.xhtml");
+        // Redirecionando
+        FacesContext faces = FacesContext.getCurrentInstance();
+        ExternalContext context = faces.getExternalContext();
+        context.redirect("dadoscliente.xhtml");
 //        }
 
         return null;
@@ -175,23 +176,23 @@ public class ClienteFinalBean {
      */
     public String desassociarPrestador() throws Exception {
         try {
-                prestadorSelecionado.getUsuarios().remove(usuarioSelecionado);
-                usuarioSelecionado.getPrestadoresSocorro().remove(prestadorSelecionado);
-                PrestadorSocorro.atualizar(prestadorSelecionado);
-                Usuario.atualizar(usuarioSelecionado);
-                
+            prestadorSelecionado.getUsuarios().remove(usuarioSelecionado);
+            usuarioSelecionado.getPrestadoresSocorro().remove(prestadorSelecionado);
+            PrestadorSocorro.atualizar(prestadorSelecionado);
+            Usuario.atualizar(usuarioSelecionado);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         prestadorSelecionado = new PrestadorSocorro();
-        
+
         usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
-        
+
         listaPrestadoresExibicao = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
-        
+
         carregarClientes();
-        
+
         preparaDialogPrestadores();
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -213,21 +214,21 @@ public class ClienteFinalBean {
      */
     public String desassociarPulseira() throws Exception {
         try {
-                pulseiraSelecionada.setUsuario(null);
-                Pulseira.atualizar(pulseiraSelecionada);
-                
+            pulseiraSelecionada.setUsuario(null);
+            Pulseira.atualizar(pulseiraSelecionada);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         pulseiraSelecionada = new Pulseira();
-        
+
         usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
-        
+
         listaPulseirasExibicao = new ArrayList<>(usuarioSelecionado.getPulseiras());
-        
+
         carregarClientes();
-        
+
         preparaDialogPulseiras();
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -308,26 +309,24 @@ public class ClienteFinalBean {
                 "A alteração foi efetuada com sucesso."));
     }
 
-/**
+    /**
      * Salva a associacao dos prestadores de socorro escolhidoss.
      */
     public void associarPrestador() {
 
-       listaPrestadoresSelecionados.forEach(prestador -> ((PrestadorSocorro) prestador).getUsuarios().add(usuarioSelecionado));
-            usuarioSelecionado.getPrestadoresSocorro().addAll(listaPrestadoresSelecionados);
-            try {
+        listaPrestadoresSelecionados.forEach(prestador -> ((PrestadorSocorro) prestador).getUsuarios().add(usuarioSelecionado));
+        usuarioSelecionado.getPrestadoresSocorro().addAll(listaPrestadoresSelecionados);
+        try {
 
-                Usuario.atualizar(usuarioSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Usuario.atualizar(usuarioSelecionado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            String mensagem = "Prestadores de Socorro associados com sucesso.";
-
-        
+        String mensagem = "Prestadores de Socorro associados com sucesso.";
 
         listaPrestadoresExibicao = new ArrayList<>(usuarioSelecionado.getPrestadoresSocorro());
-        
+
         preparaDialogPrestadores();
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -341,22 +340,19 @@ public class ClienteFinalBean {
      */
     public void associarPulseira() {
 
-       
-            listaPulseirasSelecionadas.forEach(pulseira -> ((Pulseira) pulseira).setUsuario(usuarioSelecionado));
-            usuarioSelecionado.getPulseiras().addAll(listaPulseirasSelecionadas);
-            try {
+        listaPulseirasSelecionadas.forEach(pulseira -> ((Pulseira) pulseira).setUsuario(usuarioSelecionado));
+        usuarioSelecionado.getPulseiras().addAll(listaPulseirasSelecionadas);
+        try {
 
-                Usuario.atualizar(usuarioSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Usuario.atualizar(usuarioSelecionado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            String mensagem = "Pulseiras associadas com sucesso.";
-
-        
+        String mensagem = "Pulseiras associadas com sucesso.";
 
         listaPulseirasExibicao = new ArrayList<>(usuarioSelecionado.getPulseiras());
-        
+
         preparaDialogPulseiras();
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -396,10 +392,10 @@ public class ClienteFinalBean {
     /**
      * Salva os dados de um novo usuário no banco de dados.
      */
-    public void criarUsuario() {
+    public void criarUsuario() throws IOException {
         novoUsuario.setClienteFinal(clienteSelecionado);
         clienteSelecionado.getUsuarios().add(novoUsuario);
-        
+
         try {
             ClienteFinal.atualizar(clienteSelecionado);
         } catch (Exception e) {
@@ -410,15 +406,21 @@ public class ClienteFinalBean {
 
         FacesContext context = FacesContext.getCurrentInstance();
 
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "Usuário criado com sucesso."));
 
+        context.getExternalContext().getFlash().setKeepMessages(true);
+
         novoUsuario = new Usuario();
+
+        context.getExternalContext().redirect("dadoscliente.xhtml");
     }
-    
+
     /**
-     * Evento de drag and drop da tabela de associação das pulseiras com o usuário.
-     * @param ddEvent 
+     * Evento de drag and drop da tabela de associação das pulseiras com o
+     * usuário.
+     *
+     * @param ddEvent
      */
     public void onPulseiraDrop(DragDropEvent ddEvent) {
         Pulseira pulseira = ((Pulseira) ddEvent.getData());
@@ -426,9 +428,12 @@ public class ClienteFinalBean {
         listaPulseirasSelecionadas.add(pulseira);
         listaPulseirasDisponiveis.remove(pulseira);
     }
+
     /**
-     * Evento de drag and drop da tabela de associação dos prestadores de socorro com o usuário.
-     * @param ddEvent 
+     * Evento de drag and drop da tabela de associação dos prestadores de
+     * socorro com o usuário.
+     *
+     * @param ddEvent
      */
     public void onPrestadorDrop(DragDropEvent ddEvent) {
         PrestadorSocorro prestador = ((PrestadorSocorro) ddEvent.getData());
@@ -450,8 +455,8 @@ public class ClienteFinalBean {
         }
 
     }
-    
-     /**
+
+    /**
      * Prepara as tabelas do dialog de associação dos prestadores de socorro.
      */
     public synchronized void preparaDialogPrestadores() {
@@ -583,6 +588,24 @@ public class ClienteFinalBean {
 
     public void setListaPulseirasExibicao(List<Pulseira> listaPulseirasExibicao) {
         this.listaPulseirasExibicao = listaPulseirasExibicao;
+    }
+    
+    /**
+     * Abre a página responsável pelo cadastro, alterando também o valor do
+     * atributo que indica se o objeto é novo ou é uma alteração.
+     * 
+     * @throws IOException 
+     */
+    public void abrirNovoCliente() throws IOException{
+        novo = true;
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.getExternalContext().redirect("dadoscliente.xhtml");
+    }
+    
+    public boolean isNovo(){
+        return novo;
     }
 
 }

@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <title>Clientes</title>
@@ -21,111 +19,54 @@
         </ui:insert>
 
         <div class="wrapper">
-            <p:panel >
-                <div class="inputSearch">
-                    <input type="text" class="input-search" alt="lista-clientes" placeholder="Buscar cliente..." />
+            <div class="inputSearch">
+                <input type="text" class="input-search" alt="lista-cliente" placeholder="Buscar cliente..." />
 
-                    <div class="boxCadastro">
-                        <h:form id="formBuscar">
-                            <p:growl id="growl" showDetail="true" sticky="true" />
+                <div class="boxCadastro">
+                    <h:form id="formBuscar">
+                        <p:growl id="growl" showDetail="true" sticky="true" />
 
-                            <p:commandLink id="nonAjax" action ="/novocliente.xhtml" ajax="false">
-                                <h:outputText value="Cadastrar Cliente" />
-                            </p:commandLink>
-                        </h:form>
-                    </div>
-                </div>
-
-                <h:form id="formResult">
-                    <p:outputPanel id="pnlTabelaResult" >
-
-                        <p:dataTable id="tableResultado" styleClass="lista-clientes"
-                                     value="#{clienteFinalBean.listaClientes}" var="cliente">
-
-                            <p:column headerText="Nome">
-                                <h:outputText value="#{cliente.razaoSocial}" />
-                            </p:column>
-
-                            <p:column headerText="CNPJ">
-                                <h:outputText value="#{cliente.inscricaoFederal}" 
-                                              converter="convertCNPJ"/>
-                            </p:column>
-
-                            <p:column headerText="Telefone">
-                                <h:outputText value="#{cliente.telefone}" />
-                            </p:column>
-
-                            <p:column>
-                                <p:commandButton action="#{clienteFinalBean.abrirCliente}" styleClass="btnEdit" 
-                                                 title="Visualizar/Alterar dados do Cliente">
-                                    <f:setPropertyActionListener value="#{cliente}"
-                                                                 target="#{clienteFinalBean.clienteSelecionado}" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </p:outputPanel>
-                </h:form>
-            </p:panel>
-
-
-            <div id="boxCadastro">
-                <div class="lightboxOverlay" style="position: fixed; top: 0px; left: 0px; 
-                     background-color: rgba(0, 0, 0, 0.6); height: 100%; width: 100%; z-index: 5005;">
-
-                    <div class="lightboxOverlayInner cadClient" />
-
-                    <div class="lightboxBlock" style="position: fixed; top: 41.9px; left: 265.5px;">
-                        <a href="#" class="lightboxClose cadClient" />
-
-                        <div class="lightboxInner" style="max-height: 335.2px; max-width: 835px;">
-                            <h:form id="formCadastro"> 
-
-                                <div class="item">
-                                    <h:outputLabel for="nome" value="Razão Social:" />
-
-                                    <p:inputText id="nome" 
-                                                 value="#{clienteFinalBean.novoCliente.razaoSocial}" 
-                                                 required="true"
-                                                 requiredMessage="O campo Razão Social deve ser preenchido!" />
-                                    <p:message for="nome"/>
-                                </div>
-
-                                <div class="item">
-                                    <h:outputLabel for="cnpj" value="CNPJ:" />
-
-                                    <p:inputMask id="cnpj"
-                                                 value="#{clienteFinalBean.novoCliente.inscricaoFederal}"
-                                                 required="true" 
-                                                 requiredMessage="O campo CNPJ deve ser preenchido!" 
-                                                 size="18"
-                                                 mask="99.999.999/9999-99"
-                                                 converter="convertInput" >
-                                        <f:validateLength minimum="18" />
-                                    </p:inputMask>
-                                    <p:message for="cnpj" />
-                                </div>
-
-                                <div class="item">
-                                    <h:outputLabel for="telefone" value="Telefone:" />
-
-                                    <p:inputMask id="telefone"
-                                                 value="#{clienteFinalBean.novoCliente.telefone}"
-                                                 required="true"
-                                                 requiredMessage="O campo Telefone deve ser preenchido!"
-                                                 mask="(999) 9999-9999"
-                                                 converter="convertInput" />
-                                    <f:validateLength minimum="15" />
-                                    <p:message for="telefone"/>
-                                </div>
-
-                                <p:commandButton id="salvarCliente" title="Salvar" value="Salvar" process="@"
-                                                 ajax="false" action="#{clienteFinalBean.criarCliente}">
-                                </p:commandButton>
-                            </h:form>
-                        </div>
-                    </div>
+                        <p:commandButton action="#{clienteFinalBean.abrirNovoCliente()}"
+                                         value="Cadastrar Cliente">
+                        </p:commandButton>
+                    </h:form>
                 </div>
             </div>
+
+            <h:form id="formResult">
+                <p:outputPanel id="pnlTabelaResult">
+
+                    <p:dataTable id="tableResultado" styleClass="lista-cliente"
+                                 value="#{clienteFinalBean.listaClientes}" var="cliente">
+
+                        <p:column headerText="Matrícula">
+                            <h:outputText value="#{cliente.idClienteFinal}" />
+                        </p:column>
+
+                        <p:column headerText="Razão Social">
+                            <h:outputText value="#{cliente.razaoSocial}" />
+                        </p:column>
+
+                        <p:column headerText="CNPJ">
+                            <h:outputText value="#{cliente.inscricaoFederal}" 
+                                          converter="convertCNPJ"/>
+                        </p:column>
+
+                        <p:column headerText="Telefone">
+                            <h:outputText value="#{cliente.telefone}" 
+                                          converter="convertTelefone"/>
+                        </p:column>
+
+                        <p:column style="width:32px; text-align:center">
+                            <p:commandButton action="#{clienteFinalBean.abrirCliente()}" styleClass="btnEdit" 
+                                             title="Visualizar/Alterar dados do Cliente">
+                                <f:setPropertyActionListener value="#{cliente}"
+                                                             target="#{clienteFinalBean.clienteSelecionado}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
         </div>
 
         <ui:insert name="footer" > 

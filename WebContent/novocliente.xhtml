@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -15,54 +13,64 @@
         </ui:insert>
     </h:head>
 
-    <h:body class="newClientAll">
+    <h:body class="newObjectAll">
         <ui:insert name="header" >
             <ui:include src="subtemplate/_header.xhtml" />
         </ui:insert>
 
-        <h:form id="formCadastro"> 
-            <div class="item">
-                <h:outputLabel for="nome" value="Razão Social:" />
-                <p:inputText id="nome" 
-                             value="#{clienteFinalBean.novoCliente.razaoSocial}" 
-                             required="true"
-                             requiredMessage="O campo Razão Social deve ser preenchido!" />
-                <p:message for="nome"/>
-            </div>
+        <div class="titlePage">
+            <h2>Dados do cliente</h2>
+        </div>
 
-            <div class="item">
-                <h:outputLabel for="cnpj" value="CNPJ:" />
+        <p:panel id="painelNova" rendered="#{clienteFinalBean.novo}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="nome" value="Razão Social:" />
+                    <p:inputText id="nome"
+                                 value="#{clienteFinalBean.novoCliente.razaoSocial}" 
+                                 required="true"
+                                 requiredMessage="O campo Razão Social deve ser preenchido!" />
+                    <p:message for="nome"/>
+                </div>
 
-                <p:inputMask id="cnpj"
-                             value="#{clienteFinalBean.novoCliente.inscricaoFederal}"
-                             required="true" 
-                             requiredMessage="O campo CNPJ deve ser preenchido!" 
-                             size="18"
-                             mask="99.999.999/9999-99"
-                             converter="convertInput" >
-                    <f:validateLength minimum="18" />
-                </p:inputMask>
-                <p:message for="cnpj" />
-            </div>
+                <div class="item">
+                    <h:outputLabel for="cnpj" value="CNPJ:" />
 
-            <div class="item">
-                <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputMask id="cnpj"
+                                 styleClass="inputSmaller"
+                                 value="#{clienteFinalBean.novoCliente.inscricaoFederal}"
+                                 required="true" 
+                                 requiredMessage="O campo CNPJ deve ser preenchido!" 
+                                 size="18"
+                                 mask="99.999.999/9999-99"
+                                 converter="convertCNPJ" >
+                        <f:validateLength minimum="18" />
+                    </p:inputMask>
+                    <p:message for="cnpj" />
+                </div>
 
-                <p:inputMask id="telefone"
-                             value="#{clienteFinalBean.novoCliente.telefone}"
-                             required="true"
-                             requiredMessage="O campo Telefone deve ser preenchido!"
-                             mask="(999) 9999-9999"
-                             converter="convertInput" />
-                <f:validateLength minimum="15" />
-                <p:message for="telefone"/>
-            </div>
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
 
-            <div class="boxBtn">
-                <h:commandButton id="salvarCliente" title="Salvar" value="Salvar" 
-                                 action="#{clienteFinalBean.criarCliente}" />
-            </div>
-        </h:form>
+                    <p:inputMask id="telefone"
+                                 styleClass="inputSmaller"
+                                 value="#{clienteFinalBean.novoCliente.telefone}"
+                                 required="true"
+                                 requiredMessage="O campo Telefone deve ser preenchido!"
+                                 mask="(999) 9999-9999"
+                                 converter="convertTelefone" />
+                    <f:validateLength minimum="15" />
+                    <p:message for="telefone"/>
+                </div>
+
+                <div class="boxBtn">
+                    <h:commandButton id="salvarCliente" title="Salvar" value="Salvar" 
+                                     action="#{clienteFinalBean.criarCliente}" />
+
+                    <a href="/servidorcentral/buscacliente.xhtml" class="btn-back">Cancelar</a>
+                </div>
+            </h:form>
+        </p:panel>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

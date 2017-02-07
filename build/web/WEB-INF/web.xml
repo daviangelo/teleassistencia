@@ -8,7 +8,7 @@
         <welcome-file>default.html</welcome-file>
         <welcome-file>default.htm</welcome-file>
         <welcome-file>default.jsp</welcome-file>
-    </welcome-file-list>
+    </welcome-file-list>   
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -31,8 +31,35 @@
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/webservice/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <display-name>DWR Servlet</display-name>
+        <servlet-name>dwr-invoker</servlet-name>  
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            5
+        </session-timeout>
+    </session-config>
+    <listener>
+        <listener-class>
+            session.SessionActive
+        </listener-class>
+    </listener> 
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>none</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
+        <param-value>false</param-value>
     </context-param>
 </web-app>

@@ -12,55 +12,63 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Dados Prestador de Serviços</title>
+        <title>Dados Prestador de Socorro</title>
 
         <ui:insert name="commonHeader" > 
             <ui:include src="subtemplate/_commonHeader.xhtml" />
         </ui:insert>
     </h:head>
 
-    <h:body>
+    <h:body class="newObjectAll">
         <ui:insert name="header" >
             <ui:include src="subtemplate/_header.xhtml" />
         </ui:insert>
 
-        <h:form id="formCadastro"> 
-            <div class="item">
-                <h:outputLabel for="nome" value="Nome:" />
-                <p:inputText id="nome"
-                             value="#{prestadorSocorroBean.novoPrestador.nome}"
-                             required="true" 
-                             requiredMessage="O campo Nome deve ser preenchido!" />
-                <p:message for="nome"/>
-            </div>
+        <div class="titlePage">
+            <h2>Dados do prestador de socorro</h2>
+        </div>
 
-            <div class="item">
-                <h:outputLabel for="telefone" value="Telefone:" />
-                <p:inputMask id="telefone"
-                             value="#{prestadorSocorroBean.novoPrestador.telefone}"
-                             required="true"
-                             requiredMessage="O campo Telefone deve ser preenchido!"
-                             mask="(999) 9999-9999"
-                             converter="convertInput" >
-                    <f:validateLength minimum="15" />
-                </p:inputMask>
-                <p:message for="telefone"/>
-            </div>
-
-            <div class="item">
-                <h:outputLabel for="descricao" value="Descriçao" />
-                <p:inputTextarea id="descricao"
-                                 value="#{prestadorSocorroBean.novoPrestador.descricao}"
+        <p:panel id="painelNova" rendered="#{prestadorSocorroBean.novo}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{prestadorSocorroBean.novoPrestador.nome}"
                                  required="true" 
-                                 requiredMessage="O campo Descrição deve ser preenchido!" />
-                <p:message for="descricao"/>
-            </div>
+                                 requiredMessage="O campo Nome deve ser preenchido!" />
+                    <p:message for="nome"/>
+                </div>
 
-            <div class="boxBtn">
-                <h:commandButton title="Salvar" value="Salvar"
-                                 action="#{prestadorSocorroBean.criarPrestador()}" />
-            </div>
-        </h:form>
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputMask id="telefone"
+                                 value="#{prestadorSocorroBean.novoPrestador.telefone}"
+                                 required="true"
+                                 requiredMessage="O campo Telefone deve ser preenchido!"
+                                 mask="(999) 9999-9999"
+                                 converter="convertInput" >
+                        <f:validateLength minimum="15" />
+                    </p:inputMask>
+                    <p:message for="telefone"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="descricao"
+                                     value="#{prestadorSocorroBean.novoPrestador.descricao}"
+                                     required="true" 
+                                     requiredMessage="O campo Descrição deve ser preenchido!" />
+                    <p:message for="descricao"/>
+                </div>
+
+                <div class="boxBtn">
+                    <h:commandButton title="Salvar" value="Salvar"
+                                     action="#{prestadorSocorroBean.criarPrestador()}" />
+
+                    <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
+                </div>
+            </h:form>
+        </p:panel>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />
