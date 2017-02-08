@@ -79,7 +79,8 @@
                     <p:inputText styleClass="bgInput" disabled="true"
                                  required="true" 
                                  requiredMessage="O campo Código Identificador deve ser preenchido!"
-                                 value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" />
+                                 value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" 
+                                 converter="convertTelefone"/>
                 </div>
 
                 <div class="item">

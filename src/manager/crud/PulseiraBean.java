@@ -26,11 +26,11 @@ import javax.faces.context.FacesContext;
 public class PulseiraBean {
 
     private String campoBusca;
-    
+
     private List<Pulseira> listaPulseiras = new ArrayList<>();
-    
+
     private Pulseira pulseiraSelecionada, novaPulseira;
-    
+
     private boolean nova;
 
     public PulseiraBean() {
@@ -82,7 +82,7 @@ public class PulseiraBean {
 //            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
 
         nova = false;
-        
+
         // Redirecionando
         FacesContext faces = FacesContext.getCurrentInstance();
         ExternalContext context = faces.getExternalContext();
@@ -198,22 +198,22 @@ public class PulseiraBean {
     public void setNovaPulseira(Pulseira novaPulseira) {
         this.novaPulseira = novaPulseira;
     }
-    
+
     /**
      * Abre a página responsável pelo cadastro, alterando também o valor do
      * atributo que indica se o objeto é novo ou é uma alteração.
-     * 
-     * @throws IOException 
+     *
+     * @throws IOException
      */
-    public void abrirNovaPulseira() throws IOException{
+    public void abrirNovaPulseira() throws IOException {
         nova = true;
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         context.getExternalContext().redirect("dadospulseira.xhtml");
     }
-    
-    public boolean isNova(){
+
+    public boolean isNova() {
         return nova;
     }
 }

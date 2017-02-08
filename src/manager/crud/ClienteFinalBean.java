@@ -32,18 +32,18 @@ public class ClienteFinalBean {
     private PrestadorSocorro prestadorSelecionado;
 
     private Pulseira pulseiraSelecionada;
-    
+
     private String campoBusca;
-    
+
     private List<ClienteFinal> listaClientes = new ArrayList<>();
     private List<Usuario> listaUsuarios = new ArrayList<>();
     private List<PrestadorSocorro> listaPrestadoresDisponiveis = new ArrayList<>();
     private List<PrestadorSocorro> listaPrestadoresSelecionados = new ArrayList<>();
-    private List<PrestadorSocorro> listaPrestadoresExibicao = new ArrayList<>(); 
+    private List<PrestadorSocorro> listaPrestadoresExibicao = new ArrayList<>();
     private List<Pulseira> listaPulseirasDisponiveis = new ArrayList<>();
     private List<Pulseira> listaPulseirasSelecionadas = new ArrayList<>();
     private List<Pulseira> listaPulseirasExibicao = new ArrayList<>();
-    
+
     private boolean novo;
 
     public ClienteFinalBean() {
@@ -125,7 +125,7 @@ public class ClienteFinalBean {
 //        if (cf != null) {
 
         listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
-        
+
         novo = false;
 
         // Redirecionando
@@ -589,22 +589,22 @@ public class ClienteFinalBean {
     public void setListaPulseirasExibicao(List<Pulseira> listaPulseirasExibicao) {
         this.listaPulseirasExibicao = listaPulseirasExibicao;
     }
-    
+
     /**
      * Abre a página responsável pelo cadastro, alterando também o valor do
      * atributo que indica se o objeto é novo ou é uma alteração.
-     * 
-     * @throws IOException 
+     *
+     * @throws IOException
      */
-    public void abrirNovoCliente() throws IOException{
+    public void abrirNovoCliente() throws IOException {
         novo = true;
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         context.getExternalContext().redirect("dadoscliente.xhtml");
     }
-    
-    public boolean isNovo(){
+
+    public boolean isNovo() {
         return novo;
     }
 
