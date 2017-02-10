@@ -33,12 +33,24 @@
             <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/Usuario.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/persistence/dao/DAO.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/novapulseira.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/js/script.js</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadospulseira.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/buscaprestador.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadoscliente.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/crud/PrestadorSocorroBean.java</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/persistence/dao/DAOClienteFinal.java</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/crud/ClienteFinalBean.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/login.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosusuario.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/buscacliente.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/novoprestador.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/scss/_common.scss</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosprestador.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/buscapulseira.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/dwr/AtualizacaoAcompanhamento.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/util/converter/CNPJConverter.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/novocliente.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/scss/_config.scss</file>
         </group>
     </open-files>
 </project-private>

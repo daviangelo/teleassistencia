@@ -7,6 +7,50 @@ body {
     padding-bottom: 110px;
 }
 
+.ui-confirm-dialog {
+    .ui-dialog-titlebar {
+        padding: 20px 0 0;
+        text-align: center;
+        .ui-dialog-title {
+            width: 100%;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .ui-dialog-buttonpane {
+        text-align: center;
+    }
+}
+
+//LightBox confirmação de exclusão
+form#excluir {
+    &.active {
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.51);
+            display: block;
+        }
+    }
+    .ui-confirm-dialog {
+        left: 32% !important;
+        top: 25% !important;
+        background: #fff;
+        box-shadow: none;
+        border: 1px solid #dedede;
+        padding: 10px;
+    }
+}
+
 // Alert Erro
 .ui-growl-item-container {
     cursor: pointer;
@@ -26,7 +70,7 @@ body {
     } 
 }
 
-//btn Cad
+//btn
 .boxBtn {
     text-align: center;
     input {
@@ -41,6 +85,38 @@ body {
         color: $white;
     }  
 }
+
+.ui-button {
+    background: red;
+    border: none;
+    margin-top: 20px;
+    padding: 6px;
+    text-align: center;
+    border-radius: 2px;
+    color: $white;
+
+    &.visible {
+        padding: 4.5px;
+    }
+
+    &.btnBlue{
+        width: 120px;
+        background: #60a2da;
+    }
+}
+
+.btn-back {
+    background: #ccc;
+    display: inline-block;
+    border: none;
+    margin-top: 20px;
+    width: 120px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 2px;
+    color: $white;
+}
+
 
 body.login {
     background: $bgLoginColor;
@@ -107,37 +183,7 @@ body.login {
                 }
             }
             .lightboxInner {
-                #formCadastro {
-                    display: block;
-                    .item {
-                        label {
-                            font-family: $font1;
-                            font-size: 15px;
-                            padding: 10px 0;
-                            display: block;
-                        }
-                        input {
-                            display: block;
-                            width: 100%;
-                            border: 1px solid #ccc;
-                            border-radius: 1px;
-                            font-family: $font1;
-                            padding: 8px;
-                            background: rgba(247, 247, 247, 0.36);
-                            text-align: left;
-                        }
-                        textarea {
-                            width: 100%;
-                            min-height: 100px;
-                            border: 1px solid #ccc;
-                            border-radius: 1px;
-                            font-family: $font1;
-                            padding: 8px;
-                            background: rgba(247, 247, 247, 0.36);
-                            text-align: left;
-                        }
-                    }
-                }
+                @include boxForm();
             }
         }
     }
@@ -157,17 +203,19 @@ body.login {
     }
     .boxCadastro {
         float: right;
-        .newClient,.newPrestador {
-            background: #f27b53;
-            border-radius: 1px;
-            color: $white;
-            box-shadow: inset 0px 0px 13px 1px #ef8d6d;
-            padding: 10px 30px;
-            display: block;
-            transition: .5s ease;
-            &:hover {
-                background: #d0623d;
-                box-shadow: none;
+        #formBuscar {
+            .ui-commandlink {
+                background: #f27b53;
+                border-radius: 1px;
+                color: $white;
+                box-shadow: inset 0px 0px 13px 1px #ef8d6d;
+                padding: 10px 30px;
+                display: block;
+                transition: .5s ease;
+                &:hover {
+                    background: #d0623d;
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -229,6 +277,87 @@ body.login {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+//Cadastro Objeto
+body.newObjectAll {
+    .titlePage {
+        text-align: center;
+        padding-top: 40px;
+        h2 {
+            font-family: $font1;
+            color: #5f5f5f;
+            font-size: 18px;
+        }
+    }
+
+    @include boxForm();
+}
+
+.ui-panel{
+    .ui-panel-content{
+        #formPage{
+            background: #fff;
+            border: 1px solid #eaeaea;
+            width: 580px;
+            height: auto;
+            padding: 20px 30px;
+            margin: 30px auto;
+
+            .boxInformation{
+                .itemInformation{
+                    display: block;
+                    padding-bottom: 10px;
+                    color: #272727;
+                    font-family: $font1;
+                    font-size: 15px;
+
+                    .titleInformation {
+                        font-weight: bold;
+                        padding-right: 16px;
+                    }
+                }
+            }
+
+            .btnAlterar {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-edit.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
+                }
+            }
+
+            .btnExcluir {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-delete.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
                 }
             }
         }

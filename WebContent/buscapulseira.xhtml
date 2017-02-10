@@ -1,73 +1,76 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <title>Busca de Pulseira</title>
+        <title>Pulseiras</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
     <h:body>
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
 
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Pulseiras de Socorro" url="/buscaprestador.xhtml" />
-            <p:menuitem value="Pulseiras" url="/buscapulseira.xhtml" />
-        </p:breadCrumb>
-        <p:panel header="Pulseiras">
+        <div class="wrapper">
+            <div class="inputSearch">
+                <input type="text" class="input-search" alt="lista-pulseira" placeholder="Buscar pulseira..." />
 
-            <h:form id="formBuscar">
-                <p:growl id="growl" showDetail="true" sticky="true" />
+                <div class="boxCadastro">
+                    <h:form id="formBuscar">
+                        <p:growl id="growl" showDetail="true" sticky="true" />
 
-
-
-                <h:panelGrid columns="3" cellspacing="10" style="margin-left:100px">
-                    <p:inputText value="#{pulseiraBean.campoBusca}" />
-
-                    <p:commandButton value="Pesquisar" icon="ui-icon-search">
-                        <p:ajax event="click" listener="#{pulseiraBean.buscarPulseiras}"
-                                process="formBuscar"
-                                update=":formResult:tableResultado formBuscar" />
-                    </p:commandButton>
-                    <p:commandLink id="nonAjax" action ="/novapulseira.xhtml" ajax="false">
-                        <h:outputText value="Nova Pulseira" />
-                    </p:commandLink>
-
-
-                </h:panelGrid>
-            </h:form>
-
-
-
+                        <p:commandButton action="#{pulseiraBean.abrirNovaPulseira()}"
+                                         value="Cadastrar Pulseira">
+                        </p:commandButton>
+                    </h:form>
+                </div>
+            </div>
 
             <h:form id="formResult">
                 <p:outputPanel id="pnlTabelaResult">
 
-                    <p:dataTable id="tableResultado"
+                    <p:dataTable id="tableResultado" styleClass="lista-pulseira"
                                  value="#{pulseiraBean.listaPulseiras}" var="pulseira">
+
                         <p:column headerText="Matrícula">
                             <h:outputText value="#{pulseira.idPulseira}" />
                         </p:column>
+
                         <p:column headerText="Código">
                             <h:outputText value="#{pulseira.codigoIdentificador}" />
                         </p:column>
+
                         <p:column headerText="Uso Liberado">
                             <h:outputText value="#{pulseira.status}" />
                         </p:column>
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{pulseiraBean.abrirPulseira}"
-                                             icon="ui-icon-search" title="Visualizar/Alterar dados do Prestador de Socorro">
+
+                        <p:column style="width:32px; text-align:center">
+                            <p:commandButton action="#{pulseiraBean.abrirPulseira()}" styleClass="btnEdit" 
+                                             title="Visualizar/Alterar dados da Pulseira">
                                 <f:setPropertyActionListener value="#{pulseira}"
                                                              target="#{pulseiraBean.pulseiraSelecionada}" />
                             </p:commandButton>
-
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
-        </p:panel>
+        </div>
 
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
     </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+
+    <script type="text/javascript" src="js/jquery.quick.search.js"></script>
 </html>
