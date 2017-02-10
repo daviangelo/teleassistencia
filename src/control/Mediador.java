@@ -8,6 +8,10 @@ import persistence.GestorBancoDados;
 import persistence.dao.DAO;
 import entity.Operador;
 import entity.Registro;
+import entity.cliente_final.Usuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import positioning.GeographicalCoordinate;
 
 /**
  * Singleton que guardará a instância mediando ações do sistema.
@@ -21,10 +25,19 @@ public class Mediador {
     private int id = 1;
 
     private List<Registro> registros;
+    private List<Usuario> usuariosAtivos;
 
     private Mediador() {
         registros = new ArrayList<>();
-//			criarNovoClienteFinal();
+        usuariosAtivos = new ArrayList<>();
+//        try {
+//           Usuario usuario =  Usuario.obterUsuarioPorID(1);
+//           usuario.setUltimaLocalizacao(new GeographicalCoordinate(-22.896988, -43.344143, System.currentTimeMillis()));
+//           getUsuariosAtivos().add(usuario);
+//           
+//        } catch (Exception ex) {
+//            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, "Erro carregar usuario", ex);
+//        }
     }
 
     /**
@@ -67,6 +80,21 @@ public class Mediador {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Obtém os usuários que estão enviando informações.
+     * @return 
+     */
+    public List<Usuario> getUsuariosAtivos() {
+        return usuariosAtivos;
+    }
+    /**
+     * Define os usuários que estão enviando informações.
+     * @param usuariosAtivos 
+     */
+    public void setUsuariosAtivos(List<Usuario> usuariosAtivos) {
+        this.usuariosAtivos = usuariosAtivos;
     }
 
     public String verificaLogin(String login, String senha) {

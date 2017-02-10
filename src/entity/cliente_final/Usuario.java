@@ -22,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import persistence.dao.DAO;
+import positioning.GeographicalCoordinate;
 
 @Entity
 @Table(name = "usuario")
@@ -31,6 +32,7 @@ public class Usuario implements Serializable {
     private String nome;
     private String cpf;
     private String rg;
+    private GeographicalCoordinate ultimaLocalizacao;
 
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
@@ -117,6 +119,17 @@ public class Usuario implements Serializable {
     public void setClienteFinal(ClienteFinal clienteFinal) {
         this.clienteFinal = clienteFinal;
     }
+
+    @Transient
+    public GeographicalCoordinate getUltimaLocalizacao() {
+        return ultimaLocalizacao;
+    }
+
+    public void setUltimaLocalizacao(GeographicalCoordinate ultimaLocalizacao) {
+        this.ultimaLocalizacao = ultimaLocalizacao;
+    }
+    
+    
 
     @Transient
     public static DAO<Usuario> getDAOUsuario() {
