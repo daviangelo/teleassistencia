@@ -6,7 +6,6 @@
 package manager.crud;
 
 import entity.cliente_final.Pulseira;
-import entity.cliente_final.Usuario;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

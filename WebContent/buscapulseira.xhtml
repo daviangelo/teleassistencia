@@ -58,15 +58,6 @@
                                                              target="#{pulseiraBean.pulseiraSelecionada}" />
                             </p:commandButton>
                         </p:column>
-
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
-                                             title="Excluir dados da Pulseira">
-                                <f:setPropertyActionListener value="#{pulseira}"
-                                                             target="#{pulseiraBean.pulseiraSelecionada}" />
-
-                            </p:commandButton>
-                        </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
