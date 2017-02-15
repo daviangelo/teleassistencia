@@ -30,7 +30,6 @@ public class DAOClienteFinal extends DAO<ClienteFinal> {
 		
 		criteria.add(Restrictions.or(/*Restrictions.eq("matriculaFinal", 1)
 				.ignoreCase(), */Restrictions.eq("inscricaoFederal", campo)
-				.ignoreCase(), Restrictions.eq("inscricaoEstadual", campo)
 				.ignoreCase(), Restrictions.eq("razaoSocial", campo)
 				.ignoreCase(), Restrictions.eq("telefone", campo).ignoreCase()));
 		System.out.println(criteria.list().size());

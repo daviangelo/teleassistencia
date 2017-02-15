@@ -1,0 +1,86 @@
+.pageHeader {
+    background: $headerInterno;
+    nav.pageNavigator {
+        float: left;
+        ul {
+            li {
+                display: inline-block;
+                padding: 18px 0;
+                &.current {
+                    background: #83c6ea;
+                    a {
+                        border-right: 0;
+                    }
+                }
+                a {
+                    color: $white;
+                    font-family: $font1;
+                    font-size: 15px;
+                    padding: 0 17px;
+                    display: block;
+                    border-right: 1px solid rgba(255, 255, 255, 0.15);
+                    padding: 0 17px;
+                }
+            }
+        }
+    }    
+
+    .boxLogin {
+        float: right;
+        .boxContent {
+            display: block;
+            padding: 5px 10px 5px 0;
+            cursor: pointer;
+            .imgProfile {
+                width: 43px;
+                float: left;
+                img {
+                    border-radius: 50%;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .nameProfile {
+                float: right;
+                padding: 12px 0 14px 10px;
+                h2 {
+                    color: $white;
+                    font-family: $font1;
+                    font-size: 15px;
+                    i.icon-arrow {
+                        background: url(../images/arrowProfile.png) no-repeat;
+                        display: inline-block;
+                        width: 15px;
+                        height: 8px;
+                        background-size: 100%;
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+        .submenu-profile {
+            display: none;
+            width: 270px;
+            height: 200px;
+            position: absolute;
+            border: 1px solid #efefef;
+            right: 80px;
+            background: $white;
+            &:before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                left: 150px;
+                margin-left: -22px;
+                border-right: 10px solid transparent;
+                border-top: 0px solid transparent;
+                border-left: 10px solid transparent;
+                border-bottom: 10px solid #fff;
+                z-index: 1;
+            }
+            &.active {
+                display: block;
+            }
+        }
+    }
+}

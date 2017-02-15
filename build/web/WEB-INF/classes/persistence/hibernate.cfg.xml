@@ -5,8 +5,8 @@
  <session-factory name="">
   <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
   <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-  <property name="hibernate.show_sql">true</property>
-  <property name="hibernate.format_sql">true</property>
+  <property name="hibernate.show_sql">false</property>
+  <property name="hibernate.format_sql">false</property>
   <property name="hibernate.use_sql_comments">false</property>
   <property name="hibernate.generate_statistics">false</property>
   <property name="current_session_context_class">thread</property>
@@ -19,10 +19,6 @@
   <mapping class="entity.Operador"/>
   
   <mapping class="entity.cliente_final.ClienteFinal"/>
-  <mapping class="entity.cliente_final.CentralLocal"/>
-  <mapping class="entity.cliente_final.CentralMobile"/>
-  <mapping class="entity.cliente_final.CentralRaspberry"/>
-  <mapping class="entity.cliente_final.Equipamento"/>
   <mapping class="entity.cliente_final.Usuario"/>
   <mapping class="entity.cliente_final.PrestadorSocorro"/>
   <mapping class="entity.cliente_final.Pulseira"/>

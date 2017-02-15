@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -87,6 +88,7 @@ public class DAO<E> {
 		List<E> lista;
 		Criteria criteria = session.createCriteria(classe);
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//                criteria.addOrder(Order.asc("razaoSocial"));
 		lista = CastUtil.castList(classe, criteria.list());
 		session.close();
 		return lista;

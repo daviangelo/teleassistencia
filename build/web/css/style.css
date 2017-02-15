@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 /*reset*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -9,8 +9,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video, dd, dt, dl {
   margin: 0;
@@ -19,165 +19,976 @@ time, mark, audio, video, dd, dt, dl {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  list-style:none; 
-}
+  list-style: none; }
 
-*, *:after, *:before{box-sizing: border-box; outline: none;}
-input, textarea{outline: none;}
-input[type=radio]{margin: 3px 3px 3px 0}
-div:after, ol:after, form:after, ul:after, dl:after, section:after{content:"";display:block;clear:both;height:0;overflow:hidden;}
-a, a:hover{cursor: pointer;text-decoration: none;}
-label{display: inline-block;}
+*, *:after, *:before {
+  box-sizing: border-box;
+  outline: none; }
 
-body.pageBody {
-    background: #f1f1f1;
-    margin: 0;
-}
-.centro {
-    margin-left:auto; 
-    margin-right:auto; 
+input, textarea {
+  outline: none; }
 
-}
+input[type=radio] {
+  margin: 3px 3px 3px 0; }
 
-body.pageBody .ui-shadow {
-    box-shadow: none;
-    border: 1px solid #ccc;
-    background: #fff;
-    width: 360px !important;
-}
+div:after, ol:after, form:after, ul:after, dl:after, section:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden; }
 
-body.pageBody .ui-dialog .ui-dialog-title {
-    float: none;
+a, a:hover {
+  cursor: pointer;
+  text-decoration: none; }
+
+label {
+  display: inline-block; }
+
+.lightboxOverlay, #TB_overlay, #publishUserReview .footer {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding-top: 0.6em;
+  text-align: left;
+  z-index: 99; }
+
+.lightboxOverlay {
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  -ms-transition: opacity 0.25s ease;
+  -o-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+  visibility: hidden; }
+
+.lightboxOverlayInner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 90; }
+
+.lightboxClose, .formUserComment .close a {
+  position: absolute;
+  top: -37px;
+  right: 0;
+  cursor: pointer;
+  color: #fff; }
+
+#TB_closeWindowButton {
+  position: absolute;
+  top: -37px;
+  right: 45; }
+
+.lightboxBlock, #publishUserReview .header {
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  -ms-transition: opacity 0.25s ease;
+  -o-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+  background: transparent;
+  border-radius: 0;
+  z-index: 99; }
+
+.lightboxOverlay.open {
+  opacity: 1;
+  visibility: visible; }
+
+#TB_window {
+  width: 100% !important;
+  left: 0 !important;
+  margin-left: 0 !important;
+  background: #fff; }
+  #TB_window iframe {
+    width: 800px !important;
+    height: 500px !important;
     display: block;
+    margin: 0 auto; }
+
+.pageHeader {
+  background: #9cd0ec; }
+  .pageHeader nav.pageNavigator {
+    float: left; }
+    .pageHeader nav.pageNavigator ul li {
+      display: inline-block;
+      padding: 18px 0; }
+      .pageHeader nav.pageNavigator ul li.current {
+        background: #83c6ea; }
+        .pageHeader nav.pageNavigator ul li.current a {
+          border-right: 0; }
+      .pageHeader nav.pageNavigator ul li a {
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        padding: 0 17px;
+        display: block;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 0 17px; }
+  .pageHeader .boxLogin {
+    float: right; }
+    .pageHeader .boxLogin .boxContent {
+      display: block;
+      padding: 5px 10px 5px 0;
+      cursor: pointer; }
+      .pageHeader .boxLogin .boxContent .imgProfile {
+        width: 43px;
+        float: left; }
+        .pageHeader .boxLogin .boxContent .imgProfile img {
+          border-radius: 50%;
+          width: 100%;
+          height: auto; }
+      .pageHeader .boxLogin .boxContent .nameProfile {
+        float: right;
+        padding: 12px 0 14px 10px; }
+        .pageHeader .boxLogin .boxContent .nameProfile h2 {
+          color: #fff;
+          font-family: "Open Sans", sans-serif;
+          font-size: 15px; }
+          .pageHeader .boxLogin .boxContent .nameProfile h2 i.icon-arrow {
+            background: url(../images/arrowProfile.png) no-repeat;
+            display: inline-block;
+            width: 15px;
+            height: 8px;
+            background-size: 100%;
+            margin-left: 8px; }
+    .pageHeader .boxLogin .submenu-profile {
+      display: none;
+      width: 270px;
+      height: 200px;
+      position: absolute;
+      border: 1px solid #efefef;
+      right: 80px;
+      background: #fff; }
+      .pageHeader .boxLogin .submenu-profile:before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 150px;
+        margin-left: -22px;
+        border-right: 10px solid transparent;
+        border-top: 0px solid transparent;
+        border-left: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        z-index: 1; }
+      .pageHeader .boxLogin .submenu-profile.active {
+        display: block; }
+
+.pageFooter {
+  background: #64a99f;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 20px 0; }
+  .pageFooter .txtFooter {
+    float: left; }
+    .pageFooter .txtFooter p {
+      font-family: "Open Sans", sans-serif;
+      color: #fff;
+      font-size: 13px;
+      text-transform: uppercase; }
+      .pageFooter .txtFooter p a {
+        color: #f27b53; }
+  .pageFooter .help {
+    float: right; }
+    .pageFooter .help ul li {
+      display: inline-block; }
+      .pageFooter .help ul li a {
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-size: 13px;
+        padding-left: 10px; }
+
+.wrapper {
+  width: 1124px;
+  margin: 0 auto; }
+
+body {
+  padding-bottom: 110px; }
+
+form#excluirUsuario .ui-dialog {
+  background: #fff;
+  box-shadow: none; }
+
+.ui-dialog-titlebar-close {
+  width: 17px;
+  height: 23px;
+  position: absolute;
+  right: 10px;
+  top: 10px !important; }
+  .ui-dialog-titlebar-close:before {
+    content: "X";
+    font-size: 20px;
+    color: #3e3e3e;
+    font-family: Arial; }
+
+.contentDialogForm .boxClouse {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.48);
+  z-index: 99; }
+  .contentDialogForm .boxClouse.active {
+    display: block; }
+.contentDialogForm .ui-dialog {
+  position: fixed !important;
+  left: 26.3% !important;
+  top: 15% !important;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #dedede;
+  min-width: 47.5%; }
+  .contentDialogForm .ui-dialog.active {
+    display: none !important; }
+  .contentDialogForm .ui-dialog .ui-dialog-titlebar {
+    cursor: pointer;
     text-align: center;
-    padding: 5px 0;
-    font-family: 'Open Sans', sans-serif;
-    color: #fff;
-}
+    padding: 20px 0 15px;
+    margin-bottom: 15px;
+    font-family: "Open Sans", sans-serif;
+    border-bottom: 1px solid rgba(234, 234, 234, 0.25); }
+    .contentDialogForm .ui-dialog .ui-dialog-titlebar span {
+      width: 100%;
+      margin: 0; }
 
-body.pageBody .ui-draggable .ui-dialog-titlebar {
-    background: #6bb4f3;
-    margin-bottom: 10px;
-}
-
-body.pageBody .ui-panelgrid td {
-    border: none;
-    padding: 0;
-    display: inline-block;
-}
-
-body.pageBody .ui-dialog .ui-dialog-content {
-    margin: 0 auto;
-}
-
-body.pageBody .ui-outputlabel {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-    color: #717171;
-    margin-top: 10px;
-    display: block;
-}
-
-body.pageBody .ui-widget-header .ui-inputfield,body.pageBody .ui-widget-content .ui-inputfield {
-    border: 1px solid #ccc;
-    width: 93.4%;
-    padding: 7px;
-    margin: 9px 0;
-    color: #909090;
-}
-
-body.pageBody .ui-panelgrid td:first-child {
-    width: 80px;
-    margin-top: -8px;
-}
-
-body.pageBody .ui-button {
-    margin: 20px 0;
+.ui-confirm-dialog .ui-dialog-titlebar {
+  padding: 20px 0 0;
+  text-align: center; }
+  .ui-confirm-dialog .ui-dialog-titlebar .ui-dialog-title {
     width: 100%;
-    padding: 9px;
-    border: none;
-    border-radius: 2px;
-}
-
-body.pageBody .ui-panelgrid:first-child td {width: 100%;}
-
-body.pageBody .ui-button .ui-button-text.ui-c {
-    padding: 0;
-    font-family: 'Open Sans', sans-serif;
-    color: #3c3c3c;
-}
-body.pageBody .ui-button .ui-button-text.ui-c {
-    padding: 0;
-    font-family: 'Open Sans', sans-serif;
-    color: #3c3c3c;
-}
-
-/* Novo cliente */
-
-body.body .ui-breadcrumb {
-    background: #6bb4f3;
-    margin: 0;
-    padding: 0;
-}
-
-body.body .ui-breadcrumb ul li a {color: #fff;text-decoration: none;font-family: 'Open Sans', sans-serif;font-size: 15px;padding: 15px 30px;border-right: 1px solid rgba(204, 204, 204, 0.46);margin-top: 0 !important;transition: .5s ease;}
-
-body.body .ui-breadcrumb ul li a:hover {
-    background: #7bbbf1;
-}
-
-body.newClient .ui-dialog {
-    box-shadow: none;
-    width: 600PX !important;
-}
-
-body.newClient .ui-dialog .ui-dialog-titlebar {
-    padding: 20px 30px 0;
-    font-family: 'Open Sans', sans-serif;
-    cursor: auto;
-    color: #545454;
-}
-
-body.newClient .ui-dialog .ui-dialog-content {
-    padding: 20px 26px;
-}
-
-body.newClient .ui-dialog .ui-dialog-content table tbody tr td label {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    color: #545454;
-}
-body.newClient .ui-dialog .ui-dialog-title {
-    margin: 0;
-    float: none;
-    text-align: center;
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-}
-body.newClient .ui-inputfield {
-    width: 100%;
-}
-
-body.newClient .ui-dialog .ui-dialog-content table tbody tr td:last-child {
-    width: 74%;
-}
-
-body.newClient .ui-dialog .ui-dialog-content table tbody tr td input {
-    padding: 9px;
-    border: 1px solid #ccc;
-    border-radius: 1px;
-    margin-bottom: 10px;
-}
-
-body.newClient .ui-button {
-    border: 0;
-    padding: 8px 0;
-    width: 143px;
-    margin-top: 20px;
-    background: #4cae4c;
-    color: #fff;
-    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
     text-transform: uppercase;
+    font-family: Arial;
+    margin: 0;
+    padding: 0; }
+.ui-confirm-dialog .ui-dialog-buttonpane {
+  text-align: center; }
+
+form#excluir.active:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.51);
+  display: block; }
+form#excluir .ui-confirm-dialog {
+  left: 32% !important;
+  top: 25% !important;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #dedede;
+  padding: 10px; }
+
+.ui-growl-item-container {
+  cursor: pointer; }
+
+.ui-growl .ui-growl-item-container {
+  box-shadow: none;
+  border-radius: 2px;
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  background: #e67e22; }
+  .ui-growl .ui-growl-item-container .ui-growl-image {
+    background: url(../images/iconAlert.png) no-repeat;
+    background-size: 100%;
+    margin-top: 13px; }
+
+.boxBtn {
+  text-align: center; }
+  .boxBtn input {
+    background: red;
+    border: none;
+    margin-top: 20px;
+    width: 120px;
+    padding: 10px;
+    text-align: center;
     border-radius: 2px;
-}
+    background: #60a2da;
+    color: #fff;
+    cursor: pointer; }
+
+.ui-button {
+  background: red;
+  border: none;
+  margin-top: 20px;
+  padding: 6px;
+  text-align: center;
+  border-radius: 2px;
+  color: #fff; }
+  .ui-button.btn-associar {
+    padding: 9px 30px;
+    margin-top: 0; }
+    .ui-button.btn-associar span {
+      padding: 0; }
+  .ui-button.btnBlue {
+    background: #60a2da; }
+  .ui-button.visible {
+    padding: 4.5px; }
+  .ui-button.btnBlue {
+    width: 120px;
+    background: #60a2da; }
+
+.btn-back {
+  background: #ccc;
+  display: inline-block;
+  border: none;
+  margin-top: 20px;
+  width: 120px;
+  padding: 8px;
+  text-align: center;
+  border-radius: 2px;
+  color: #fff; }
+
+body.login {
+  background: #f1f1f1; }
+  body.login .boxLogin {
+    background: #fff;
+    position: absolute;
+    border: 1px solid #eaeaea;
+    left: 34%;
+    top: 25%;
+    width: 400px;
+    height: auto;
+    padding: 20px 30px; }
+    body.login .boxLogin form {
+      text-align: center; }
+      body.login .boxLogin form .item {
+        display: block;
+        width: 100%; }
+        body.login .boxLogin form .item label {
+          display: block;
+          font-family: "Open Sans", sans-serif;
+          font-size: 15px;
+          padding-top: 10px;
+          text-align: left; }
+        body.login .boxLogin form .item input {
+          display: block;
+          width: 96%;
+          border: 1px solid #ccc;
+          border-radius: 1px;
+          font-family: "Open Sans", sans-serif;
+          padding: 8px;
+          margin-top: 10px;
+          background: rgba(247, 247, 247, 0.36);
+          text-align: left; }
+
+.lightboxOverlay.open .lightboxBlock {
+  width: 50%;
+  min-height: 363px !important;
+  background: #fff;
+  padding: 40px;
+  left: 27% !important;
+  top: 15% !important; }
+  .lightboxOverlay.open .lightboxBlock a.lightboxClose {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: right; }
+    .lightboxOverlay.open .lightboxBlock a.lightboxClose:before {
+      content: "X";
+      font-size: 25px;
+      font-family: Arial;
+      font-weight: 300; }
+  .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent,
+  .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit,
+  .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    max-width: 640px;
+    min-width: 570px;
+    height: auto;
+    padding: 20px 30px;
+    margin: 30px auto; }
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item {
+      width: 100%;
+      padding-bottom: 20px; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible {
+        padding-top: 19px;
+        margin-left: -4px; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item label,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item label,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item label {
+        width: 30%;
+        float: left;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        text-align: left;
+        padding-top: 17px; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible {
+        position: initial !important; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"],
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"],
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"] {
+        width: 70%;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        margin-top: 10px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"].bgInput,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"].bgInput,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].bgInput {
+          background: #dadada;
+          cursor: no-drop; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"].inputSmaller,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"].inputSmaller,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].inputSmaller {
+          width: 30%; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item textarea,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item textarea,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item textarea {
+        width: 70%;
+        height: 120px;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-message,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-message,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-message {
+        float: left;
+        width: 99.4%;
+        margin: 0; }
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn {
+      text-align: center;
+      margin: 0 auto;
+      width: 280px; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn input,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn input,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn input {
+        float: left; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button {
+        float: none;
+        display: inline-block;
+        padding: 11px 34px 0; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible {
+          display: none; }
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible.active {
+            display: block; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back {
+        margin-left: 10px;
+        float: right;
+        padding: 8.5px; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible {
+          display: none;
+          float: right; }
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible.active {
+            display: block; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-edit.png) no-repeat top center;
+          background-size: 100%; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar span {
+          display: none; }
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-delete.png) no-repeat top center;
+          background-size: 100%; }
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete span {
+          display: none; }
+
+.lightBoxCad {
+  display: none; }
+
+.inputSearch {
+  padding: 30px 0; }
+  .inputSearch .input-search {
+    padding: 10px;
+    border-radius: 1px;
+    border: 1px solid #ccc;
+    width: 40%;
+    float: left; }
+  .inputSearch .boxCadastro {
+    float: right; }
+    .inputSearch .boxCadastro #formBuscar .ui-commandlink {
+      background: #f27b53;
+      border-radius: 1px;
+      color: #fff;
+      box-shadow: inset 0px 0px 13px 1px #ef8d6d;
+      padding: 10px 30px;
+      display: block;
+      transition: .5s ease; }
+      .inputSearch .boxCadastro #formBuscar .ui-commandlink:hover {
+        background: #d0623d;
+        box-shadow: none; }
+
+#formResult .ui-panel-content,
+#formPulseira .ui-panel-content {
+  padding: 0; }
+#formResult .ui-datatable .ui-datatable-tablewrapper table,
+#formPulseira .ui-datatable .ui-datatable-tablewrapper table {
+  border: 1px solid #f1f1f1; }
+  #formResult .ui-datatable .ui-datatable-tablewrapper table thead,
+  #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead {
+    background: #f1f1f1; }
+    #formResult .ui-datatable .ui-datatable-tablewrapper table thead tr th,
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead tr th {
+      border: none;
+      padding: 13px 10px;
+      text-align: left; }
+      #formResult .ui-datatable .ui-datatable-tablewrapper table thead tr th span,
+      #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead tr th span {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #1d1d1d; }
+  #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr,
+  #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr {
+    border-bottom: 1px solid #f1f1f1; }
+    #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even),
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even) {
+      background: #fbfbfb; }
+    #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td,
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td {
+      border: none;
+      padding: 13px 10px;
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      color: #1d1d1d; }
+      #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable,
+      #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable:before,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnEdit:before,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnEdit:before {
+          background: url(../images/icon-view.png) no-repeat top center;
+          background-size: 100%; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete:before,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete:before {
+          background: url(../images/icon-delete.png) no-repeat top center;
+          background-size: 100%; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable span,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable span {
+          display: none; }
+
+body.newObjectAll .titlePage {
+  text-align: center;
+  padding-top: 40px; }
+  body.newObjectAll .titlePage h2 {
+    font-family: "Open Sans", sans-serif;
+    color: #5f5f5f;
+    font-size: 18px; }
+body.newObjectAll form#formContent,
+body.newObjectAll form#formContentEdit,
+body.newObjectAll form#formContentEdition {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  max-width: 640px;
+  min-width: 570px;
+  height: auto;
+  padding: 20px 30px;
+  margin: 30px auto; }
+  body.newObjectAll form#formContent .item,
+  body.newObjectAll form#formContentEdit .item,
+  body.newObjectAll form#formContentEdition .item {
+    width: 100%;
+    padding-bottom: 20px; }
+    body.newObjectAll form#formContent .item .ui-helper-hidden-accessible,
+    body.newObjectAll form#formContentEdit .item .ui-helper-hidden-accessible,
+    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible {
+      padding-top: 19px;
+      margin-left: -4px; }
+    body.newObjectAll form#formContent .item label,
+    body.newObjectAll form#formContentEdit .item label,
+    body.newObjectAll form#formContentEdition .item label {
+      width: 30%;
+      float: left;
+      font-family: "Open Sans", sans-serif;
+      font-size: 15px;
+      text-align: left;
+      padding-top: 17px; }
+    body.newObjectAll form#formContent .item .ui-helper-hidden-accessible,
+    body.newObjectAll form#formContentEdit .item .ui-helper-hidden-accessible,
+    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible {
+      position: initial !important; }
+    body.newObjectAll form#formContent .item input[type="text"],
+    body.newObjectAll form#formContentEdit .item input[type="text"],
+    body.newObjectAll form#formContentEdition .item input[type="text"] {
+      width: 70%;
+      float: left;
+      border: 1px solid #ccc;
+      border-radius: 1px;
+      font-family: "Open Sans", sans-serif;
+      padding: 8px;
+      margin-top: 10px;
+      background: rgba(247, 247, 247, 0.36);
+      text-align: left; }
+      body.newObjectAll form#formContent .item input[type="text"].bgInput,
+      body.newObjectAll form#formContentEdit .item input[type="text"].bgInput,
+      body.newObjectAll form#formContentEdition .item input[type="text"].bgInput {
+        background: #dadada;
+        cursor: no-drop; }
+      body.newObjectAll form#formContent .item input[type="text"].inputSmaller,
+      body.newObjectAll form#formContentEdit .item input[type="text"].inputSmaller,
+      body.newObjectAll form#formContentEdition .item input[type="text"].inputSmaller {
+        width: 30%; }
+    body.newObjectAll form#formContent .item textarea,
+    body.newObjectAll form#formContentEdit .item textarea,
+    body.newObjectAll form#formContentEdition .item textarea {
+      width: 70%;
+      height: 120px;
+      float: left;
+      border: 1px solid #ccc;
+      border-radius: 1px;
+      font-family: "Open Sans", sans-serif;
+      padding: 8px;
+      background: rgba(247, 247, 247, 0.36);
+      text-align: left; }
+    body.newObjectAll form#formContent .item .ui-message,
+    body.newObjectAll form#formContentEdit .item .ui-message,
+    body.newObjectAll form#formContentEdition .item .ui-message {
+      float: left;
+      width: 99.4%;
+      margin: 0; }
+  body.newObjectAll form#formContent .boxBtn,
+  body.newObjectAll form#formContentEdit .boxBtn,
+  body.newObjectAll form#formContentEdition .boxBtn {
+    text-align: center;
+    margin: 0 auto;
+    width: 280px; }
+    body.newObjectAll form#formContent .boxBtn input,
+    body.newObjectAll form#formContentEdit .boxBtn input,
+    body.newObjectAll form#formContentEdition .boxBtn input {
+      float: left; }
+    body.newObjectAll form#formContent .boxBtn.btnIcon button,
+    body.newObjectAll form#formContentEdit .boxBtn.btnIcon button,
+    body.newObjectAll form#formContentEdition .boxBtn.btnIcon button {
+      float: none;
+      display: inline-block;
+      padding: 11px 34px 0; }
+      body.newObjectAll form#formContent .boxBtn.btnIcon button.visible,
+      body.newObjectAll form#formContentEdit .boxBtn.btnIcon button.visible,
+      body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible {
+        display: none; }
+        body.newObjectAll form#formContent .boxBtn.btnIcon button.visible.active,
+        body.newObjectAll form#formContentEdit .boxBtn.btnIcon button.visible.active,
+        body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible.active {
+          display: block; }
+    body.newObjectAll form#formContent .boxBtn .btn-back,
+    body.newObjectAll form#formContentEdit .boxBtn .btn-back,
+    body.newObjectAll form#formContentEdition .boxBtn .btn-back {
+      margin-left: 10px;
+      float: right;
+      padding: 8.5px; }
+      body.newObjectAll form#formContent .boxBtn .btn-back.visible,
+      body.newObjectAll form#formContentEdit .boxBtn .btn-back.visible,
+      body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible {
+        display: none;
+        float: right; }
+        body.newObjectAll form#formContent .boxBtn .btn-back.visible.active,
+        body.newObjectAll form#formContentEdit .boxBtn .btn-back.visible.active,
+        body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible.active {
+          display: block; }
+    body.newObjectAll form#formContent .boxBtn .btnAlterar,
+    body.newObjectAll form#formContentEdit .boxBtn .btnAlterar,
+    body.newObjectAll form#formContentEdition .boxBtn .btnAlterar {
+      float: right;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: block; }
+      body.newObjectAll form#formContent .boxBtn .btnAlterar:before,
+      body.newObjectAll form#formContentEdit .boxBtn .btnAlterar:before,
+      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url(../images/icon-edit.png) no-repeat top center;
+        background-size: 100%; }
+      body.newObjectAll form#formContent .boxBtn .btnAlterar span,
+      body.newObjectAll form#formContentEdit .boxBtn .btnAlterar span,
+      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar span {
+        display: none; }
+    body.newObjectAll form#formContent .boxBtn .btnDelete,
+    body.newObjectAll form#formContentEdit .boxBtn .btnDelete,
+    body.newObjectAll form#formContentEdition .boxBtn .btnDelete {
+      float: right;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: block; }
+      body.newObjectAll form#formContent .boxBtn .btnDelete:before,
+      body.newObjectAll form#formContentEdit .boxBtn .btnDelete:before,
+      body.newObjectAll form#formContentEdition .boxBtn .btnDelete:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url(../images/icon-delete.png) no-repeat top center;
+        background-size: 100%; }
+      body.newObjectAll form#formContent .boxBtn .btnDelete span,
+      body.newObjectAll form#formContentEdit .boxBtn .btnDelete span,
+      body.newObjectAll form#formContentEdition .boxBtn .btnDelete span {
+        display: none; }
+
+.ui-panel .ui-panel-content #formPage {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  width: 580px;
+  height: auto;
+  padding: 20px 30px;
+  margin: 30px auto; }
+  .ui-panel .ui-panel-content #formPage .boxInformation .itemInformation {
+    display: block;
+    padding-bottom: 10px;
+    color: #272727;
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px; }
+    .ui-panel .ui-panel-content #formPage .boxInformation .itemInformation .titleInformation {
+      font-weight: bold;
+      padding-right: 16px; }
+  .ui-panel .ui-panel-content #formPage .btnAlterar {
+    float: right;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: block; }
+    .ui-panel .ui-panel-content #formPage .btnAlterar:before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: url(../images/icon-edit.png) no-repeat top center;
+      background-size: 100%; }
+    .ui-panel .ui-panel-content #formPage .btnAlterar span {
+      display: none; }
+  .ui-panel .ui-panel-content #formPage .btnDelete {
+    float: right;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: block; }
+    .ui-panel .ui-panel-content #formPage .btnDelete:before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: url(../images/icon-delete.png) no-repeat top center;
+      background-size: 100%; }
+    .ui-panel .ui-panel-content #formPage .btnDelete span {
+      display: none; }
+
+#alterar.active:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.51);
+  display: block; }
+#alterar .ui-dialog {
+  position: absolute;
+  left: 26.3% !important;
+  top: 15% !important;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  width: 47.5% !important; }
+  #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    border-bottom: 1px solid #f1f1f1;
+    color: #5a5a5a;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    padding-bottom: 15px;
+    text-transform: none; }
+  #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 25px; }
+    #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:before {
+      content: "X";
+      display: block;
+      color: #5a5a5a;
+      font-family: Arial;
+      font-size: 20px; }
+  #alterar .ui-dialog .ui-dialog-content {
+    display: none; }
+  #alterar .ui-dialog .ui-dialog-buttonpane {
+    padding: 10px 29px 20px; }
+    #alterar .ui-dialog .ui-dialog-buttonpane .item {
+      width: 100%;
+      padding-bottom: 20px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-helper-hidden-accessible {
+        padding-top: 19px;
+        margin-left: -4px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-chkbox {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item label {
+        width: 30%;
+        float: left;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        text-align: left;
+        padding-top: 17px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-helper-hidden-accessible {
+        position: initial !important; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"] {
+        width: 70%;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        margin-top: 10px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"].bgInput {
+          background: #dadada;
+          cursor: no-drop; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"].inputSmaller {
+          width: 30%; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item textarea {
+        width: 78%;
+        height: 120px;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-message {
+        float: left;
+        width: 99.4%;
+        margin: 0; }
+    #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn {
+      text-align: center;
+      margin: 0 auto;
+      width: 280px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .ui-button {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn input {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button {
+        float: none;
+        display: inline-block;
+        padding: 11px 34px 0; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button.visible {
+          display: none; }
+          #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button.visible.active {
+            display: block; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back {
+        margin-left: 10px;
+        float: left;
+        padding: 8.5px;
+        margin-top: 7px;
+        width: 120px;
+        height: 37px; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back.visible {
+          display: none;
+          float: right; }
+          #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back.visible.active {
+            display: block; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-edit.png) no-repeat top center;
+          background-size: 100%; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar span {
+          display: none; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-delete.png) no-repeat top center;
+          background-size: 100%; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete span {
+          display: none; }
+
+/*# sourceMappingURL=style.css.map */

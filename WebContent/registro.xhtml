@@ -1,41 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <h:head>
-        <link type="text/css" rel="stylesheet" href="css/style.css" />
+        <title>Resgistro de cliente</title>
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
-    <h:body styleClass="body newReditre">
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
-        </p:breadCrumb>
-        <h:form id="formInserir">
-            <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
+    <h:body styleClass="all">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+        
+        <div class="wrapper">
+            <h:form id="formInserir">
+                <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
 
 
-                <p:outputLabel value="Temperatura:"></p:outputLabel>
+                    <p:outputLabel value="Temperatura:"></p:outputLabel>
 
-                <h:selectOneMenu value="#{registro_mb.registro.tipoTemperatura}">
-                    <f:selectItems value="#{registro_mb.registro.tipoTemperaturas}" />
-                </h:selectOneMenu>
+                    <h:selectOneMenu value="#{registro_mb.registro.tipoTemperatura}">
+                        <f:selectItems value="#{registro_mb.registro.tipoTemperaturas}" />
+                    </h:selectOneMenu>
 
-                <p:commandButton value="Enviar" style="margin-left:150px;">
-                    <p:ajax event="click" listener="#{registro_mb.gravarRegistro}"
-                            process="formInserir" update=":form1:tableConsulta formInserir" />
-                </p:commandButton>
+                    <p:commandButton value="Enviar" style="margin-left:150px;">
+                        <p:ajax event="click" listener="#{registro_mb.gravarRegistro}"
+                                process="formInserir" update=":form1:tableConsulta formInserir" />
+                    </p:commandButton>
 
 
-            </h:panelGrid>
-        </h:form>
-
+                </h:panelGrid>
+            </h:form>
+        </div>
 
         <p:panel header="Consultar os Dados">
 
@@ -64,5 +67,9 @@
             </h:form>
 
         </p:panel>
+        
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_commonFooter.xhtml" />
+        </ui:insert>
     </h:body>
 </html>

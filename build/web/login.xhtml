@@ -1,33 +1,39 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
-
-        <title>Login Teleassistência</title>
-        <link type="text/css" rel="stylesheet" href="css/style.css" />
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head> 
+        
+        <ui:insert name="commonHeader" >
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
 
     </h:head>
 
-    <h:body styleClass="pageBody">
-        <h:form>
-            <p:growl id="growl" showDetail="true" sticky="true" />
-             <p:dialog header="Login Teleassistência"
-                      widgetVar="novoCliente" modal="false" showEffect="fade"
-                      hideEffect="fade" resizable="false" closable="false" visible="true">
-            <p:panelGrid id="centro" columns="2"  styleClass="centro" >
-                <p:outputLabel for="nomeUsuario" value="Usuário:" style="font-weight:bold" />
-                <p:inputText id="nomeUsuario" value="#{login_mb.operador.login}" />
+    <h:body styleClass="all login">
+        <div class="boxLogin">
+            <h:form>
+                <p:growl id="growl" showDetail="true" sticky="true" />
 
-                <p:outputLabel for="senha" value="Senha:" style="font-weight:bold" />
-                <p:password id="senha" value="#{login_mb.operador.senha}" />
+                <div class="item">
+                    <p:outputLabel for="nomeUsuario" value="Usuário:" />
+                    <p:inputText id="nomeUsuario" value="#{login_mb.operador.login}" />
+                </div>
+                
+                <div class="item">
+                    <p:outputLabel for="senha" value="Senha:" />
+                    <p:password id="senha" value="#{login_mb.operador.senha}" />      
+                </div>
+                
+                <p:commandButton styleClass="btnBlue" value="Entrar" action="#{login_mb.submeter}" ajax="false" />
 
-                <p:commandButton value="Entrar" icon="ui-icon-check" action="#{login_mb.submeter}" ajax="false">
-                </p:commandButton>
-
-            </p:panelGrid>
-             </p:dialog>
-        </h:form>
+            </h:form>
+        </div>
     </h:body>
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Dados Prestador de Socorro</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
+    </h:head>
+
+    <h:body class="newObjectAll">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+
+        <div class="titlePage">
+            <h2>Dados do prestador de socorro</h2>
+        </div>
+
+        <p:panel id="painelNova" rendered="#{prestadorSocorroBean.novo}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{prestadorSocorroBean.novoPrestador.nome}"
+                                 required="true" 
+                                 requiredMessage="O campo Nome deve ser preenchido!" />
+                    <p:message for="nome"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputMask id="telefone"
+                                 value="#{prestadorSocorroBean.novoPrestador.telefone}"
+                                 required="true"
+                                 requiredMessage="O campo Telefone deve ser preenchido!"
+                                 mask="(999) 9999-9999"
+                                 converter="convertInput" >
+                        <f:validateLength minimum="15" />
+                    </p:inputMask>
+                    <p:message for="telefone"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="descricao"
+                                     value="#{prestadorSocorroBean.novoPrestador.descricao}"
+                                     required="true" 
+                                     requiredMessage="O campo Descrição deve ser preenchido!" />
+                    <p:message for="descricao"/>
+                </div>
+
+                <div class="boxBtn">
+                    <h:commandButton title="Salvar" value="Salvar"
+                                     action="#{prestadorSocorroBean.criarPrestador()}" />
+
+                    <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
+                </div>
+            </h:form>
+        </p:panel>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
+
+    </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+</html>

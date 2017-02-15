@@ -1,0 +1,653 @@
+.wrapper {
+    width: 1124px;
+    margin: 0 auto;
+}
+
+body {
+    padding-bottom: 110px;
+}
+
+form#excluirUsuario {
+    .ui-dialog {
+        background: #fff;
+        box-shadow: none;
+    }
+}
+
+// clouse lightbox
+.ui-dialog-titlebar-close {
+    width: 17px;
+    height: 23px;
+    position: absolute;
+    right: 10px;
+    top: 10px !important;
+    &:before {
+        content: "X";
+        font-size: 20px;
+        color: #3e3e3e;
+        font-family: Arial;
+    }
+}
+
+.contentDialogForm {
+    .boxClouse {
+        position: fixed;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.48);
+        z-index: 99;
+        &.active {
+            display: block;
+        }   
+    }
+    .ui-dialog {
+        position: fixed !important;
+        left: 26.3% !important;
+        top: 15% !important;
+        background: #fff;
+        box-shadow: none;
+        border: 1px solid #dedede;
+        min-width: 47.5%;
+        &.active {
+            display: none !important;
+        }
+        .ui-dialog-titlebar  {
+            cursor: pointer;
+            text-align: center;
+            padding: 20px 0 15px;
+            margin-bottom: 15px;
+            font-family: $font1;
+            border-bottom: 1px solid rgba(234, 234, 234, 0.25);
+            span {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.ui-confirm-dialog {
+    .ui-dialog-titlebar {
+        padding: 20px 0 0;
+        text-align: center;
+        .ui-dialog-title {
+            width: 100%;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .ui-dialog-buttonpane {
+        text-align: center;
+    }
+}
+
+//LightBox confirmação de exclusão
+form#excluir {
+    &.active {
+        &:before {
+            content: "";
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.51);
+            display: block;
+        }
+    }
+    .ui-confirm-dialog {
+        left: 32% !important;
+        top: 25% !important;
+        background: #fff;
+        box-shadow: none;
+        border: 1px solid #dedede;
+        padding: 10px;
+    }
+}
+
+// Alert Erro
+.ui-growl-item-container {
+    cursor: pointer;
+}
+.ui-growl {
+    .ui-growl-item-container  {
+        box-shadow: none;
+        border-radius: 2px;
+        color: $white;
+        font-family: $font1;
+        background: #e67e22;
+        .ui-growl-image {
+            background: url(../images/iconAlert.png) no-repeat;
+            background-size: 100%;
+            margin-top: 13px;
+        }
+    } 
+}
+
+//btn
+.boxBtn {
+    text-align: center;
+    input {
+        background: red;
+        border: none;
+        margin-top: 20px;
+        width: 120px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 2px;
+        background: #60a2da;
+        color: $white;
+        cursor: pointer;
+    }  
+}
+
+.ui-button {
+    background: red;
+    border: none;
+    margin-top: 20px;
+    padding: 6px;
+    text-align: center;
+    border-radius: 2px;
+    color: $white;
+    
+    &.btn-associar {
+        padding: 9px 30px;
+        margin-top: 0;
+        span {
+            padding: 0;
+        }
+    }
+
+    &.btnBlue {
+        background: #60a2da;
+    }
+
+    &.visible {
+        padding: 4.5px;
+    }
+
+    &.btnBlue{
+        width: 120px;
+        background: #60a2da;
+    }
+}
+
+.btn-back {
+    background: #ccc;
+    display: inline-block;
+    border: none;
+    margin-top: 20px;
+    width: 120px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 2px;
+    color: $white;
+}
+
+
+body.login {
+    background: $bgLoginColor;
+    .boxLogin {
+        background: $white;
+        position: absolute;
+        border: 1px solid #eaeaea;
+        left: 34%;
+        top: 25%;
+        width: 400px; 
+        height: auto;
+        padding: 20px 30px; 
+        form {
+            text-align: center;
+            .item {
+                display: block;
+                width: 100%;
+                label {
+                    display: block;
+                    font-family: $font1;
+                    font-size: 15px;
+                    padding-top: 10px;
+                    text-align: left;
+                } 
+                input {
+                    display: block;
+                    width: 96%;
+                    border: 1px solid #ccc;
+                    border-radius: 1px;
+                    font-family: $font1;
+                    padding: 8px;
+                    margin-top: 10px; 
+                    background: rgba(247, 247, 247, 0.36);
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
+
+// Ligh Box
+.lightboxOverlay {
+    &.open {
+        .lightboxBlock {
+            width: 50%;
+            min-height: 363px !important;
+            background: #fff;
+            padding: 40px;
+            left: 27% !important;
+            top: 15% !important;
+            a.lightboxClose {
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                display: block;
+                width: 40px;
+                height: 40px;
+                text-align: right;
+                &:before {
+                    content: "X";
+                    font-size: 25px;
+                    font-family: Arial;
+                    font-weight: 300;
+                }
+            }
+            .lightboxInner {
+                @include boxForm();
+            }
+        }
+    }
+}
+.lightBoxCad {
+    display: none;
+}
+// Search register
+.inputSearch {
+    padding: 30px 0;
+    .input-search {
+        padding: 10px;
+        border-radius: 1px;
+        border: 1px solid #ccc;
+        width: 40%;
+        float: left;
+    }
+    .boxCadastro {
+        float: right;
+        #formBuscar {
+            .ui-commandlink {
+                background: #f27b53;
+                border-radius: 1px;
+                color: $white;
+                box-shadow: inset 0px 0px 13px 1px #ef8d6d;
+                padding: 10px 30px;
+                display: block;
+                transition: .5s ease;
+                &:hover {
+                    background: #d0623d;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
+
+//Table register Client
+#formResult,
+#formPulseira{
+    .ui-panel-content {
+        padding: 0;
+    }
+    .ui-datatable {
+        .ui-datatable-tablewrapper {
+            table {
+                border: 1px solid #f1f1f1;
+                thead {
+                    background: #f1f1f1;
+                    tr {
+                        th {
+                            border: none;
+                            padding: 13px 10px;
+                            text-align: left;
+                            span {
+                                font-family: $font1;
+                                font-size: 14px;
+                                text-transform: uppercase;
+                                color: #1d1d1d;
+                            }
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        border-bottom: 1px solid #f1f1f1;
+                        &:nth-child(even) {
+                            background: rgb(251, 251, 251);
+                        }
+                        td {
+                            border: none;
+                            padding: 13px 10px;
+                            font-family: $font1;
+                            font-size: 14px;
+                            color: #1d1d1d;
+                            .btnTable {
+                                float: right;
+                                background: transparent;
+                                border: none;
+                                cursor: pointer;
+                                display: block;
+                                &:before {
+                                    content: "";
+                                    display: block;
+                                    width: 20px;
+                                    height: 20px;
+                                }
+                                &.btnEdit{
+                                    &:before {
+                                        background: url(../images/icon-view.png) no-repeat top center;
+                                        background-size: 100%;
+                                    }
+                                }
+                                &.btnDelete{
+                                    &:before {
+                                        background: url(../images/icon-delete.png) no-repeat top center;
+                                        background-size: 100%;
+                                    }                                        
+                                }
+                                span {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Cadastro Objeto
+body.newObjectAll {
+    .titlePage {
+        text-align: center;
+        padding-top: 40px;
+        h2 {
+            font-family: $font1;
+            color: #5f5f5f;
+            font-size: 18px;
+        }
+    }
+
+    @include boxForm();
+}
+
+.ui-panel{
+    .ui-panel-content{
+        #formPage{
+            background: #fff;
+            border: 1px solid #eaeaea;
+            width: 580px;
+            height: auto;
+            padding: 20px 30px;
+            margin: 30px auto;
+
+            .boxInformation{
+                .itemInformation{
+                    display: block;
+                    padding-bottom: 10px;
+                    color: #272727;
+                    font-family: $font1;
+                    font-size: 15px;
+
+                    .titleInformation {
+                        font-weight: bold;
+                        padding-right: 16px;
+                    }
+                }
+            }
+
+            .btnAlterar {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-edit.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
+                }
+            }
+
+            .btnDelete {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-delete.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+//Formulário alterar objeto
+#alterar {
+    &.active {
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.51);
+            display: block;
+        }
+    }
+    .ui-dialog {
+        position: absolute;
+        left: 26.3% !important;
+        top: 15% !important;
+        background: #fff;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        width: 47.5% !important;
+
+        .ui-dialog-titlebar {
+            .ui-dialog-title {
+                border-bottom: 1px solid #f1f1f1;
+                color: #5a5a5a;
+                font-family: $font1;
+                font-weight: 500;
+                padding-bottom: 15px;
+                text-transform: none;
+            }
+            .ui-dialog-titlebar-icon {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 30px;
+                height: 25px;
+                &:before {
+                    content: "X";
+                    display: block;
+                    color: #5a5a5a;
+                    font-family: Arial;
+                    font-size: 20px;
+                }
+            }
+        }
+
+        .ui-dialog-content {
+            display: none;
+        }
+
+        .ui-dialog-buttonpane {
+            padding: 10px 29px 20px;
+            .item {
+                width: 100%;
+                padding-bottom: 20px;
+                .ui-helper-hidden-accessible {
+                    padding-top: 19px;
+                    margin-left: -4px;
+                }
+                .ui-chkbox {
+                    float: left;
+                }
+                label {
+                    width: 30%;
+                    float: left;
+                    font-family: $font1;
+                    font-size: 15px;
+                    text-align: left;
+                    padding-top: 17px;
+                }
+                .ui-helper-hidden-accessible {
+                    position: initial !important;
+                }
+                input[type="text"] {
+                    width: 70%;
+                    float: left;
+                    border: 1px solid #ccc;
+                    border-radius: 1px;
+                    font-family: $font1;
+                    padding: 8px;
+                    margin-top: 10px; 
+                    background: rgba(247, 247, 247, 0.36);
+                    text-align: left;
+                    &.bgInput {
+                        background: #dadada;
+                        cursor: no-drop;
+                    }
+                    &.inputSmaller {
+                        width: 30%;
+                    }
+                }
+
+                textarea {
+                    width: 78%;
+                    height: 120px;
+                    float: left;
+                    border: 1px solid #ccc;
+                    border-radius: 1px;
+                    font-family: $font1;
+                    padding: 8px;
+                    background: rgba(247, 247, 247, 0.36);
+                    text-align: left;
+                }
+
+                .ui-message {
+                    float: left;
+                    width: 99.4%;
+                    margin: 0;
+                }
+            }
+
+            .boxBtn {
+                text-align: center;
+                margin: 0 auto;
+                width: 280px;
+
+                .ui-button {
+                    float: left;
+                }
+
+                input {
+                    float: left;
+                }
+
+                &.btnIcon {
+                    button {
+                        float: none;
+                        display: inline-block;
+                        padding: 11px 34px 0;
+
+                        &.visible {
+                            display: none;
+                            &.active {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+
+                .btn-back {
+                    margin-left: 10px;
+                    float: left;
+                    padding: 8.5px;
+                    margin-top: 7px;
+                    width: 120px;
+                    height: 37px;
+                    &.visible {
+                        display: none;
+                        float: right;
+                        &.active {
+                            display: block
+                        }
+                    }
+                }
+
+                .btnAlterar {
+                    float: right;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: block;
+                    &:before {
+                        content: "";
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        background: url(../images/icon-edit.png) no-repeat top center;
+                        background-size: 100%;
+                    }
+                    span {
+                        display: none;
+                    }
+                }
+
+                .btnDelete {
+                    float: right;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: block;
+                    &:before {
+                        content: "";
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        background: url(../images/icon-delete.png) no-repeat top center;
+                        background-size: 100%;
+                    }
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

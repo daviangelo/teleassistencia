@@ -1,170 +1,264 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
 
+    <h:head>
+        <title>Dados Cliente</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
-    <h:body>
+    <h:body class="newObjectAll">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
 
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
-        </p:breadCrumb>
-        <p:panel id="painelCliente" header="Cliente"
-                 style="margin-bottom:10px;">
-            <h:form id="formCliente">
-                <p:growl id="growl" showDetail="true" sticky="true" />
-                <h:panelGrid columns="2" cellpadding="10">
+        <div class="wrapper">
 
-                    <h:outputLabel value="Matrícula:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.idClienteFinal}" />
+            <div class="titlePage">
+                <h2>Dados do cliente</h2>
+            </div>
 
-                    <h:outputLabel value="Razão Social:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.razaoSocial}" />
+            <p:panel id="painelNovoCliente" rendered="#{clienteFinalBean.novo}">
+                <h:form id="formContent"> 
+                    <div class="item">
+                        <h:outputLabel for="razaoSocial" value="Razão Social:" />
+                        <p:inputText id="razaoSocial"
+                                     value="#{clienteFinalBean.novoCliente.razaoSocial}"
+                                     required="true" 
+                                     requiredMessage="O campo Razão Social deve ser preenchido!" />
+                        <p:message for="razaoSocial"/>
+                    </div>
 
-                    <h:outputLabel value="CNPJ:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}" />
-
-                    <h:outputLabel value="Inscrição Estadual:" style="font-weight:bold" />
-                    <h:outputLabel
-                        value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}" />
-
-                    <h:outputLabel value="Telefone:" style="font-weight:bold" />
-                    <h:outputLabel value="#{clienteFinalMB.clienteSelecionado.telefone}" />
-
-                </h:panelGrid>
-
-                <p:commandButton title="Alterar dados do cliente"
-                                 icon="ui-icon-pencil" onclick="alterarCliente.show()" ajax="true" />
-                <p:commandButton title="Excluir" icon="ui-icon-trash"
-                                 onclick="confirmarExcluir.show()" ajax="true" />
-
-
-                <p:dialog header="Alterar dados do Cliente"
-                          widgetVar="alterarCliente" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false">
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                        <h:outputLabel for="nome" value="Razão Social:" />
-                        <p:inputText id="nome"
-                                     value="#{clienteFinalMB.clienteSelecionado.razaoSocial}"
-                                     required="true" />
-
+                    <div class="item">
                         <h:outputLabel for="cnpj" value="CNPJ:" />
-                        <p:inputText id="cnpj"
-                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoFederal}"
-                                     required="true" />
+                        <p:inputMask id="cnpj"
+                                     styleClass="inputSmaller"
+                                     value="#{clienteFinalBean.novoCliente.inscricaoFederal}"
+                                     required="true"
+                                     requiredMessage="O campo CNPJ deve ser preenchido!"
+                                     mask="99.999.999/9999-99"
+                                     converter="convertCNPJ" >
+                            <f:validateLength minimum="14" />
+                        </p:inputMask>
+                        <p:message for="cnpj"/>
+                    </div>
 
-                        <h:outputLabel for="inscE" value="Inscricao Estadual:" />
-                        <p:inputText id="inscE"
-                                     value="#{clienteFinalMB.clienteSelecionado.inscricaoEstadual}"
-                                     required="true" />
-
+                    <div class="item">
                         <h:outputLabel for="telefone" value="Telefone:" />
-                        <p:inputText id="telefone"
-                                     value="#{clienteFinalMB.clienteSelecionado.telefone}"
-                                     required="true" />
+                        <p:inputMask id="telefone"
+                                     styleClass="inputSmaller"
+                                     value="#{clienteFinalBean.novoCliente.telefone}"
+                                     required="true"
+                                     requiredMessage="O campo Telefone deve ser preenchido!"
+                                     mask="(999) 9999-9999"
+                                     converter="convertTelefone" >
+                            <f:validateLength minimum="11" />
+                        </p:inputMask>
+                        <p:message for="telefone"/>
+                    </div>
 
-                    </h:panelGrid>
+                    <div class="boxBtn">
+                        <h:commandButton title="Salvar" value="Salvar"
+                                         action="#{clienteFinalBean.criarCliente}" />
 
-                    <p:commandButton title="Salvar" value="Salvar alterações"
-                                     oncomplete="alterarCliente.hide();"
-                                     actionListener="#{clienteFinalMB.alterarCliente}"
-                                     update=":formCliente" />
+                        <a href="/servidorcentral/buscacliente.xhtml" class="btn-back">Cancelar</a>
+                    </div>
+                </h:form>
+            </p:panel>
 
-                </p:dialog>
+            <p:panel id="painelCliente" rendered="#{!clienteFinalBean.novo}">
+                <h:form id="formContentEdit"> 
+                    <div class="item">
+                        <h:outputLabel value="Razão Social:" styleClass="titleInformation"/>
+                        <p:inputText styleClass="bgInput" disabled="true"
+                                     value="#{clienteFinalBean.clienteSelecionado.razaoSocial}" />
+                    </div>
 
+                    <div class="item">
+                        <h:outputLabel value="CNPJ:" styleClass="titleInformation"/>
+                        <p:inputText styleClass="bgInput inputSmaller" disabled="true"
+                                     value="#{clienteFinalBean.clienteSelecionado.inscricaoFederal}" 
+                                     converter="convertCNPJ"/>
+                    </div>
+
+                    <div class="item">
+                        <h:outputLabel value="Telefone:" styleClass="titleInformation"/>
+                        <p:inputText styleClass="bgInput inputSmaller" disabled="true"
+                                     value="#{clienteFinalBean.clienteSelecionado.telefone}" 
+                                     converter="convertTelefone"/>
+                    </div>
+
+                    <div class="boxBtn btnIcon">
+                        <p:commandButton title="Alterar dados do Cliente" value="btnAlterar" 
+                                         styleClass="btnAlterar" 
+                                         action="#{clienteFinalBean.setClienteAlterar(true)}" 
+                                         onclick="confirmarAlterar.show()" />
+                        <p:commandButton title="Excluir Cliente" value="btnDelete" styleClass="btnDelete"
+                                         onclick="confirmarExcluir.show()" ajax="true" />
+                    </div>
+
+                    <div class="contentDialogForm">
+                        <div class="boxClouse" />
+                        <p:dialog header="Alterar dados do Cliente"
+                                  widgetVar="confirmarAlterar" modal="true" showEffect="fade"
+                                  hideEffect="fade" resizable="false" closable="true">
+                            <p:growl id="growl" showDetail="false" sticky="true" 
+                                     rendered="#{clienteFinalBean.clienteAlterar}" />
+
+                            <div class="item">
+                                <h:outputLabel for="razaoSocial" value="Razão Social:" />
+                                <p:inputText id="razaoSocial"
+                                             value="#{clienteFinalBean.clienteSelecionado.razaoSocial}"
+                                             required="true" 
+                                             requiredMessage="O campo Razão Social deve ser preenchido!" />
+                                <p:message for="razaoSocial"/>
+                            </div>
+
+                            <div class="item">
+                                <h:outputLabel for="cnpj" value="CNPJ:" />
+                                <p:inputMask id="cnpj"
+                                             styleClass="inputSmaller"
+                                             value="#{clienteFinalBean.clienteSelecionado.inscricaoFederal}"
+                                             required="true"
+                                             requiredMessage="O campo CNPJ deve ser preenchido!"
+                                             mask="99.999.999/9999-99"
+                                             converter="convertCNPJ" >
+                                    <f:validateLength minimum="14" />
+                                </p:inputMask>
+                                <p:message for="cnpj"/>
+                            </div>
+
+                            <div class="item">
+                                <h:outputLabel for="telefone" value="Telefone:" />
+                                <p:inputMask id="telefone"
+                                             styleClass="inputSmaller"
+                                             value="#{clienteFinalBean.clienteSelecionado.telefone}"
+                                             required="true"
+                                             requiredMessage="O campo Telefone deve ser preenchido!"
+                                             mask="(999) 9999-9999"
+                                             converter="convertTelefone" >
+                                    <f:validateLength minimum="11" />
+                                </p:inputMask>
+                                <p:message for="telefone"/>
+                            </div>
+
+                            <div class="boxBtn">
+                                <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
+                                <p:commandButton title="Salvar" value="Salvar"
+                                                 styleClass="btnBlue"
+                                                 actionListener="#{clienteFinalBean.alterarCliente()}"
+                                                 update="formContentEdit" />
+                            </div>
+                        </p:dialog>
+                    </div>
+                </h:form>
+            </p:panel>
+
+            <p:panel id="painelUsuario" rendered="#{!clienteFinalBean.novo}">
+                <div class="wrapper">
+                    <div class="titlePage">
+                        <h2>Dados do usuário</h2>
+                    </div>
+
+                    <div class="inputSearch">
+                        <input type="text" class="input-search" alt="lista-usuarios" placeholder="Buscar usuário..." />
+
+                        <div class="boxCadastro">
+                            <h:form id="formBuscar">
+                                <p:growl id="growl" showDetail="true" sticky="true"
+                                         rendered="#{!clienteFinalBean.clienteAlterar}"/>
+
+                                <p:commandButton action="#{clienteFinalBean.abrirNovoUsuario()}"
+                                                 value="Cadastrar Usuário">
+                                </p:commandButton>
+                            </h:form>
+                        </div>
+                    </div>
+
+                    <h:form id="formResult">
+                        <p:outputPanel id="pnlTabelaResult">
+
+                            <p:dataTable id="tableResultado" styleClass="lista-usuarios"
+                                         value="#{clienteFinalBean.listaUsuarios}" var="usuario">
+
+                                <p:column headerText="Matrícula" sortBy="#{usuario.idUsuario}">
+                                    <h:outputText value="#{usuario.idUsuario}" />
+                                </p:column>
+
+                                <p:column headerText="Nome" sortBy="#{usuario.nome}">
+                                    <h:outputText value="#{usuario.nome}" />
+                                </p:column>
+
+                                <p:column headerText="CPF">
+                                    <h:outputText value="#{usuario.cpf}" 
+                                                  converter="convertCPF"/>
+                                </p:column>
+
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton action="#{clienteFinalBean.abrirUsuario()}" styleClass="btnEdit btnTable" 
+                                                     title="Visualizar/Alterar dados do Usuário">
+                                        <f:setPropertyActionListener value="#{usuario}"
+                                                                     target="#{clienteFinalBean.usuarioSelecionado}" />
+
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton onclick="confirmarExcluirUsuario.show()" styleClass="btnDelete btnTable" 
+                                                     title="Excluir dados do Usuário">
+                                        <f:setPropertyActionListener value="#{usuario}"
+                                                                     target="#{clienteFinalBean.usuarioSelecionado}" />
+
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </h:form>
+                </div>
+            </p:panel>
+
+            <h:form id="excluir">
+                <p:confirmDialog
+                    message="Deseja realmente excluir esse Cliente? Esta ação não poderá ser desfeita."
+                    hideEffect="explode" header="Aviso" severity="alert"
+                    widgetVar="confirmarExcluir">
+                    <p:commandButton id="btnSim" value="Sim"
+                                     actionListener="#{clienteFinalBean.excluirCliente()}"
+                                     oncomplete="confirmarExcluir.hide()" />
+                    <p:commandButton id="btnNao" value="Não"
+                                     onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+                </p:confirmDialog>
             </h:form>
 
-            <p:separator />
+            <h:form id="excluirUsuario">
+                <p:confirmDialog
+                    message="Deseja realmente excluir esse Usuário? Esta ação não poderá ser desfeita."
+                    hideEffect="explode" header="Aviso" severity="alert"
+                    widgetVar="confirmarExcluirUsuario">
+                    <p:commandButton id="btnSim" value="Sim"
+                                     actionListener="#{clienteFinalBean.excluirUsuario()}"
+                                     oncomplete="confirmarExcluirUsuario.hide()" />
+                    <p:commandButton id="btnNao" value="Não"
+                                     onclick="confirmarExcluirUsuario.hide()" type="button" ajax="true" />
+                </p:confirmDialog>
+            </h:form>
 
-            <p:panel id="painelUsuario" header="Usuários"
-                     style="margin-bottom:5px;">
-                <h:form id="formUsuario">
-                    <p:outputPanel id="painelTabelaUsuario">
+        </div>
 
-                        <p:dataTable id="tabelaUsuario"
-                                     value="#{clienteFinalMB.listaUsuarios}" var="usuario">
-                            <p:column headerText="Nome">
-                                <h:outputText value="#{usuario.nome}" />
-                            </p:column>
-                            <p:column headerText="CPF">
-                                <h:outputText value="#{usuario.cpf}" />
-                            </p:column>
-                            <p:column headerText="RG">
-                                <h:outputText value="#{usuario.rg}" />
-                            </p:column>
-                            <p:column style="width:32px;text-align: center">
-                                <p:commandButton action="#{clienteFinalMB.abrirUsuario}"
-                                                 icon="ui-icon-search"
-                                                 title="Visualizar/Alterar dados do Usuario" ajax="false">
-                                    <f:setPropertyActionListener value="#{usuario}"
-                                                                 target="#{clienteFinalMB.usuarioSelecionado}" />
-                                </p:commandButton>
-
-                            </p:column>
-                        </p:dataTable>
-                        <p:commandButton title="Adicionar novo Usuário" icon="ui-icon-plus"
-                                         onclick="criarUsuario.show()" ajax="true" />
-                    </p:outputPanel>
-
-                </h:form>
-
-                <h:form id="usuario">
-                    <p:dialog header="Criar novo Usuário"
-                              widgetVar="criarUsuario" modal="true" showEffect="fade"
-                              hideEffect="fade" resizable="false">
-                        <h:panelGrid columns="2" cellpadding="5">
-
-                            <h:outputLabel for="nome" value="Nome:" />
-                            <p:inputText id="nome"
-                                         value="#{clienteFinalMB.novoUsuario.nome}"
-                                         required="true" />
-
-                            <h:outputLabel for="cpf" value="CPF:" />
-                            <p:inputText id="cpf"
-                                         value="#{clienteFinalMB.novoUsuario.cpf}"
-                                         required="true" />
-
-                            <h:outputLabel for="rg" value="RG" />
-                            <p:inputText id="rg"
-                                         value="#{clienteFinalMB.novoUsuario.rg}"
-                                         required="true" />
-
-                        </h:panelGrid>
-
-                        <p:commandButton title="Salvar" value="Salvar Usuário"
-                                         oncomplete="criarUsuario.hide();"
-                                         actionListener="#{clienteFinalMB.criarUsuario}"
-                                         update=":formCliente:growl :formUsuario:tabelaUsuario" />
-
-                    </p:dialog>
-                </h:form>
-
-            </p:panel>
-        </p:panel>
-
-
-
-        <h:form id="excluir">
-            <p:confirmDialog
-                message="Deseja realmente excluir este Cliente? Esta ação não poderá ser desfeita."
-                hideEffect="explode" header="Aviso" severity="alert"
-                widgetVar="confirmarExcluir">
-                <p:commandButton id="btnSim" value="Sim"
-                                 actionListener="#{clienteFinalMB.excluirCliente}"
-                                 oncomplete="confirmarExcluir.hide() operadorDialog.hide();" />
-                <p:commandButton id="btnNao" value="Não"
-                                 onclick="confirmarExcluir.hide()" type="button" />
-            </p:confirmDialog>
-        </h:form>
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
     </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+
+    <script type="text/javascript" src="js/jquery.quick.search.js"></script>
 </html>

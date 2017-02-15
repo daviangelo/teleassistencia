@@ -1,0 +1,704 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+
+        <title>Localização de Pacientes</title>
+        <!--<meta> Access-Control-Allow-Origin:*</meta>-->
+        <script type="text/javascript" src="#{request.contextPath}/dwr/engine.js"/>
+        <script type="text/javascript" src="#{request.contextPath}/dwr/interface/AtualizacaoAcompanhamento.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/dwr/interface/AtualizacaoPermissao.js"></script>
+
+        <link rel="stylesheet" href="#{request.contextPath}/css/ol.css" type="text/css"></link>
+        <script type="text/javascript" src="#{request.contextPath}/scripts/ol.js"></script>
+
+        <style type="text/css">
+            html, body { height: 100%; margin: 0; padding: 0; }
+            #map { 
+                position: absolute; 
+                height: 100%;
+                width: 100%;
+                margin: 0; padding: 0; 
+            }
+            .ol-popup {
+                position: absolute;
+                background-color: white;
+                -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid #cccccc;
+                bottom: 20px;
+                left: -50px;
+                min-width: 100px;                
+            }
+            .ol-popup:after, .ol-popup:before {
+                top: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+            .ol-popup:after {
+                border-top-color: white;
+                border-width: 10px;
+                left: 48px;
+                margin-left: -10px;
+            }
+            .ol-popup:before {
+                border-top-color: #cccccc;
+                border-width: 11px;
+                left: 48px;
+                margin-left: -11px;
+            }
+            .ol-popup-closer {
+                text-decoration: none;
+                position: absolute;
+                top: 2px;
+                right: 8px;
+            }
+            .ol-popup-closer:after {
+                content: "✖";
+            }
+            #divConfig {
+                position: inherit; 
+                text-align: right;  
+                float: left;
+                z-index: 99999998;
+                width:25px;
+            }
+            #divCarta {
+                position: inherit ; 
+                max-width:300px;
+                left: 65px ;
+                top:0px;
+                z-index: 99999998;
+                text-align: left; 
+            }
+            #divFiltro {
+                position: inherit ; 
+                max-width:300px;
+                left: 65px ;
+                top:0px;
+                z-index: 99999998;
+                text-align: left; 
+            }
+            #divAjuda {
+                position: inherit ; 
+                max-width:300px;
+                left: 65px ;
+                top:0px;
+                z-index: 99999998;
+                text-align: left; 
+            }
+
+            div.btAtualiza-carta {
+                float: right;
+                width: 10%;
+                position: relative;
+                padding-right: 15px;
+                padding-top:  calc(100% - 50px);
+            }
+            div.floating-menu {
+                float: left;
+                position:relative;
+                background:#f3f2f1;
+                width:100%;
+                opacity:0.5;
+                padding: 5px;
+            }
+            div.floating-menu:hover
+            {
+                opacity:1;
+            }
+            div.floating-menu a, div.floating-menu h4   {
+                display:block;
+                margin:0 0.5em;
+            }
+            .label{
+                cursor: pointer;
+            }
+            .button{
+                cursor: pointer;
+            }
+            #divIpqm {
+                position: inherit; 
+                float: left;
+                right: 5px ;
+                bottom:3px;
+                z-index: 99999998;
+                font-size: 12px;
+                width:138px;
+                color:white; 
+                text-shadow: 1px -1px black; 
+                opacity: 0.5;
+            }
+            #divIpqm:hover
+            {
+                opacity:1;
+            }
+            /*          Css para mostrar Escalas  
+                        .ol-scale-line, .ol-scale-line:not([ie8andbelow]) {
+                            background: #006DA3;
+                            padding: 5px;
+                        }
+                        .scale-line {
+                            position: inherit;
+                            top: 95%;
+                            left: 95%;
+                            z-index: 99999;
+                            
+                        }
+                        .ol-scale-line {
+                            position: relative;
+                            bottom: 0px;
+                            left: 0px;
+                        }*/
+        </style>
+
+    </h:head>
+
+    <h:body style="background-color:black" >
+        <noscript>
+            <center style="color:#FFF"><br/>Não é possível exibir o mapa, seu navegador está com o javascript desativado</center>
+        </noscript>
+        <div id="map" class="map">
+
+            <div id="divConfig">
+                <button id="btZoomIn" style="padding: 2px 2px 0 0;"  title="Zoom +">
+                    <img src="/servidorcentral/images/ic_mais_zoom.png" />
+                </button>
+                <button id="btZoomOut" style="padding: 2px 2px 0 0;" title="Zoom -">
+                    <img src="/servidorcentral/images/ic_menos_zoom.png" />
+                </button>
+                <button id="btLocaliza" style="padding: 2px 2px 0 0;" title="Centralizar">
+                    <img src="/servidorcentral/images/ic_location.png" />
+                </button>
+
+            </div>
+            <!--             <div id="scale-line" class="scale-line"></div>    -->
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>            
+            </div>
+            <div id="popup_mouse" class="ol-popup" style="opacity: 0.7;">
+                <div id="popup-mouse-content"></div>            
+            </div>
+        </div>
+
+
+        <script>
+
+            function errh(msg, exc) {
+                alert("Error message is: " + msg + " - Error Details: " + dwr.util.toDescriptiveString(exc, 2));
+            }
+
+            dwr.engine.setErrorHandler(errh);
+
+            //<![CDATA[          
+
+            verificaAutorizado();
+            var temporizadorAtualizacao = setInterval(verificaAutorizado, 30000);
+            /**
+             * Elementos necessarios para tratamento do Popup de features
+             */
+            var container = document.getElementById('popup');
+            var container_mouse = document.getElementById('popup_mouse');
+            var content = document.getElementById('popup-content');
+            var content_mouse = document.getElementById('popup-mouse-content');
+            var closer = document.getElementById('popup-closer');
+            var logoElement = document.createElement('a');
+            //logoElement.href = 'http://www.osgeo.org/';
+            logoElement.href = 'javascript:void(0)';
+            logoElement.title = 'Cisne WEB';
+            /**
+             * Create an overlay to anchor the popup to the map.
+             */
+            var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+                element: container,
+                autoPan: true,
+                autoPanAnimation: {
+                    duration: 250
+                }
+            }));
+            var overlay_mouse = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+                element: container_mouse,
+                autoPan: true,
+                autoPanAnimation: {
+                    duration: 250
+                }
+            }));
+            /**
+             * Add a click handler to hide the popup.
+             * @return {boolean} Don't follow the href.
+             */
+            closer.onclick = function () {
+                overlay.setPosition(undefined);
+                closer.blur();
+                return false;
+            };
+            var openStreetMapLayer = new ol.layer.Tile({
+                source: new ol.source.OSM({
+                    attributions: [
+                        new ol.Attribution({
+                            html: 'All maps &copy; ' +
+                                    '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'
+                        }),
+                        ol.source.OSM.ATTRIBUTION
+                    ],
+                    crossOrigin: null,
+                    url: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                })
+            });
+            var satellite = new ol.layer.Tile({
+                source: new ol.source.MapQuest({layer: 'sat'})
+            });
+            var layersMapQuest = new ol.layer.Group({
+                layers: [
+                    satellite,
+                    openStreetMapLayer
+                ]
+            });
+            var layersOSM = new ol.layer.Group({
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }),
+                    openStreetMapLayer
+                ]
+            });
+            var source = new ol.source.XYZ({
+                url: '/hidraweb/cartas?camada=ENC_BASEDAY&x={x}&z={z}&y={y}'
+            });
+            var layersXYZ = new ol.layer.Group({
+                layers: [
+                    new ol.layer.Tile({
+                        source: source
+                    })
+                ]
+            });
+            var layersMapa = [
+                layersOSM
+            ];
+            var map = new ol.Map({
+                layers: layersMapa,
+                target: 'map',
+//          No caso de visualizacao de escalas                
+//                controls: ol.control.defaults().extend([
+//                    new ol.control.ScaleLine({
+//                        className: 'ol-scale-line',
+//                        target: document.getElementById('scale-line'),
+//                        units: "nautical"
+//                    })
+//                ]),
+                controls: ol.control.defaults({
+                    rotate: false,
+                    attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                        collapsible: false
+                    })
+                }),
+                interactions: ol.interaction.defaults({
+                    altShiftDragRotate: false,
+                    pinchRotate: false
+                }),
+                view: new ol.View({
+                    center: ol.proj.transform([-43.1747817, -22.8998982], 'EPSG:4326', 'EPSG:3857'),
+                    zoom: 10
+                }),
+                overlays: [overlay, overlay_mouse]
+            });
+
+
+            /*
+             * Define se o balão de dica será exibido.
+             * @param {type} param
+             */
+            AtualizacaoPermissao.isCelular({
+                callback: function (celular) {
+
+                    if (!celular) {
+                        exibeBalaoDica();
+                    }
+
+                }
+            });
+
+
+            var featureHover = -1;
+            /**
+             * Exibe o balão da dica com pequenas informações ao passar o ponteiro 
+             * do mouse por cima do acompanhamento.
+             * @returns {undefined}
+             */
+            function  exibeBalaoDica() {
+                map.on('pointermove', function (evt) {
+                    var coordinates = evt.coordinate;
+
+                    var isFeature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                        if (feature) {
+                            if (featureHover == feature.getId()) {
+                                overlay_mouse.setPosition(coordinates);
+                            } else {
+                                featureHover = feature.getId();
+                                AtualizacaoAcompanhamento.getInfoFeatures(feature.getId(), true, {
+                                    callback: function (info) {
+                                        if (info != "") {
+                                            content_mouse.style.display = "";
+                                            content_mouse.innerHTML = info;
+                                            overlay_mouse.setPosition(coordinates);
+                                        }
+                                    }
+                                });
+                            }
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    if (!isFeature) {
+                        featureHover = -1;
+                        overlay_mouse.setPosition(undefined);
+                        content_mouse.innerHTML = "";
+                        content_mouse.style.display = "none";
+                        map.getViewport().style.cursor = "";
+                    } else {
+                        map.getViewport().style.cursor = "pointer";
+                    }
+                });
+            }
+
+            /**
+             * Funcao de clique no Acompanhamento para detalhe
+             */
+            map.on('singleclick', function (evt) {
+//                var coordinates = map.getEventCoordinate(evt.originalEvent);
+//                var feature = vectorSource.getClosestFeatureToCoordinate(coordinates);
+//                if (feature != undefined) {
+//                    AtualizacaoAcompanhamento.getInfoFeatures(feature.getId(), {
+//                        callback: function (info) {
+//                            if (info != "") {
+//                                content.innerHTML = '<p>' + info + '</p><code>';
+//                                // content.innerHTML = info;
+//                                overlay.setPosition(feature.getGeometry().getCoordinates());
+//                            }
+//                        }
+//                    });
+//                }
+
+                // Metodo para capturar clique em cima do ponto
+                overlay_mouse.setPosition(undefined);
+                var coordinates = evt.coordinate;
+                map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+
+                    AtualizacaoAcompanhamento.getInfoFeatures(feature.getId(), false, {
+                        callback: function (info) {
+                            if (info != "") {
+                                content.innerHTML = '<p>' + info + '</p>';
+                                overlay.setPosition(coordinates);
+                            }
+                        }
+                    });
+                });
+            });
+
+
+            var iconFeatures = [];
+            var vectorSource = new ol.source.Vector({
+                features: iconFeatures //add an array of features
+            });
+            var vectorLayer = new ol.layer.Vector({
+                map: map,
+                source: vectorSource
+            });
+
+
+
+            function precisao(precisao) {
+                var projection = map.getView().getProjection();
+                var resolutionAtEquator = map.getView().getResolution();
+                var center = map.getView().getCenter();
+                var pointResolution = projection.getPointResolution(resolutionAtEquator, center);
+                precisao = precisao / pointResolution;
+
+                valorPrecisao = precisao;
+
+                precisao = precisao > 11 ? precisao : 0.0;
+
+
+//                alert(precisao);
+                return precisao / pointResolution;
+            }
+
+            var circleStyle;
+            var circulo;
+
+            var atualizaFeatures = (function () {
+                var filtro = document.getElementsByName("checkFiltro");
+                var opcoesMarcadas = [];
+                var j = 0;
+                for (var i = 0; i < filtro.length; i++) {
+                    if (filtro[i].checked) {
+                        opcoesMarcadas[j] = filtro[i].value;
+                        j++;
+                    }
+                }
+
+
+                AtualizacaoAcompanhamento.desenharObjetos(opcoesMarcadas, boundingBox, {
+                    callback: function (itens) {
+                        //Limpa os Objetos
+                        vectorSource.clear();
+                        iconFeatures = [];
+                        var ID = 'ID';
+                        var NA = 'NA';
+                        var NOME = 'NOME';
+                        var RUMO = 'RUMO';
+                        var LONG = 'LONG';
+                        var LAT = 'LAT';
+                        var IMAGE = 'SRC';
+                        var PRECISAO = 'PREC';
+                        var OPACIDADE = 'OPAC';
+                        var HABILITADO = 'HAB';
+                        var atributosAcomp = {};
+                        for (i = 0; i < itens.length; i++) {
+                            atributosAcomp = itens[i];
+//                            if (!(atributosAcomp[HABILITADO])) {
+
+//                            console.log(itens[i]);
+                            var iconFeature = new ol.Feature({
+                                geometry: new ol.geom.Point(ol.proj.transform([parseFloat(atributosAcomp[LONG]), parseFloat(atributosAcomp[LAT])], 'EPSG:4326',
+                                        'EPSG:3857')),
+                                name: atributosAcomp[NA]
+                            });
+
+                            var texto = exibirTexto ? atributosAcomp[NOME] : "";
+                            var iconStyle = new ol.style.Style({
+                                text: new ol.style.Text({
+                                    text: texto,
+                                    textAlign: 'left',
+                                    offsetX: 10,
+                                    offsetY: 0,
+                                    scale: 1.2,
+                                    rotation: 0
+
+                                }),
+                                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                                    anchor: [0.5, 0.5],
+                                    anchorXUnits: 'fraction',
+                                    anchorYUnits: 'fraction',
+                                    opacity: parseFloat(atributosAcomp[OPACIDADE]),
+                                    rotation: atributosAcomp[RUMO],
+                                    src: atributosAcomp[IMAGE]
+                                }))
+                            });
+
+
+                            circulo = new ol.style.Circle({
+                                fill: new ol.style.Fill({
+                                    color: 'rgba(190,211,190,0.5)'
+                                }),
+                                snapToPixel: false,
+                                stroke: new ol.style.Stroke({
+                                    color: 'rgb(211,211,211)',
+                                    width: 3
+                                }),
+                                radius: precisao(parseFloat(atributosAcomp[PRECISAO]))
+                            });
+
+                            circleStyle = new ol.style.Style({
+                                image: circulo
+                            });
+
+
+
+                            if (parseFloat(atributosAcomp[PRECISAO]) != 0.0) {
+                                var styles = [
+                                    iconStyle,
+                                    circleStyle
+                                ];
+                                iconFeature.setStyle(styles);
+                            } else {
+                                iconFeature.setStyle(iconStyle);
+                            }
+                            iconFeature.setId(atributosAcomp[ID]);
+                            iconFeatures.push(iconFeature);
+                        }
+
+                        vectorSource.addFeatures(iconFeatures);
+                        vectorLayer.setSource(vectorSource);
+                    }
+                });
+            });
+
+            var exibirTexto;
+            var movimentacaoMapa = false;
+            var mudancaVisualizacaoTexto = false;
+            var isZoomOut;
+            var isZoom;
+
+            //Evento para quando a resolução é alterada. As Features são atualizadas 
+            //(não trata o caso de movimentação da carta).  
+            map.getView().on('propertychange', function (e) {
+                switch (e.key) {
+                    case 'center':
+                        movimentacaoMapa = true;
+                        break;
+                    case 'resolution':
+
+                        //identifica se é o zoom de exibir texto (15)
+                        mudancaVisualizacaoTexto = exibirTexto;
+                        exibirTexto = map.getView().getZoom() > 15;
+
+                        isZoomOut = zoom > map.getView().getZoom();
+
+                        if (exibirTexto) {
+//                            console.log("atualizando exibirTexto");
+                            atualizaFeatures();
+                        } else {
+                            if (isZoomOut) {
+                                atualizaBBox();
+                                atualizaFeatures();
+//                                console.log("atualizando zoomout");
+                            }
+                        }
+                        break;
+                }
+            });
+
+            /**
+             * Evento que ocorre de carta movida ou zoom;
+             */
+            map.on('moveend', function () {
+                atualizaBBox();
+                //identifica se é zoomout
+
+
+                //identifica se há mudança no zoom
+                isZoom = zoom != map.getView().getZoom();
+
+                zoom = map.getView().getZoom();
+
+                if (!isZoom) {
+                    if (movimentacaoMapa) {
+                        movimentacaoMapa = false;
+                        atualizaFeatures();
+//                        console.log('atualizando movendo carta');
+
+                    }
+                }
+
+            });
+
+            var boundingBox;
+
+            /*
+             * Atualiza a janela de visualização.
+             */
+
+            function atualizaBBox() {
+                var mapExtent = map.getView().calculateExtent(map.getSize());
+                boundingBox = ol.proj.transformExtent(mapExtent, 'EPSG:900913', 'EPSG:4326');
+            }
+
+            /*
+             * Inicia primeira atualização de boudingBox, features.
+             */
+            var zoom = map.getView().getZoom();
+            atualizaBBox();
+//            console.log("atualizacao inicial");
+            atualizaFeatures();
+
+
+            var refreshFeatures = function () {
+                window.setInterval(function () {
+//                    AtualizacaoAcompanhamento.verificaAlteracaoAcompanhamentos({
+//                        callback: function (refresh) {
+//                            if (refresh) {
+                    var centroAtual = map.getView().getCenter();
+                    var divEscala = document.getElementsByClassName("ol-scale-line-inner");
+                    for (i = 0; i < divEscala.length; i++) {
+                        var escala = divEscala[i];
+                    }
+//                    console.log("atualizacao 15 segundos");
+                    atualizaFeatures();
+//                            }
+//                        }
+//                    });
+                }, 15000);
+            };
+            refreshFeatures();
+            /**
+             * 
+             * Funcionalidades Zoom In / Zoon Out
+             * 
+             */
+            //Inibir o Zoon In Zoom out nativo
+            var divZoomOL = document.getElementsByClassName("ol-zoom ol-unselectable ol-control");
+            for (i = 0; i < divZoomOL.length; i++) {
+                var divZoomCOnfig = divZoomOL[i];
+            }
+            divZoomCOnfig.style.visibility = "hidden";
+            var zoomIn = document.getElementById("btZoomIn");
+            zoomIn.onclick = function () {
+                map.getView().setZoom(map.getView().getZoom() + 1);
+                return false;
+            };
+            var zoomOut = document.getElementById("btZoomOut");
+            zoomOut.onclick = function () {
+                map.getView().setZoom(map.getView().getZoom() - 1);
+                return false;
+            };
+            /** 
+             * Funcao para definir o centro baseado no celular de logon
+             * @param {type} lng
+             * @param {type} lat
+             * @returns {undefined}
+             */
+
+            var btCentraliza = document.getElementById("btLocaliza");
+            btCentraliza.onclick = function () {
+                AtualizacaoAcompanhamento.buscaLatitudeLongitudePrincipal({
+                    callback: function (latLong) {
+                        if (latLong["LONGITUDE"] != undefined) {
+                            centraliza(parseFloat(latLong["LONGITUDE"]), parseFloat(latLong["LATITUDE"]));
+                            return false;
+                        }
+                    }
+                });
+            };
+            function centraliza(lng, lat) {
+                map.getView().setCenter(transform(lng, lat));
+            }
+
+            function transform(lng, lat) {
+                return ol.proj.transform([lng, lat], 'EPSG:4326', 'EPSG:3857');
+            }
+
+            //Inibi o botao controle e atribuicao parea cada camada
+            var divAtrib = document.getElementsByClassName("ol-attribution ol-unselectable ol-control");
+            for (i = 0; i < divAtrib.length; i++) {
+                var divAtribAux = divAtrib[i];
+            }
+            divAtribAux.style.visibility = "hidden";
+
+            function logout() {
+                window.location.href = "/hidraweb/servLogout";
+            }
+
+            function verificaAutorizado() {
+
+                AtualizacaoPermissao.isSessaoAtiva({
+                    callback: function (sessaoAtiva) {
+                        if (!sessaoAtiva) {
+                            window.location.reload();
+                        }
+                    }
+                });
+
+            }
+            //]]>
+        </script>
+    </h:body>
+</html>

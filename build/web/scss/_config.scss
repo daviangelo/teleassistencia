@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+// Fonts
+$font1: 'Open Sans', sans-serif;
+
+// Color
+$bgLoginColor: #f1f1f1;
+$headerInterno: #9cd0ec;
+$colorFooter: rgb(100, 169, 159);
+
+$white: #fff;
+$black: #000;
+
+@mixin boxForm(){
+    form#formContent,
+    form#formContentEdit,
+    form#formContentEdition {
+        background: $white;
+        border: 1px solid #eaeaea;
+        max-width: 640px;
+        min-width: 570px;
+        height: auto;
+        padding: 20px 30px;
+        margin: 30px auto;    
+        .item {
+            width: 100%;
+            padding-bottom: 20px;
+            .ui-helper-hidden-accessible {
+                padding-top: 19px;
+                margin-left: -4px;
+            }
+            label {
+                width: 30%;
+                float: left;
+                font-family: $font1;
+                font-size: 15px;
+                text-align: left;
+                padding-top: 17px;
+            }
+            .ui-helper-hidden-accessible {
+                position: initial !important;
+            }
+            input[type="text"] {
+                width: 70%;
+                float: left;
+                border: 1px solid #ccc;
+                border-radius: 1px;
+                font-family: $font1;
+                padding: 8px;
+                margin-top: 10px; 
+                background: rgba(247, 247, 247, 0.36);
+                text-align: left;
+                &.bgInput {
+                    background: #dadada;
+                    cursor: no-drop;
+                }
+                &.inputSmaller {
+                    width: 30%;
+                }
+            }
+
+            textarea {
+                width: 70%;
+                height: 120px;
+                float: left;
+                border: 1px solid #ccc;
+                border-radius: 1px;
+                font-family: $font1;
+                padding: 8px;
+                background: rgba(247, 247, 247, 0.36);
+                text-align: left;
+            }
+
+            .ui-message {
+                float: left;
+                width: 99.4%;
+                margin: 0;
+            }
+        }
+
+        .boxBtn {
+            text-align: center;
+            margin: 0 auto;
+            width: 280px;
+
+            input {
+                float: left;
+            }
+
+            &.btnIcon {
+                button {
+                    float: none;
+                    display: inline-block;
+                    padding: 11px 34px 0;
+
+                    &.visible {
+                        display: none;
+                        &.active {
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .btn-back {
+                margin-left: 10px;
+                float: right;
+                padding: 8.5px;
+                &.visible {
+                    display: none;
+                    float: right;
+                    &.active {
+                        display: block
+                    }
+                }
+            }
+
+            .btnAlterar {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-edit.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
+                }
+            }
+
+            .btnDelete {
+                float: right;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                &:before {
+                    content: "";
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: url(../images/icon-delete.png) no-repeat top center;
+                    background-size: 100%;
+                }
+                span {
+                    display: none;
+                }
+            }
+        }
+
+
+    }
+}

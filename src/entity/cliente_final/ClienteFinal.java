@@ -2,6 +2,7 @@ package entity.cliente_final;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,27 +15,29 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import persistence.dao.DAOClienteFinal;
 
 /**
- * Presenta o cliente final.
+ * Representa o cliente final.
  *
- * @author Davi
+ * @author Davi Lessa
  *
  */
 @Entity
 @Table(name = "cliente_final")
 public class ClienteFinal implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     private int idClienteFinal;
     private String inscricaoFederal;
-    private String inscricaoEstadual;
     private String razaoSocial;
     private String telefone;
 
     private Set<Usuario> usuarios = new HashSet<>();
-    private Set<Equipamento> equipamentos = new HashSet<>();
+
+    private static DAOClienteFinal daoCliente;
 
     /**
      * Construtor obrigatório para o Hibernate.
@@ -43,16 +46,12 @@ public class ClienteFinal implements Serializable {
 
     }
 
-    public ClienteFinal(String inscricaoFederal, String inscricaoEstadual,
-            String razaoSocial, String telefone, Set<Usuario> usuarios,
-            Set<Equipamento> equipamentos) {
+    public ClienteFinal(String inscricaoFederal,
+            String razaoSocial, String telefone, Set<Usuario> usuarios) {
         super();
-        this.inscricaoFederal = inscricaoFederal;
-        this.inscricaoEstadual = inscricaoEstadual;
         this.razaoSocial = razaoSocial;
         this.telefone = telefone;
         this.usuarios = usuarios;
-        this.equipamentos = equipamentos;
     }
 
     @Id
@@ -66,11 +65,6 @@ public class ClienteFinal implements Serializable {
     @Column(name = "inscricao_federal")
     public String getInscricaoFederal() {
         return inscricaoFederal;
-    }
-
-    @Column(name = "inscricao_estadual")
-    public String getInscricaoEstadual() {
-        return inscricaoEstadual;
     }
 
     @Column(name = "razao_social")
@@ -88,21 +82,12 @@ public class ClienteFinal implements Serializable {
         return usuarios;
     }
 
-    @OneToMany(mappedBy = "clienteFinal", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    public Set<Equipamento> getEquipamentos() {
-        return equipamentos;
-    }
-
     public void setIdClienteFinal(int idClienteFinal) {
         this.idClienteFinal = idClienteFinal;
     }
 
     public void setInscricaoFederal(String inscricaoFederal) {
         this.inscricaoFederal = inscricaoFederal;
-    }
-
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
     }
 
     public void setRazaoSocial(String razaoSocial) {
@@ -117,8 +102,84 @@ public class ClienteFinal implements Serializable {
         this.usuarios = usuarios;
     }
 
-    public void setEquipamentos(Set<Equipamento> equipamentos) {
-        this.equipamentos = equipamentos;
+    @Transient
+    private static DAOClienteFinal getDAOCliente() {
+        if (daoCliente == null) {
+            daoCliente = new DAOClienteFinal();
+        }
+        return daoCliente;
+    }
+
+    /**
+     * Obtém a lista com todos os clientes finais salvos no banco de dados.
+     *
+     * @return
+     * @throws Exception
+     */
+    public static List<ClienteFinal> obterClientes() throws Exception {
+
+        return getDAOCliente().listarTodos();
+    }
+
+    /**
+     * Obtém a lista com todos os clientes finais salvos no banco de dados
+     * correspondentes com a palavra pesquisada.
+     *
+     * @param palavra Palavara a ser buscada.
+     * @return
+     * @throws Exception
+     */
+    public static List<ClienteFinal> pesquisar(String palavra) throws Exception {
+
+        return getDAOCliente().pesquisa(palavra);
+    }
+
+    /**
+     * Salva um novo cliente final no banco de dados.
+     *
+     * @param clienteFinal
+     *
+     * @throws Exception
+     */
+    public static void criar(ClienteFinal clienteFinal) throws Exception {
+
+        getDAOCliente().criar(clienteFinal);
+    }
+
+    /**
+     * Obtém o cliente final salvos no banco de dados correspondentes com o
+     * idClienteFinal pesquisado.
+     *
+     * @param idClienteFinal
+     * @return
+     * @throws Exception
+     */
+    public static ClienteFinal obterClientePorID(int idClienteFinal) throws Exception {
+
+        return getDAOCliente().listarPorID(idClienteFinal);
+    }
+
+    /**
+     * Apaga um cliente do banco de dados.
+     *
+     * @param clienteFinal
+     *
+     * @throws Exception
+     */
+    public static void apagar(ClienteFinal clienteFinal) throws Exception {
+
+        getDAOCliente().apagar(clienteFinal);
+    }
+
+    /**
+     * Atualiza os dados de um cliente final do banco de dados.
+     *
+     * @param clienteFinal
+     *
+     * @throws Exception
+     */
+    public static void atualizar(ClienteFinal clienteFinal) throws Exception {
+        getDAOCliente().atualizar(clienteFinal);
     }
 
 }

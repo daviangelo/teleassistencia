@@ -1,66 +1,104 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <link type="text/css" rel="stylesheet" href="css/style.css" />
+        <title>Clientes</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
     </h:head>
 
-    <h:body styleClass="body searchClient">
-         
-        <p:breadCrumb>
-            <p:menuitem value="Home" title="Página principal" url="/home.xhtml" />
-            <p:menuitem value="Registros" url="/registro.xhtml" />
-            <p:menuitem value="Clientes" url="/buscacliente.xhtml" />
-            <p:menuitem value="Novo Cliente" url="/novocliente.xhtml" />
-        </p:breadCrumb>
-        <p:panel header="Clientes">
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
 
-            <h:form id="formBuscar">
-                <p:growl id="growl" showDetail="true" sticky="true" />
-                <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
-                    <p:inputText value="#{clienteFinalMB.campoBusca}" />
+        <div class="wrapper">
+            <div class="inputSearch">
+                <input type="text" class="input-search" alt="lista-cliente" placeholder="Buscar cliente..." />
 
-                    <p:commandButton value="Pesquisar" icon="ui-icon-search">
-                        <p:ajax event="click" listener="#{clienteFinalMB.buscarClientes}"
-                                process="formBuscar"
-                                update=":formResult:tableResultado formBuscar" />
-                    </p:commandButton>
+                <div class="boxCadastro">
+                    <h:form id="formBuscar">
+                        <p:growl id="growl" showDetail="true" sticky="true" />
 
-
-                </h:panelGrid>
-            </h:form>
-
-
-
+                        <p:commandButton action="#{clienteFinalBean.abrirNovoCliente()}"
+                                         value="Cadastrar Cliente">
+                        </p:commandButton>
+                    </h:form>
+                </div>
+            </div>
 
             <h:form id="formResult">
                 <p:outputPanel id="pnlTabelaResult">
 
-                    <p:dataTable id="tableResultado"
-                                 value="#{clienteFinalMB.listaClientes}" var="cliente">
-                        <p:column headerText="Nome">
-                            <h:outputText value="#{cliente.razaoSocial}" />
-                        </p:column>
-                        <p:column headerText="CNPJ">
-                            <h:outputText value="#{cliente.inscricaoFederal}" />
-                        </p:column>
-                        <p:column headerText="Matrícula">
+                    <p:dataTable id="tableResultado" styleClass="lista-cliente"
+                                 value="#{clienteFinalBean.listaClientes}" var="cliente">
+
+                        <p:column headerText="Matrícula" sortBy="#{cliente.idClienteFinal}">
                             <h:outputText value="#{cliente.idClienteFinal}" />
                         </p:column>
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{clienteFinalMB.abrirCliente}"
-                                             icon="ui-icon-search" title="Visualizar/Alterar dados do Cliente">
-                                <f:setPropertyActionListener value="#{cliente}"
-                                                             target="#{clienteFinalMB.clienteSelecionado}" />
-                            </p:commandButton>
 
+                        <p:column headerText="Razão Social">
+                            <h:outputText value="#{cliente.razaoSocial}" />
+                        </p:column>
+
+                        <p:column headerText="CNPJ">
+                            <h:outputText value="#{cliente.inscricaoFederal}" 
+                                          converter="convertCNPJ"/>
+                        </p:column>
+
+                        <p:column headerText="Telefone">
+                            <h:outputText value="#{cliente.telefone}" 
+                                          converter="convertTelefone"/>
+                        </p:column>
+
+                        <p:column style="width:32px; text-align:center">
+                            <p:commandButton action="#{clienteFinalBean.abrirCliente()}" styleClass="btnEdit btnTable" 
+                                             title="Visualizar/Alterar dados do Cliente">
+                                <f:setPropertyActionListener value="#{cliente}"
+                                                             target="#{clienteFinalBean.clienteSelecionado}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
+                                             title="Excluir dados do Cliente">
+                                <f:setPropertyActionListener value="#{cliente}"
+                                                             target="#{clienteFinalBean.clienteSelecionado}" />
+
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
-        </p:panel>
+        </div>
 
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir esse Cliente? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{clienteFinalBean.excluirCliente()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+            </p:confirmDialog>
+        </h:form>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
     </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+
+    <script type="text/javascript" src="js/jquery.quick.search.js"></script>
 </html>
