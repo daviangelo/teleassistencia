@@ -33,15 +33,12 @@
             <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/Usuario.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/crud/PulseiraBean.java</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosprestador.xhtml</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/cliente_final/ClienteFinal.java</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadospulseira.xhtml</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/cliente_final/Pulseira.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosprestadorusuario.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadoscliente.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/crud/ClienteFinalBean.java</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosusuario.xhtml</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/buscacliente.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadospulseirausuario.xhtml</file>
         </group>
     </open-files>
 </project-private>

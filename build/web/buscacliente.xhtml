@@ -26,7 +26,7 @@
                     <h:form id="formBuscar">
                         <p:growl id="growl" showDetail="true" sticky="true" />
 
-                        <p:commandButton action="#{clienteFinalBean.abrirNovoCliente()}"
+                        <p:commandButton action="#{clienteFinalBean.abrirCliente(true)}"
                                          value="Cadastrar Cliente">
                         </p:commandButton>
                     </h:form>
@@ -58,7 +58,7 @@
                         </p:column>
 
                         <p:column style="width:32px; text-align:center">
-                            <p:commandButton action="#{clienteFinalBean.abrirCliente()}" styleClass="btnEdit btnTable" 
+                            <p:commandButton action="#{clienteFinalBean.abrirCliente(false)}" styleClass="btnEdit btnTable" 
                                              title="Visualizar/Alterar dados do Cliente">
                                 <f:setPropertyActionListener value="#{cliente}"
                                                              target="#{clienteFinalBean.clienteSelecionado}" />

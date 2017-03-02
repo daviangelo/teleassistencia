@@ -23,8 +23,10 @@
             <div class="titlePage">
                 <h2>Dados do cliente</h2>
             </div>
+            
+            <p:growl id="growl" showDetail="#{clienteFinalBean.showDetail}" sticky="true"/>
 
-            <p:panel id="painelNovoCliente" rendered="#{clienteFinalBean.novo}">
+            <p:panel id="painelNovoCliente" rendered="#{clienteFinalBean.clienteNovo}">
                 <h:form id="formContent"> 
                     <div class="item">
                         <h:outputLabel for="razaoSocial" value="Razão Social:" />
@@ -65,14 +67,14 @@
 
                     <div class="boxBtn">
                         <h:commandButton title="Salvar" value="Salvar"
-                                         action="#{clienteFinalBean.criarCliente}" />
+                                         action="#{clienteFinalBean.salvarCliente()}" />
 
                         <a href="/servidorcentral/buscacliente.xhtml" class="btn-back">Cancelar</a>
                     </div>
                 </h:form>
             </p:panel>
 
-            <p:panel id="painelCliente" rendered="#{!clienteFinalBean.novo}">
+            <p:panel id="painelCliente" rendered="#{!clienteFinalBean.clienteNovo}">
                 <h:form id="formContentEdit"> 
                     <div class="item">
                         <h:outputLabel value="Razão Social:" styleClass="titleInformation"/>
@@ -97,7 +99,6 @@
                     <div class="boxBtn btnIcon">
                         <p:commandButton title="Alterar dados do Cliente" value="btnAlterar" 
                                          styleClass="btnAlterar" 
-                                         action="#{clienteFinalBean.setClienteAlterar(true)}" 
                                          onclick="confirmarAlterar.show()" />
                         <p:commandButton title="Excluir Cliente" value="btnDelete" styleClass="btnDelete"
                                          onclick="confirmarExcluir.show()" ajax="true" />
@@ -108,8 +109,6 @@
                         <p:dialog header="Alterar dados do Cliente"
                                   widgetVar="confirmarAlterar" modal="true" showEffect="fade"
                                   hideEffect="fade" resizable="false" closable="true">
-                            <p:growl id="growl" showDetail="false" sticky="true" 
-                                     rendered="#{clienteFinalBean.clienteAlterar}" />
 
                             <div class="item">
                                 <h:outputLabel for="razaoSocial" value="Razão Social:" />
@@ -152,7 +151,7 @@
                                 <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
                                 <p:commandButton title="Salvar" value="Salvar"
                                                  styleClass="btnBlue"
-                                                 actionListener="#{clienteFinalBean.alterarCliente()}"
+                                                 actionListener="#{clienteFinalBean.salvarCliente()}"
                                                  update="formContentEdit" />
                             </div>
                         </p:dialog>
@@ -160,10 +159,10 @@
                 </h:form>
             </p:panel>
 
-            <p:panel id="painelUsuario" rendered="#{!clienteFinalBean.novo}">
+            <p:panel id="painelUsuario" rendered="#{!clienteFinalBean.clienteNovo}">
                 <div class="wrapper">
                     <div class="titlePage">
-                        <h2>Dados dos usuários</h2>
+                        <h2>Usuários</h2>
                     </div>
 
                     <div class="inputSearch">
@@ -171,10 +170,7 @@
 
                         <div class="boxCadastro">
                             <h:form id="formBuscar">
-                                <p:growl id="growl" showDetail="true" sticky="true"
-                                         rendered="#{!clienteFinalBean.clienteAlterar}"/>
-
-                                <p:commandButton action="#{clienteFinalBean.abrirNovoUsuario()}"
+                                <p:commandButton action="#{clienteFinalBean.abrirUsuario(true)}"
                                                  value="Cadastrar Usuário">
                                 </p:commandButton>
                             </h:form>
@@ -201,7 +197,7 @@
                                 </p:column>
 
                                 <p:column style="width:32px;text-align: center">
-                                    <p:commandButton action="#{clienteFinalBean.abrirUsuario()}" styleClass="btnEdit btnTable" 
+                                    <p:commandButton action="#{clienteFinalBean.abrirUsuario(false)}" styleClass="btnEdit btnTable" 
                                                      title="Visualizar/Alterar dados do Usuário">
                                         <f:setPropertyActionListener value="#{usuario}"
                                                                      target="#{clienteFinalBean.usuarioSelecionado}" />

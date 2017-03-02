@@ -24,6 +24,8 @@
                 <h2>Dados do Usuário</h2>
             </div>
 
+            <p:growl id="growl" showDetail="#{clienteFinalBean.showDetail}" sticky="true"/>
+
             <p:panel id="painelNovoUsario" rendered="#{clienteFinalBean.usuarioNovo}">
                 <h:form id="formContent">  
                     <div class="item">
@@ -66,8 +68,8 @@
                     </div>
 
                     <div class="boxBtn">
-                        <h:commandButton title="Salvar" value="Salvar"
-                                         action="#{clienteFinalBean.criarUsuario()}" />
+                        <h:commandButton title="Salvar" value="Salvar" 
+                                         action="#{clienteFinalBean.salvarUsuario()}" />
 
                         <a href="/servidorcentral/dadoscliente.xhtml" class="btn-back">Cancelar</a>
                     </div>
@@ -98,7 +100,8 @@
 
                     <div class="boxBtn btnIcon">
                         <p:commandButton title="Alterar dados do Usuário" value="btnAlterar" 
-                                         styleClass="btnAlterar" onclick="confirmarAlterar.show()" />
+                                         styleClass="btnAlterar" onclick="confirmarAlterar.show()"
+                                         action="#{clienteFinalBean.setShowDetail(false)}"/>
                         <p:commandButton title="Excluir Usuário" value="btnDelete" styleClass="btnDelete"
                                          onclick="confirmarExcluir.show()" ajax="true" />
                     </div>
@@ -108,8 +111,6 @@
                         <p:dialog header="Alterar dados do Usuário"
                                   widgetVar="confirmarAlterar" modal="true" showEffect="fade"
                                   hideEffect="fade" resizable="false" closable="true">
-                            <p:growl id="growl" showDetail="false" sticky="true"/>
-
                             <div class="item">
                                 <h:outputLabel for="nome" value="Nome:" />
                                 <p:inputText id="nome"
@@ -152,7 +153,7 @@
                                 <a href="/servidorcentral/dadoscliente.xhtml" class="btn-back">Cancelar</a>
                                 <p:commandButton title="Salvar" value="Salvar"
                                                  styleClass="btnBlue"
-                                                 actionListener="#{clienteFinalBean.alterarUsuario()}"
+                                                 actionListener="#{clienteFinalBean.salvarUsuario()}"
                                                  update="formContentEdit" />
                             </div>
                         </p:dialog>
@@ -160,20 +161,36 @@
                 </h:form>
             </p:panel>
 
-            <p:panel id="painelPulseiras">
+            <h:form id="excluir">
+                <p:confirmDialog
+                    message="Deseja realmente excluir esse Usuário? Esta ação não poderá ser desfeita."
+                    hideEffect="explode" header="Aviso" severity="alert"
+                    widgetVar="confirmarExcluir">
+                    <p:commandButton id="btnSim" value="Sim"
+                                     actionListener="#{clienteFinalBean.excluirUsuario()}"
+                                     oncomplete="confirmarExcluir.hide()" />
+                    <p:commandButton id="btnNao" value="Não"
+                                     onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+                </p:confirmDialog>
+            </h:form>
+
+            <p:panel id="painelPulseiras" rendered="#{!clienteFinalBean.usuarioNovo}">
                 <div class="titlePage">
                     <h2>Pulseiras</h2>
                 </div>
 
                 <div class="inputSearch">
-                    <input type="text" class="input-search" alt="lista-pulseira" placeholder="Buscar pulseira..." />
+                    <input type="text" class="input-search" alt="lista-pulseira" placeholder="Buscar pulseira associada..." />
 
                     <div class="boxCadastro">
-                        <h:form id="formBuscar">
-                            <p:growl id="growl" showDetail="true" sticky="true"/>
+                        <h:form id="formBuscarPulseira">
+                            <p:commandButton title="Cadastrar pulseira" value="Cadastrar" ajax="true" 
+                                             styleClass="btn-pageUser"
+                                             action="#{clienteFinalBean.abrirPulseira(true)}">
+                            </p:commandButton>
 
                             <p:commandButton title="Associar pulseira" value="Associar" ajax="true" 
-                                             styleClass="btn-associar" onclick="associarPulseira.show()"
+                                             styleClass="btn-associar btn-pageUser" onclick="associarPulseira.show()"
                                              rendered="#{not empty clienteFinalBean.listaPulseirasDisponiveis}"/>
                         </h:form>
                     </div>
@@ -197,18 +214,19 @@
                             </p:column>
 
                             <p:column style="width:32px; text-align:center">
-                                <p:commandButton action="#{pulseiraBean.abrirPulseira()}" styleClass="btnEdit btnTable" 
+                                <p:commandButton action="#{clienteFinalBean.abrirPulseira(false)}" 
+                                                 styleClass="btnEdit btnTable" 
                                                  title="Visualizar/Alterar dados da Pulseira">
                                     <f:setPropertyActionListener value="#{pulseira}"
-                                                                 target="#{pulseiraBean.pulseiraSelecionada}" />
+                                                                 target="#{clienteFinalBean.pulseiraSelecionada}" />
                                 </p:commandButton>
                             </p:column>
 
                             <p:column style="width:32px;text-align: center">
                                 <p:commandButton onclick="confirmarExcluirPulseira.show()" styleClass="btnDelete btnTable" 
-                                                 title="Excluir Associação" ajax="true" icon="ui-icon-trash">
+                                                 title="Excluir Associação" icon="ui-icon-trash">
                                     <f:setPropertyActionListener value="#{pulseira}"
-                                                                 target="#{pulseiraBean.pulseiraSelecionada}" />
+                                                                 target="#{clienteFinalBean.pulseiraSelecionada}" />
 
                                 </p:commandButton>
                             </p:column>
@@ -216,45 +234,21 @@
                     </p:panel>
                 </h:form>
 
-            </p:panel>
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <p:dialog header="Associar Pulseiras à Usuário"
+                              widgetVar="associarPulseira" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false" closable="false"  rendered="false">
+                        <h:form id="formDragAndDropPulseira">
+                            <p:fieldset id="campoPulseirasDisponiveis" legend="Pulseiras Disponiveis">
+                                <p:dataTable id="pulseirasDisponiveis" var="pulseira" 
+                                             value="#{clienteFinalBean.listaPulseirasDisponiveis}">
 
+                                    <p:column style="width:20px">
+                                        <h:outputText id="dragIconPulseira" styleClass="ui-icon ui-icon-arrow-4" />
+                                        <p:draggable for="dragIconPulseira" revert="true" helper="clone"/>
+                                    </p:column>
 
-
-
-            <div class="contentDialogForm">
-                <div class="boxClouse" />
-                <p:dialog header="Associar Pulseiras à Usuário"
-                          widgetVar="associarPulseira" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false" closable="false" >
-                    <h:form id="formDragAndDropPulseira">
-                        <p:fieldset id="campoPulseirasDisponiveis" legend="Pulseiras Disponiveis">
-                            <p:dataTable id="pulseirasDisponiveis" var="pulseira" 
-                                         value="#{clienteFinalBean.listaPulseirasDisponiveis}">
-                                
-                                <p:column style="width:20px">
-                                    <h:outputText id="dragIconPulseira" styleClass="ui-icon ui-icon-arrow-4" />
-                                    <p:draggable for="dragIconPulseira" revert="true" helper="clone"/>
-                                </p:column>
-
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{pulseira.idPulseira}" />
-                                </p:column>
-
-                                <p:column headerText="Código">
-                                    <h:outputText value="#{pulseira.codigoIdentificador}" />
-                                </p:column>
-
-                                <p:column headerText="Uso Liberado">
-                                    <h:outputText value="#{pulseira.status}" />
-                                </p:column>
-
-                            </p:dataTable>
-                        </p:fieldset>
-
-                        <p:fieldset id="pulseirasSelecionadas" legend="Pulseiras Selecionadas" style="margin-top:20px">
-                            <p:outputPanel id="dropAreaPulseira">
-                                <h:outputText value="!!!Solte aqui!!!" rendered="#{empty clienteFinalBean.listaPulseirasSelecionadas}" style="font-size:24px;" />
-                                <p:dataTable id="pulseirasSelecionadasTabela" var="pulseira" value="#{clienteFinalBean.listaPulseirasSelecionadas}" rendered="#{not empty clienteFinalBean.listaPulseirasSelecionadas}">
                                     <p:column headerText="Id">
                                         <h:outputText value="#{pulseira.idPulseira}" />
                                     </p:column>
@@ -266,45 +260,150 @@
                                     <p:column headerText="Uso Liberado">
                                         <h:outputText value="#{pulseira.status}" />
                                     </p:column>
+
                                 </p:dataTable>
-                            </p:outputPanel>
-                        </p:fieldset>
+                            </p:fieldset>
 
-                        <p:droppable for="pulseirasSelecionadas" tolerance="touch" 
-                                     activeStyleClass="ui-state-highlight" 
-                                     datasource="pulseirasDisponiveis" onDrop="handleDrop">
-                            <p:ajax listener="#{clienteFinalBean.onPulseiraDrop}" 
-                                    update="dropAreaPulseira pulseirasDisponiveis" />
-                        </p:droppable>
+                            <p:fieldset id="pulseirasSelecionadas" legend="Pulseiras Selecionadas" style="margin-top:20px">
+                                <p:outputPanel id="dropAreaPulseira">
+                                    <h:outputText value="!!!Solte aqui!!!" rendered="#{empty clienteFinalBean.listaPulseirasSelecionadas}" style="font-size:24px;" />
+                                    <p:dataTable id="pulseirasSelecionadasTabela" var="pulseira" value="#{clienteFinalBean.listaPulseirasSelecionadas}" rendered="#{not empty clienteFinalBean.listaPulseirasSelecionadas}">
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{pulseira.idPulseira}" />
+                                        </p:column>
+
+                                        <p:column headerText="Código">
+                                            <h:outputText value="#{pulseira.codigoIdentificador}" />
+                                        </p:column>
+
+                                        <p:column headerText="Uso Liberado">
+                                            <h:outputText value="#{pulseira.status}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:outputPanel>
+                            </p:fieldset>
+
+                            <p:droppable for="pulseirasSelecionadas" tolerance="touch" 
+                                         activeStyleClass="ui-state-highlight" 
+                                         datasource="pulseirasDisponiveis" onDrop="handleDrop">
+                                <p:ajax listener="#{clienteFinalBean.onPulseiraDrop}" 
+                                        update="dropAreaPulseira pulseirasDisponiveis" />
+                            </p:droppable>
 
 
-                        <p:commandButton title="Salvar" value="Associar Pulseiras Selecionadas"
-                                         oncomplete="alterarPulseira.hide();"
-                                         actionListener="#{clienteFinalBean.associarPulseira}"
-                                         update=":formPulseira :formDragAndDropPulseira" ajax="false" />
-                        <p:commandButton title="Cancelar" value="Cancelar associação"
-                                         oncomplete="alterarPulseira.hide();"
-                                         actionListener="#{clienteFinalBean.preparaDialogPulseiras}"
-                                         update=":formPulseira :formDragAndDropPulseira"   ajax="false" />
+                            <p:commandButton title="Salvar" value="Associar Pulseiras Selecionadas"
+                                             oncomplete="alterarPulseira.hide();"
+                                             actionListener="#{clienteFinalBean.associarPulseira}"
+                                             update=":formPulseira :formDragAndDropPulseira" ajax="false" />
+                            <p:commandButton title="Cancelar" value="Cancelar associação"
+                                             oncomplete="alterarPulseira.hide();"
+                                             actionListener="#{clienteFinalBean.preparaDialogPulseiras}"
+                                             update=":formPulseira :formDragAndDropPulseira"   ajax="false" />
 
-                    </h:form>
-                </p:dialog>
-            </div>
+                        </h:form>
+                    </p:dialog>
+                </div>
 
-            <h:form id="excluir">
-                <p:confirmDialog
-                    message="Deseja realmente excluir esse Usuário? Esta ação não poderá ser desfeita."
-                    hideEffect="explode" header="Aviso" severity="alert"
-                    widgetVar="confirmarExcluir">
-                    <p:commandButton id="btnSim" value="Sim"
-                                     actionListener="#{clienteFinalBean.excluirUsuario()}"
-                                     oncomplete="confirmarExcluir.hide()" />
-                    <p:commandButton id="btnNao" value="Não"
-                                     onclick="confirmarExcluir.hide()" type="button" ajax="true" />
-                </p:confirmDialog>
-            </h:form>
+                <h:form id="excluirPulseira"> 
+                    <p:confirmDialog
+                        message="Deseja realmente excluir a associação com essa Pulseira? Esta ação não poderá ser desfeita."
+                        hideEffect="explode" header="Aviso" severity="alert"
+                        styleClass="lightboColor"
+                        widgetVar="confirmarExcluirPulseira">
+                        <p:commandButton id="btnSim" value="Sim" title="Excluir associação"
+                                         actionListener="#{clienteFinalBean.desassociarPulseira()}"
+                                         oncomplete="confirmarExcluir.hide()" />
+                        <p:commandButton id="btnNao" value="Não" title="Cancelar exclusão"
+                                         onclick="confirmarExcluirPulseira.hide()" type="button"  ajax="true"/>
+                    </p:confirmDialog>
+                </h:form>
+            </p:panel>
 
+            <p:panel id="painelPrestadores" rendered="#{!clienteFinalBean.usuarioNovo}">
+                <div class="titlePage">
+                    <h2>Prestadores</h2>
+                </div>
+
+                <div class="inputSearch">
+                    <input type="text" class="input-search" alt="lista-prestador" placeholder="Buscar prestador associado..." />
+
+                    <div class="boxCadastro">
+                        <h:form id="formBuscarPrestador">
+                            <p:commandButton title="Cadastrar prestador" value="Cadastrar" ajax="true" 
+                                             styleClass="btn-pageUser"
+                                             action="#{clienteFinalBean.abrirPrestador(true)}">
+                            </p:commandButton>
+
+                            <p:commandButton title="Associar prestador" value="Associar" ajax="true" 
+                                             styleClass="btn-associar btn-pageUser" onclick="associarPrestador.show()"
+                                             rendered="#{not empty clienteFinalBean.listaPrestadoresDisponiveis}"/>
+                        </h:form>
+                    </div>
+                </div>
+
+                <h:form id="formPrestador">
+                    <p:panel style="margin-bottom:5px;">
+                        <p:dataTable id="tabelaPrestador" styleClass="lista-prestador"                                 
+                                     value="#{clienteFinalBean.listaPrestadoresExibicao}" var="prestador">
+
+                            <p:column headerText="Matrícula" sortBy="#{prestador.idPrestadorSocorro}">
+                                <h:outputText value="#{prestador.idPrestadorSocorro}" />
+                            </p:column>
+
+                            <p:column headerText="Nome" sortBy="#{prestador.nome}">
+                                <h:outputText value="#{prestador.nome}" />
+                            </p:column>
+
+                            <p:column headerText="Telefone">
+                                <h:outputText value="#{prestador.telefone}" 
+                                              converter="convertTelefone"/>
+                            </p:column>
+
+                            <p:column style="width:32px; text-align:center">
+                                <p:commandButton action="#{clienteFinalBean.abrirPrestador(false)}" 
+                                                 styleClass="btnEdit btnTable" 
+                                                 title="Visualizar/Alterar dados do Prestador">
+                                    <f:setPropertyActionListener value="#{prestador}"
+                                                                 target="#{clienteFinalBean.prestadorSelecionado}" />
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton onclick="confirmarExcluirPrestador.show()" styleClass="btnDelete btnTable" 
+                                                 title="Excluir Associação" icon="ui-icon-trash">
+                                    <f:setPropertyActionListener value="#{prestador}"
+                                                                 target="#{clienteFinalBean.prestadorSelecionado}" />
+
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+                <h:form id="excluirPrestador"> 
+                    <p:confirmDialog
+                        message="Deseja realmente excluir a associação com esse Prestador? Esta ação não poderá ser desfeita."
+                        hideEffect="explode" header="Aviso" severity="alert"
+                        styleClass="lightboColor"
+                        widgetVar="confirmarExcluirPrestador">
+                        <p:commandButton id="btnSim" value="Sim" title="Excluir associação"
+                                         actionListener="#{clienteFinalBean.desassociarPrestador()}"
+                                         oncomplete="confirmarExcluir.hide()" />
+                        <p:commandButton id="btnNao" value="Não" title="Cancelar exclusão"
+                                         onclick="confirmarExcluirPrestador.hide()" type="button"  ajax="true"/>
+                    </p:confirmDialog>
+                </h:form>
+            </p:panel>
         </div>
+
+        <!--<div class="box-list">
+            <h:form>
+                <h3 style="margin-top: 0">Basic PickList</h3>
+                <p:pickList id="pickList" value="#{clienteFinalBean.dualListPrestador}" var="prestador" itemLabel="#{prestador.nome}" itemValue="#{prestador.idPrestadorSocorro}" />
+
+                <p:commandButton id="salvarAssociacao" value="Salvar" action="#{clienteFinalBean.associarPrestador()}" style="margin-top:5px" />
+            </h:form>
+        </div>-->
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

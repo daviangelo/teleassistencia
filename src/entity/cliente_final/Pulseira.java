@@ -132,7 +132,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static List<Pulseira> obterDesassociadas() throws Exception {
-
         return getDAOPulseira().obterDesassociadas();
     }
     

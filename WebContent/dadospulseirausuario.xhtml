@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Dados Pulseira</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
+    </h:head>
+
+    <h:body class="newObjectAll">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+
+        <div class="titlePage">
+            <h2>Dados da pulseira</h2>
+        </div>
+
+        <p:growl id="growl" showDetail="false" sticky="true" />
+
+        <p:panel id="painelNovaPulseira" rendered="#{clienteFinalBean.pulseiraNova}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="codigoId" value="Código Identificador:" />
+                    <p:inputText id="codigoId"
+                                 value="#{clienteFinalBean.pulseiraSelecionada.codigoIdentificador}"
+                                 required="true" 
+                                 requiredMessage="O campo Código Identificador deve ser preenchido!" />
+                    <p:message for="codigoId"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="liberadaUso" value="Liberada para Uso:" />
+                    <p:selectBooleanCheckbox  id="liberadaUso"
+                                              value="#{clienteFinalBean.pulseiraSelecionada.liberadaUso}" />
+                    <p:message for="liberadaUso"/>
+                </div>
+
+                <div class="boxBtn">
+                    <h:commandButton title="Salvar nova Pulseira" value="Salvar"
+                                     action="#{clienteFinalBean.salvarPulseira()}" />
+
+                    <a href="/servidorcentral/dadosusuario.xhtml" title="Cancelar cadastro" class="btn-back">Cancelar</a>
+                </div>
+            </h:form>
+        </p:panel>
+
+        <p:panel id="painelPulseira" rendered="#{!clienteFinalBean.pulseiraNova}">
+            <h:form id="formContentEdit"> 
+                <div class="item">
+                    <h:outputLabel value="Código Identificador:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 value="#{clienteFinalBean.pulseiraSelecionada.codigoIdentificador}" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel value="Uso Liberado:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput inputSmaller" disabled="true"
+                                 value="#{clienteFinalBean.pulseiraSelecionada.status}" />
+                </div>
+
+                <div class="boxBtn btnIcon">
+                    <p:commandButton title="Alterar dados da Pulseira" value="btnAlterar" 
+                                     styleClass="btnAlterar" onclick="confirmarAlterar.show()" ajax="true" />
+                    <p:commandButton title="Excluir associação de Usuário com essa Pulseira" value="btnDelete" styleClass="btnDelete"
+                                     onclick="confirmarExcluir.show()" ajax="true" />     
+                </div>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <p:dialog header="Alterar dados da Pulseira"
+                              widgetVar="confirmarAlterar" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false" closable="true">
+                        <div class="item">
+                            <h:outputLabel for="codigoId" value="Código Identificador:" />
+                            <p:inputText id="codigoId"
+                                         value="#{clienteFinalBean.pulseiraSelecionada.codigoIdentificador}"
+                                         required="true" 
+                                         requiredMessage="O campo Código Identificador deve ser preenchido!" />
+                            <p:message for="codigoId"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="liberadaUso" value="Liberada para Uso:" />
+                            <p:selectBooleanCheckbox  id="liberadaUso"
+                                                      value="#{clienteFinalBean.pulseiraSelecionada.liberadaUso}" />
+                            <p:message for="liberadaUso"/>
+                        </div>
+
+                        <div class="boxBtn">
+                            <a href="/servidorcentral/dadosusuario.xhtml" title="Cancelar alterações" 
+                               class="btn-back">Cancelar</a>
+                            <p:commandButton title="Salvar alterações" value="Salvar"
+                                             styleClass="btnBlue"
+                                             actionListener="#{clienteFinalBean.salvarPulseira()}"
+                                             update="formContentEdit" />
+                        </div>
+                    </p:dialog>
+                </div>                
+            </h:form>
+        </p:panel>
+
+        <h:form id="excluir"> 
+            <p:confirmDialog
+                message="Deseja realmente excluir a associação com essa Pulseira? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim" title="Excluir associação"
+                                 actionListener="#{clienteFinalBean.desassociarPulseira()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não" title="Cancelar exclusão"
+                                 onclick="confirmarExcluir.hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
+    </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+</html>

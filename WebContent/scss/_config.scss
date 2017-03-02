@@ -14,7 +14,8 @@ $black: #000;
 @mixin boxForm(){
     form#formContent,
     form#formContentEdit,
-    form#formContentEdition {
+    form#formContentEdition,
+    .contentDialogForm.user {
         background: $white;
         border: 1px solid #eaeaea;
         max-width: 640px;

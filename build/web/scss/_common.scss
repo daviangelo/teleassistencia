@@ -14,6 +14,14 @@ form#excluirUsuario {
     }
 }
 
+.lightboColor {
+    background: $white;
+    box-shadow: none; 
+    left: 27% !important;
+    top: 24% !important;
+    padding: 10px;
+}
+
 // clouse lightbox
 .ui-dialog-titlebar-close {
     width: 17px;
@@ -157,7 +165,16 @@ form#excluir {
     text-align: center;
     border-radius: 2px;
     color: $white;
-    
+    &.btn-pageUser {
+        padding: 5px;
+        margin-top: 0;
+        background: red;
+        &.btn-associar {
+            background: #ccc;
+            margin-left: 20px;
+            padding: 9px 23px;
+        }
+    }
     &.btn-associar {
         padding: 9px 30px;
         margin-top: 0;
@@ -298,7 +315,8 @@ body.login {
 
 //Table register Client
 #formResult,
-#formPulseira{
+#formPulseira,
+#formPrestador{
     .ui-panel-content {
         padding: 0;
     }
@@ -330,7 +348,8 @@ body.login {
                         }
                         td {
                             border: none;
-                            padding: 13px 10px;
+                            padding: 10px;
+                            vertical-align: middle;
                             font-family: $font1;
                             font-size: 14px;
                             color: #1d1d1d;
@@ -353,6 +372,7 @@ body.login {
                                     }
                                 }
                                 &.btnDelete{
+                                    margin-top: 0;
                                     &:before {
                                         background: url(../images/icon-delete.png) no-repeat top center;
                                         background-size: 100%;

@@ -83,7 +83,7 @@ public class PrestadorSocorroBean {
 //
 //            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
         novo = false;
-
+        
         // Redirecionando
         FacesContext faces = FacesContext.getCurrentInstance();
         ExternalContext context = faces.getExternalContext();

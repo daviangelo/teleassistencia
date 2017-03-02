@@ -77,13 +77,13 @@ public class RegistroMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro no Login!", "Usuário não encontrado ou senha inválida!"));
+                            "Usuário não encontrado ou senha inválida!", "Erro no Login!"));
             System.out.println(lista);
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro no Login!", "Usuário não encontrado ou senha inválida!"));
+                            "Usuário não encontrado ou senha inválida!", "Erro no Login!"));
         }
 
     }

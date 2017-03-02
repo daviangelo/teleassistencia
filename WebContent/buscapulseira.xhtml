@@ -26,7 +26,7 @@
                     <h:form id="formBuscar">
                         <p:growl id="growl" showDetail="true" sticky="true" />
 
-                        <p:commandButton action="#{pulseiraBean.abrirNovaPulseira()}"
+                        <p:commandButton action="#{pulseiraBean.abrirNovaPulseira()}" title="Cadastrar pulseira"
                                          value="Cadastrar Pulseira">
                         </p:commandButton>
                     </h:form>
@@ -56,6 +56,15 @@
                                              title="Visualizar/Alterar dados da Pulseira">
                                 <f:setPropertyActionListener value="#{pulseira}"
                                                              target="#{pulseiraBean.pulseiraSelecionada}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
+                                             title="Excluir dados da Pulseira">
+                                <f:setPropertyActionListener value="#{pulseira}"
+                                                             target="#{pulseiraBean.pulseiraSelecionada}" />
+
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>

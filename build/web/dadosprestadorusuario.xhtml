@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Dados Prestador</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
+    </h:head>
+
+    <h:body class="newObjectAll">
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+
+        <div class="titlePage">
+            <h2>Dados do prestador</h2>
+        </div>
+        
+        <p:growl id="growl" showDetail="false" sticky="true" />
+
+        <p:panel id="painelNovoPrestador" rendered="#{clienteFinalBean.prestadorNovo}">
+            <h:form id="formContent"> 
+                <div class="item">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome"
+                                 value="#{clienteFinalBean.prestadorSelecionado.nome}"
+                                 required="true" 
+                                 requiredMessage="O campo Nome deve ser preenchido!" />
+                    <p:message for="nome"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="telefone" value="Telefone:" />
+                    <p:inputMask id="telefone"
+                                 styleClass="inputSmaller"
+                                 value="#{clienteFinalBean.prestadorSelecionado.telefone}"
+                                 required="true"
+                                 requiredMessage="O campo Telefone deve ser preenchido!"
+                                 mask="(999) 9999-9999"
+                                 converter="convertTelefone" >
+                        <f:validateLength minimum="11" />
+                    </p:inputMask>
+                    <p:message for="telefone"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel for="descricao" value="Descriçao" />
+                    <p:inputTextarea id="descricao"
+                                     value="#{clienteFinalBean.prestadorSelecionado.descricao}"
+                                     required="true" 
+                                     requiredMessage="O campo Descrição deve ser preenchido!" />
+                    <p:message for="descricao"/>
+                </div>
+
+                <div class="boxBtn">
+                    <h:commandButton title="Salvar" value="Salvar"
+                                     action="#{clienteFinalBean.salvarPrestador()}" />
+
+                    <a href="/servidorcentral/dadosusuario.xhtml" class="btn-back">Cancelar</a>
+                </div>
+            </h:form>
+        </p:panel>
+
+        <p:panel id="painelPrestador" rendered="#{!clienteFinalBean.prestadorNovo}">
+            <h:form id="formContentEdit"> 
+                <div class="item">
+                    <h:outputLabel value="Nome:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 value="#{clienteFinalBean.prestadorSelecionado.nome}" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel value="Telefone:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 value="#{clienteFinalBean.prestadorSelecionado.telefone}" 
+                                 converter="convertTelefone"/>
+                </div>
+
+                <div class="item">
+                    <h:outputLabel value="Descrição:" styleClass="titleInformation"/>
+                    <p:inputText styleClass="bgInput" disabled="true"
+                                 value="#{clienteFinalBean.prestadorSelecionado.descricao}" />
+                </div>
+
+                <div class="boxBtn btnIcon">
+                    <p:commandButton title="Alterar dados do Prestador" value="btnAlterar" 
+                                     styleClass="btnAlterar" onclick="confirmarAlterar.show()" />
+                    <p:commandButton title="Excluir associação de Usuário com esse Prestador" value="btnDelete" styleClass="btnDelete"
+                                     onclick="confirmarExcluir.show()" ajax="true" />   
+                </div>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <p:dialog header="Alterar dados do Prestador de Socorro"
+                              widgetVar="confirmarAlterar" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false" closable="true">
+                        <p:growl id="growl" showDetail="false" sticky="true" />
+
+                        <div class="item">
+                            <h:outputLabel for="nome" value="Nome:" />
+                            <p:inputText id="nome"
+                                         value="#{clienteFinalBean.prestadorSelecionado.nome}"
+                                         required="true" 
+                                         requiredMessage="O campo Nome deve ser preenchido!" />
+                            <p:message for="nome"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="telefone" value="Telefone:" />
+                            <p:inputMask id="telefone"
+                                         styleClass="inputSmaller"
+                                         value="#{clienteFinalBean.prestadorSelecionado.telefone}"
+                                         required="true"
+                                         requiredMessage="O campo Telefone deve ser preenchido!"
+                                         mask="(999) 9999-9999"
+                                         converter="convertTelefone" >
+                                <f:validateLength minimum="11" />
+                            </p:inputMask>
+                            <p:message for="telefone"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="descricao" value="Descrição:" />
+                            <p:inputTextarea id="descricao"
+                                             value="#{clienteFinalBean.prestadorSelecionado.descricao}"
+                                             required="true" 
+                                             requiredMessage="O campo Descrição deve ser preenchido!" />
+                            <p:message for="descricao"/>
+                        </div>
+
+                        <div class="boxBtn">
+                            <a href="/servidorcentral/dadosusuario.xhtml" class="btn-back">Cancelar</a>
+                            <p:commandButton title="Salvar" value="Salvar"
+                                             styleClass="btnBlue"
+                                             actionListener="#{clienteFinalBean.salvarPrestador()}"
+                                             update="formContentEdit" />
+                        </div>
+                    </p:dialog>
+                </div>
+            </h:form>
+        </p:panel>
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir a associação com esse Prestador? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{clienteFinalBean.desassociarPrestador()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+            </p:confirmDialog>
+        </h:form>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
+    </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+</html>

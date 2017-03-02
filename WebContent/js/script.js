@@ -78,15 +78,30 @@ var global = {
             $('.ui-dialog').removeClass('active');
         });
 
-        $('.contentDialogForm .boxClouse, .ui-dialog-titlebar-close').on('click', function (event) {
+        $('.contentDialogForm .boxClouse, .ui-dialog-titlebar-close, .btn-cancelar').on('click', function (event) {
             event.preventDefault();
             $('.contentDialogForm .boxClouse').removeClass('active');
             $('.ui-dialog').addClass('active');
             $('#excluir').removeClass('active');
         });
     },
+    
+    sessionStore: function() {
+        function includStorage(nameCidade) {
+            sessionStorage.setItem('cidade', nameCidade);
+        }
+        
+        $('.login .ui-button').on('click', function (event) {
+            var nameUser = $('input#j_idt8:nomeUsuario').val();
+            includStorage(nameUser);
+            if(!$('input#j_idt8:nomeUsuario') == "" && !$('input#j_idt8:senha') == "") {
+            }
+        });
+    },
+    
     init: function () {
         global.profileHeader();
+        global.sessionStore();
     }
 }
 

@@ -20,6 +20,8 @@
         <div class="titlePage">
             <h2>Dados da pulseira</h2>
         </div>
+        
+        <p:growl id="growl" showDetail="false" sticky="true" />
 
         <p:panel id="painelNovaPulseira" rendered="#{pulseiraBean.nova}">
             <h:form id="formContent"> 
@@ -81,8 +83,6 @@
                     <p:dialog header="Alterar dados da Pulseira"
                               widgetVar="confirmarAlterar" modal="true" showEffect="fade"
                               hideEffect="fade" resizable="false" closable="true">
-                        <p:growl id="growl" showDetail="false" sticky="true" />
-
                         <div class="item">
                             <h:outputLabel for="codigoId" value="Código Identificador:" />
                             <p:inputText id="codigoId"
@@ -117,7 +117,7 @@
                 hideEffect="explode" header="Aviso" severity="alert"
                 widgetVar="confirmarExcluir">
                 <p:commandButton id="btnSim" value="Sim"
-                                 actionListener="#{pulseiraBean.excluirPulseira}"
+                                 actionListener="#{pulseiraBean.excluirPulseira()}"
                                  oncomplete="confirmarExcluir.hide()" />
                 <p:commandButton id="btnNao" value="Não"
                                  onclick="confirmarExcluir.hide()" type="button" />

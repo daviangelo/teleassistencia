@@ -21,6 +21,8 @@
         <div class="titlePage">
             <h2>Dados do prestador</h2>
         </div>
+        
+        <p:growl id="growl" showDetail="false" sticky="true" />
 
         <p:panel id="painelNovoPrestador" rendered="#{prestadorSocorroBean.novo}">
             <h:form id="formContent"> 
@@ -98,8 +100,6 @@
                     <p:dialog header="Alterar dados do Prestador de Socorro"
                               widgetVar="confirmarAlterar" modal="true" showEffect="fade"
                               hideEffect="fade" resizable="false" closable="true">
-                        <p:growl id="growl" showDetail="false" sticky="true" />
-
                         <div class="item">
                             <h:outputLabel for="nome" value="Nome:" />
                             <p:inputText id="nome"
