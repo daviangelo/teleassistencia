@@ -1,5 +1,6 @@
 package entity.cliente_final;
 
+import entity.Registro;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -32,12 +33,12 @@ public class Usuario implements Serializable {
     private String nome;
     private String cpf;
     private String rg;
-    private GeographicalCoordinate ultimaLocalizacao;
 
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
-    private Set<Pulseira> pulseiras;
+    private Set<Pulseira> pulseiras = new HashSet<>();
     private static DAO<Usuario> daoUsuario;
+    private Registro ultimoRegistro; 
 
     public Usuario() {
     }
@@ -83,7 +84,7 @@ public class Usuario implements Serializable {
     public Set<Pulseira> getPulseiras() {
         return pulseiras;
     }
-
+    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_prestador_socorro", joinColumns = 
      {@JoinColumn(name = "id_usuario")},inverseJoinColumns =
@@ -121,14 +122,13 @@ public class Usuario implements Serializable {
     }
 
     @Transient
-    public GeographicalCoordinate getUltimaLocalizacao() {
-        return ultimaLocalizacao;
+    public Registro getUltimoRegistro() {
+        return ultimoRegistro;
     }
 
-    public void setUltimaLocalizacao(GeographicalCoordinate ultimaLocalizacao) {
-        this.ultimaLocalizacao = ultimaLocalizacao;
+    public void setUltimoRegistro(Registro ultimoRegistro) {
+        this.ultimoRegistro = ultimoRegistro;
     }
-    
     
 
     @Transient

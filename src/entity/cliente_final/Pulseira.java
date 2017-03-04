@@ -1,18 +1,23 @@
 package entity.cliente_final;
 
+import entity.Registro;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import persistence.dao.DAO;
 import persistence.dao.DAOPulseira;
 
 /**
@@ -30,6 +35,7 @@ public class Pulseira implements Serializable {
     private String codigoIdentificador;
     private boolean liberadaUso;
     private Usuario usuario;
+    private Set<Registro> registros = new HashSet<>();
     private static DAOPulseira daoPulseira;
 
     /**
@@ -78,6 +84,15 @@ public class Pulseira implements Serializable {
         this.usuario = usuario;
     }
 
+    @OneToMany(mappedBy = "pulseira", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    public Set<Registro> getRegistros() {
+        return registros;
+    }
+
+    public void setRegistros(Set<Registro> registros) {
+        this.registros = registros;
+    }
+
     @Transient
     public String getStatus() {
         return isLiberadaUso() ? "Sim" : "Não";
@@ -113,8 +128,8 @@ public class Pulseira implements Serializable {
 
         getDAOPulseira().atualizar(pulseira);
     }
-    
-     /**
+
+    /**
      * Obtém a lista com todos os pulseiras salvos no banco de dados.
      *
      * @return
@@ -124,8 +139,8 @@ public class Pulseira implements Serializable {
 
         return getDAOPulseira().listarTodos();
     }
-    
-     /**
+
+    /**
      * Obtém a lista com todos as pulseiras dessasociadas a usuário.
      *
      * @return
@@ -134,7 +149,7 @@ public class Pulseira implements Serializable {
     public static List<Pulseira> obterDesassociadas() throws Exception {
         return getDAOPulseira().obterDesassociadas();
     }
-    
+
     /**
      * Obtém a lista com todos os pulseiras salvos no banco de dados
      * correspondentes com a palavra pesquisada.
@@ -147,7 +162,7 @@ public class Pulseira implements Serializable {
 
         return getDAOPulseira().pesquisa(palavra);
     }
-    
+
     /**
      * Salva um novo pulseira no banco de dados.
      *
