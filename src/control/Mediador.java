@@ -11,7 +11,6 @@ import entity.Registro;
 import entity.cliente_final.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import positioning.GeographicalCoordinate;
 
 /**
  * Singleton que guardará a instância mediando ações do sistema.
@@ -30,14 +29,6 @@ public class Mediador {
     private Mediador() {
         registros = new ArrayList<>();
         usuariosAtivos = new ArrayList<>();
-//        try {
-//           Usuario usuario =  Usuario.obterUsuarioPorID(1);
-//           usuario.setUltimaLocalizacao(new GeographicalCoordinate(-22.896988, -43.344143, System.currentTimeMillis()));
-//           getUsuariosAtivos().add(usuario);
-//           
-//        } catch (Exception ex) {
-//            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, "Erro carregar usuario", ex);
-//        }
     }
 
     /**

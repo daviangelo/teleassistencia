@@ -1,20 +1,20 @@
 package dwr;
 
 import control.Mediador;
+import entity.Registro;
 import entity.cliente_final.Pulseira;
 import entity.cliente_final.Usuario;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.collections.ComparatorUtils;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 import positioning.BoundingBox;
@@ -32,7 +32,7 @@ public class AtualizacaoAcompanhamento {
      * Identificacao dos dados da Feature
      */
     public enum CAMPO {
-        
+
         ID,
         NOME,
         CODIGO,
@@ -83,9 +83,9 @@ public class AtualizacaoAcompanhamento {
 
             for (Usuario usuario : Mediador.getInstance().getUsuariosAtivos()) {
                 Map item = new HashMap();
-                if (!janelaExibicao.intercepta(usuario.getUltimaLocalizacao())) {
-                    continue;
-                }
+//                if (!janelaExibicao.intercepta(usuario.getUltimaLocalizacao())) {
+//                    continue;
+//                }
                 if (campos.contains(CAMPO.ID)) {
                     item.put(CAMPO.ID.toString(), String.valueOf(usuario.getIdUsuario()));
                 }
@@ -95,24 +95,33 @@ public class AtualizacaoAcompanhamento {
                 }
 
                 if (campos.contains(CAMPO.LAT)) {
-                    item.put(CAMPO.LAT.toString(), String.valueOf(usuario.getUltimaLocalizacao().getLatitude()));
+                    item.put(CAMPO.LAT.toString(), String.valueOf(usuario.getUltimoRegistro().getLatitude()));
                 }
 
                 if (campos.contains(CAMPO.LONG)) {
-                    item.put(CAMPO.LONG.toString(), String.valueOf(usuario.getUltimaLocalizacao().getLongitude()));
+                    item.put(CAMPO.LONG.toString(), String.valueOf(usuario.getUltimoRegistro().getLongitude()));
                 }
 
                 if (campos.contains(CAMPO.SRC)) {
-                    //@TODO Icones conforme o alerta de emergência
-                    item.put(CAMPO.SRC.toString(), pathImage += "/images/veiculoBasic.png");
+                    for (Pulseira pulseira : usuario.getPulseiras()) {
+                        if (pulseira.isLiberadaUso()) {
+                            if (usuario.getUltimoRegistro().isQueda() || usuario.getUltimoRegistro().isSocorro()){
+                                item.put(CAMPO.SRC.toString(), pathImage += "/images/usuarioAlerta.png");
+                            } else{
+                                item.put(CAMPO.SRC.toString(), pathImage += "/images/usuarioNormal.png");
+                            }
+                        }
+                        
+                    }
+                    
 
                 }
-                
+
                 if (campos.contains(CAMPO.CODIGO)) {
-                    for (Pulseira pulseira: usuario.getPulseiras()){
-                        if (pulseira.isLiberadaUso()){
-                            
-                           item.put(CAMPO.CODIGO.toString(), pulseira.getCodigoIdentificador());
+                    for (Pulseira pulseira : usuario.getPulseiras()) {
+                        if (pulseira.isLiberadaUso()) {
+
+                            item.put(CAMPO.CODIGO.toString(), pulseira.getCodigoIdentificador());
                         }
                     }
                 }
@@ -124,7 +133,7 @@ public class AtualizacaoAcompanhamento {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+             Logger.getLogger(AtualizacaoAcompanhamento.class.getName()).log(Level.SEVERE, "Erro ao atualizar acompanhamentos", ex);
         }
 
         return retorno;
@@ -148,19 +157,25 @@ public class AtualizacaoAcompanhamento {
             for (Usuario usuario : Mediador.getInstance().getUsuariosAtivos()) {
 
                 if (usuario.getIdUsuario() == Integer.valueOf(id)) {
-                    
+
                     usuario.getPulseiras().stream().filter((pulseira) -> (pulseira.isLiberadaUso())).forEach((pulseira) -> {
                         request.setAttribute("codigoPulseira", pulseira.getCodigoIdentificador());
+
+                        
+
+                        request.setAttribute("temperatura", usuario.getUltimoRegistro().getTemperatura());
+                        request.setAttribute("batimentos", usuario.getUltimoRegistro().getBatimentos());
+                        request.setAttribute("queda", usuario.getUltimoRegistro().isQueda() ? "Sim" : "Não");
+                        request.setAttribute("socorro", usuario.getUltimoRegistro().isSocorro() ? "Sim" : "Não");
+
                     });
 
                     request.setAttribute("nomeUsuario", usuario.getNome());
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
-                    request.setAttribute("horarioAtualizacao", sdf.format(usuario.getUltimaLocalizacao().getHorario()));
+                    request.setAttribute("horarioAtualizacao", sdf.format(usuario.getUltimoRegistro().getHorario()));
 
-                    request.setAttribute("coordenadaGeografica", String.valueOf(usuario.getUltimaLocalizacao().toString()));
-                    
-                
+                    request.setAttribute("coordenadaGeografica", getLatLongToString(usuario) );
 
                 }
             }
@@ -173,7 +188,8 @@ public class AtualizacaoAcompanhamento {
     }
 
     public String getLatLongToString(Usuario usuario) {
-        return usuario.getUltimaLocalizacao().toString();
+       GeographicalCoordinate gc = new GeographicalCoordinate(usuario.getUltimoRegistro().getLatitude(), usuario.getUltimoRegistro().getLongitude());
+        return gc.toString();
     }
 
     /**
@@ -187,9 +203,9 @@ public class AtualizacaoAcompanhamento {
 
         if (Mediador.getInstance().getUsuariosAtivos().size() == 1) {
             Usuario usuario = (Usuario) Mediador.getInstance().getUsuariosAtivos().get(0);
-                    
-                    retorno.put("LONGITUDE", String.valueOf(usuario.getUltimaLocalizacao().getLongitude()));
-                    retorno.put("LATITUDE", String.valueOf(usuario.getUltimaLocalizacao().getLatitude()));
+
+            retorno.put("LONGITUDE", String.valueOf(usuario.getUltimoRegistro().getLongitude()));
+            retorno.put("LATITUDE", String.valueOf(usuario.getUltimoRegistro().getLatitude()));
         }
 
         return retorno;
