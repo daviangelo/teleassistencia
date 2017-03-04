@@ -55,7 +55,6 @@ public class DAOPulseira extends DAO<Pulseira>{
 				criteria.list());
 
 		return lista;
-
 	}
     
 }

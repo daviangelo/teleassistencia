@@ -19,8 +19,10 @@
         </ui:insert>
 
         <div class="titlePage">
-            <h2>Dados da prestador</h2>
+            <h2>Dados do prestador</h2>
         </div>
+        
+        <p:growl id="growl" showDetail="false" sticky="true" />
 
         <p:panel id="painelNovoPrestador" rendered="#{prestadorSocorroBean.novo}">
             <h:form id="formContent"> 
@@ -36,12 +38,13 @@
                 <div class="item">
                     <h:outputLabel for="telefone" value="Telefone:" />
                     <p:inputMask id="telefone"
+                                 styleClass="inputSmaller"
                                  value="#{prestadorSocorroBean.novoPrestador.telefone}"
                                  required="true"
                                  requiredMessage="O campo Telefone deve ser preenchido!"
                                  mask="(999) 9999-9999"
                                  converter="convertTelefone" >
-                        <f:validateLength minimum="15" />
+                        <f:validateLength minimum="11" />
                     </p:inputMask>
                     <p:message for="telefone"/>
                 </div>
@@ -69,16 +72,12 @@
                 <div class="item">
                     <h:outputLabel value="Nome:" styleClass="titleInformation"/>
                     <p:inputText styleClass="bgInput" disabled="true"
-                                 required="true" 
-                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
                                  value="#{prestadorSocorroBean.prestadorSelecionado.nome}" />
                 </div>
 
                 <div class="item">
                     <h:outputLabel value="Telefone:" styleClass="titleInformation"/>
                     <p:inputText styleClass="bgInput" disabled="true"
-                                 required="true" 
-                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
                                  value="#{prestadorSocorroBean.prestadorSelecionado.telefone}" 
                                  converter="convertTelefone"/>
                 </div>
@@ -86,20 +85,61 @@
                 <div class="item">
                     <h:outputLabel value="Descrição:" styleClass="titleInformation"/>
                     <p:inputText styleClass="bgInput" disabled="true"
-                                 required="true" 
-                                 requiredMessage="O campo Código Identificador deve ser preenchido!"
                                  value="#{prestadorSocorroBean.prestadorSelecionado.descricao}" />
                 </div>
 
                 <div class="boxBtn btnIcon">
-                    <p:commandButton title="Alterar dados da Pulseira" value="btnAlterar" 
-                                     styleClass="btnAlterar" ajax="true" />
-                    <p:commandButton title="Excluir" value="btnExcluir" styleClass="btnExcluir"
-                                     onclick="confirmarExcluir.show()" ajax="true" />      
-                    <a href="/servidorcentral/buscapulseira.xhtml" class="btn-back visible">Cancelar</a>
-                    <p:commandButton title="Salvar alterações dos dados da Pulseira" value="Salvar" 
-                                     action="#{pulseiraBean.alterarPulseira}"
-                                     styleClass="btnBlue visible" />
+                    <p:commandButton title="Alterar dados do Prestador" value="btnAlterar" 
+                                     styleClass="btnAlterar" onclick="confirmarAlterar.show()" />
+                    <p:commandButton title="Excluir Prestador" value="btnDelete" styleClass="btnDelete"
+                                     onclick="confirmarExcluir.show()" ajax="true" />   
+                </div>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <p:dialog header="Alterar dados do Prestador de Socorro"
+                              widgetVar="confirmarAlterar" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false" closable="true">
+                        <div class="item">
+                            <h:outputLabel for="nome" value="Nome:" />
+                            <p:inputText id="nome"
+                                         value="#{prestadorSocorroBean.prestadorSelecionado.nome}"
+                                         required="true" 
+                                         requiredMessage="O campo Nome deve ser preenchido!" />
+                            <p:message for="nome"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="telefone" value="Telefone:" />
+                            <p:inputMask id="telefone"
+                                         styleClass="inputSmaller"
+                                         value="#{prestadorSocorroBean.prestadorSelecionado.telefone}"
+                                         required="true"
+                                         requiredMessage="O campo Telefone deve ser preenchido!"
+                                         mask="(999) 9999-9999"
+                                         converter="convertTelefone" >
+                                <f:validateLength minimum="11" />
+                            </p:inputMask>
+                            <p:message for="telefone"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="descricao" value="Descrição:" />
+                            <p:inputTextarea id="descricao"
+                                             value="#{prestadorSocorroBean.prestadorSelecionado.descricao}"
+                                             required="true" 
+                                             requiredMessage="O campo Descrição deve ser preenchido!" />
+                            <p:message for="descricao"/>
+                        </div>
+
+                        <div class="boxBtn">
+                            <a href="/servidorcentral/buscaprestador.xhtml" class="btn-back">Cancelar</a>
+                            <p:commandButton title="Salvar" value="Salvar"
+                                             styleClass="btnBlue"
+                                             actionListener="#{prestadorSocorroBean.alterarPrestador}"
+                                             update="formContentEdit" />
+                        </div>
+                    </p:dialog>
                 </div>
             </h:form>
         </p:panel>

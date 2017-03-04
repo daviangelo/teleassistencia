@@ -20,6 +20,8 @@
         <div class="titlePage">
             <h2>Dados da pulseira</h2>
         </div>
+        
+        <p:growl id="growl" showDetail="false" sticky="true" />
 
         <p:panel id="painelNovaPulseira" rendered="#{pulseiraBean.nova}">
             <h:form id="formContent"> 
@@ -58,60 +60,69 @@
 
                 <div class="item">
                     <h:outputLabel value="Uso Liberado:" styleClass="titleInformation"/>
-                    <p:inputText styleClass="bgInput" disabled="true"
+                    <p:inputText styleClass="bgInput inputSmaller" disabled="true"
                                  value="#{pulseiraBean.pulseiraSelecionada.status}" />
+                </div>
+
+                <div class="item">
+                    <h:outputLabel value="Usuário Associado:" styleClass="titleInformation"
+                                   rendered="#{pulseiraBean.verificaUsuario()}"/>
+                    <p:inputText styleClass="bgInput" disabled="true" rendered="#{pulseiraBean.verificaUsuario()}"
+                                 value="#{pulseiraBean.pulseiraSelecionada.usuario.nome}" />
                 </div>
 
                 <div class="boxBtn btnIcon">
                     <p:commandButton title="Alterar dados da Pulseira" value="btnAlterar" 
-                                     styleClass="btnAlterar" onclick="alterarPulseira.show()" ajax="true" />
-                    <p:commandButton title="Excluir" value="btnExcluir" styleClass="btnExcluir"
+                                     styleClass="btnAlterar" onclick="confirmarAlterar.show()" ajax="true" />
+                    <p:commandButton title="Excluir Pulseira" value="btnDelete" styleClass="btnDelete"
                                      onclick="confirmarExcluir.show()" ajax="true" />     
                 </div>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <p:dialog header="Alterar dados da Pulseira"
+                              widgetVar="confirmarAlterar" modal="true" showEffect="fade"
+                              hideEffect="fade" resizable="false" closable="true">
+                        <div class="item">
+                            <h:outputLabel for="codigoId" value="Código Identificador:" />
+                            <p:inputText id="codigoId"
+                                         value="#{pulseiraBean.pulseiraSelecionada.codigoIdentificador}"
+                                         required="true" 
+                                         requiredMessage="O campo Código Identificador deve ser preenchido!" />
+                            <p:message for="codigoId"/>
+                        </div>
+
+                        <div class="item">
+                            <h:outputLabel for="liberadaUso" value="Liberada para Uso:" />
+                            <p:selectBooleanCheckbox  id="liberadaUso"
+                                                      value="#{pulseiraBean.pulseiraSelecionada.liberadaUso}" />
+                            <p:message for="liberadaUso"/>
+                        </div>
+
+                        <div class="boxBtn">
+                            <a href="/servidorcentral/buscapulseira.xhtml" class="btn-back">Cancelar</a>
+                            <p:commandButton title="Salvar" value="Salvar"
+                                             styleClass="btnBlue"
+                                             actionListener="#{pulseiraBean.alterarPulseira()}"
+                                             update="formContentEdit" />
+                        </div>
+                    </p:dialog>
+                </div>                
             </h:form>
         </p:panel>
 
-        <h:form id="excluir">
+        <h:form id="excluir"> 
             <p:confirmDialog
                 message="Deseja realmente excluir essa Pulseira? Esta ação não poderá ser desfeita."
                 hideEffect="explode" header="Aviso" severity="alert"
                 widgetVar="confirmarExcluir">
                 <p:commandButton id="btnSim" value="Sim"
-                                 actionListener="#{pulseiraBean.excluirPulseira}"
+                                 actionListener="#{pulseiraBean.excluirPulseira()}"
                                  oncomplete="confirmarExcluir.hide()" />
                 <p:commandButton id="btnNao" value="Não"
                                  onclick="confirmarExcluir.hide()" type="button" />
             </p:confirmDialog>
         </h:form>
-
-        <p:panel id="painelAlterarPulseira" header="Pulseira" style="margin-bottom:10px;" rendered="false">
-            <h:form id="formPulseira">
-                <p:dialog header="Alterar dados da Pulseira"
-                          widgetVar="alterarPulseira" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false" closable="true">
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                        <h:outputLabel for="codigo" value="Código Identificador:" />
-                        <p:inputText id="nome"
-                                     value="#{pulseiraBean.pulseiraSelecionada.codigoIdentificador}"
-                                     required="true" />
-
-                        <h:outputLabel for="liberada" value="Liberada para Uso:" />
-                        <p:selectBooleanCheckbox id="liberada"
-                                                 value="#{pulseiraBean.pulseiraSelecionada.liberadaUso}"
-                                                 required="true" />
-
-                    </h:panelGrid>
-
-                    <p:commandButton title="Salvar" value="Salvar alterações"
-                                     onclick="alterarPulseira.hide();"
-                                     actionListener="#{pulseiraBean.alterarPulseira}"
-                                     update=":formPulseira" />
-                    
-                    <a href="/servidorcentral/buscapulseira.xhtml" class="btn-back visible">Cancelar</a>
-                </p:dialog>
-            </h:form>
-        </p:panel>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

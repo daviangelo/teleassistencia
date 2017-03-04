@@ -26,7 +26,7 @@
                     <h:form id="formBuscar">
                         <p:growl id="growl" showDetail="true" sticky="true" />
 
-                        <p:commandButton action="#{pulseiraBean.abrirNovaPulseira()}"
+                        <p:commandButton action="#{pulseiraBean.abrirNovaPulseira()}" title="Cadastrar pulseira"
                                          value="Cadastrar Pulseira">
                         </p:commandButton>
                     </h:form>
@@ -39,7 +39,7 @@
                     <p:dataTable id="tableResultado" styleClass="lista-pulseira"
                                  value="#{pulseiraBean.listaPulseiras}" var="pulseira">
 
-                        <p:column headerText="Matrícula">
+                        <p:column headerText="Matrícula" sortBy="#{pulseira.idPulseira}">
                             <h:outputText value="#{pulseira.idPulseira}" />
                         </p:column>
 
@@ -52,16 +52,38 @@
                         </p:column>
 
                         <p:column style="width:32px; text-align:center">
-                            <p:commandButton action="#{pulseiraBean.abrirPulseira()}" styleClass="btnEdit" 
+                            <p:commandButton action="#{pulseiraBean.abrirPulseira()}" styleClass="btnEdit btnTable" 
                                              title="Visualizar/Alterar dados da Pulseira">
                                 <f:setPropertyActionListener value="#{pulseira}"
                                                              target="#{pulseiraBean.pulseiraSelecionada}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
+                                             title="Excluir dados da Pulseira">
+                                <f:setPropertyActionListener value="#{pulseira}"
+                                                             target="#{pulseiraBean.pulseiraSelecionada}" />
+
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
         </div>
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir essa Pulseira? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{pulseiraBean.excluirPulseira()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+            </p:confirmDialog>
+        </h:form>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

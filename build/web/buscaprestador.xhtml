@@ -39,11 +39,11 @@
                     <p:dataTable id="tableResultado" styleClass="lista-prestadores"
                                  value="#{prestadorSocorroBean.listaPrestadores}" var="prestador">
 
-                        <p:column headerText="Matrícula">
+                        <p:column headerText="Matrícula" sortBy="#{prestador.idPrestadorSocorro}">
                             <h:outputText value="#{prestador.idPrestadorSocorro}" />
                         </p:column>
 
-                        <p:column headerText="Nome">
+                        <p:column headerText="Nome" sortBy="#{prestador.nome}">
                             <h:outputText value="#{prestador.nome}" />
                         </p:column>
 
@@ -53,8 +53,17 @@
                         </p:column>
 
                         <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{prestadorSocorroBean.abrirPrestador}" styleClass="btnEdit" 
-                                             title="Visualizar/Alterar dados do Cliente">
+                            <p:commandButton action="#{prestadorSocorroBean.abrirPrestador}" styleClass="btnEdit btnTable" 
+                                             title="Visualizar/Alterar dados do Prestador">
+                                <f:setPropertyActionListener value="#{prestador}"
+                                                             target="#{prestadorSocorroBean.prestadorSelecionado}" />
+
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
+                                             title="Excluir dados do Prestador">
                                 <f:setPropertyActionListener value="#{prestador}"
                                                              target="#{prestadorSocorroBean.prestadorSelecionado}" />
 
@@ -64,6 +73,19 @@
                 </p:outputPanel>
             </h:form>
         </div>
+        
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir esse Prestador? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{prestadorSocorroBean.excluirPrestador()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+            </p:confirmDialog>
+        </h:form>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

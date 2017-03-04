@@ -206,6 +206,61 @@ label {
 body {
   padding-bottom: 110px; }
 
+form#excluirUsuario .ui-dialog {
+  background: #fff;
+  box-shadow: none; }
+
+.lightboColor {
+  background: #fff;
+  box-shadow: none;
+  left: 27% !important;
+  top: 24% !important;
+  padding: 10px; }
+
+.ui-dialog-titlebar-close {
+  width: 17px;
+  height: 23px;
+  position: absolute;
+  right: 10px;
+  top: 10px !important; }
+  .ui-dialog-titlebar-close:before {
+    content: "X";
+    font-size: 20px;
+    color: #3e3e3e;
+    font-family: Arial; }
+
+.contentDialogForm .boxClouse {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.48);
+  z-index: 99; }
+  .contentDialogForm .boxClouse.active {
+    display: block; }
+.contentDialogForm .ui-dialog {
+  position: fixed !important;
+  left: 26.3% !important;
+  top: 15% !important;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #dedede;
+  min-width: 47.5%; }
+  .contentDialogForm .ui-dialog.active {
+    display: none !important; }
+  .contentDialogForm .ui-dialog .ui-dialog-titlebar {
+    cursor: pointer;
+    text-align: center;
+    padding: 20px 0 15px;
+    margin-bottom: 15px;
+    font-family: "Open Sans", sans-serif;
+    border-bottom: 1px solid rgba(234, 234, 234, 0.25); }
+    .contentDialogForm .ui-dialog .ui-dialog-titlebar span {
+      width: 100%;
+      margin: 0; }
+
 .ui-confirm-dialog .ui-dialog-titlebar {
   padding: 20px 0 0;
   text-align: center; }
@@ -222,7 +277,7 @@ body {
 
 form#excluir.active:before {
   content: "";
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 99;
@@ -263,7 +318,8 @@ form#excluir .ui-confirm-dialog {
     text-align: center;
     border-radius: 2px;
     background: #60a2da;
-    color: #fff; }
+    color: #fff;
+    cursor: pointer; }
 
 .ui-button {
   background: red;
@@ -273,6 +329,21 @@ form#excluir .ui-confirm-dialog {
   text-align: center;
   border-radius: 2px;
   color: #fff; }
+  .ui-button.btn-pageUser {
+    padding: 5px;
+    margin-top: 0;
+    background: red; }
+    .ui-button.btn-pageUser.btn-associar {
+      background: #ccc;
+      margin-left: 20px;
+      padding: 9px 23px; }
+  .ui-button.btn-associar {
+    padding: 9px 30px;
+    margin-top: 0; }
+    .ui-button.btn-associar span {
+      padding: 0; }
+  .ui-button.btnBlue {
+    background: #60a2da; }
   .ui-button.visible {
     padding: 4.5px; }
   .ui-button.btnBlue {
@@ -345,7 +416,8 @@ body.login {
       font-weight: 300; }
   .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent,
   .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit,
-  .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition {
+  .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition,
+  .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user {
     background: #fff;
     border: 1px solid #eaeaea;
     max-width: 640px;
@@ -355,17 +427,20 @@ body.login {
     margin: 30px auto; }
     .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item,
     .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item,
-    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item {
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item {
       width: 100%;
       padding-bottom: 20px; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-helper-hidden-accessible,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-helper-hidden-accessible,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item .ui-helper-hidden-accessible {
         padding-top: 19px;
         margin-left: -4px; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item label,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item label,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item label {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item label,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item label {
         width: 30%;
         float: left;
         font-family: "Open Sans", sans-serif;
@@ -374,11 +449,13 @@ body.login {
         padding-top: 17px; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-helper-hidden-accessible,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-helper-hidden-accessible,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-helper-hidden-accessible,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item .ui-helper-hidden-accessible {
         position: initial !important; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"],
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"],
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"] {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"],
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item input[type="text"] {
         width: 70%;
         float: left;
         border: 1px solid #ccc;
@@ -390,17 +467,20 @@ body.login {
         text-align: left; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"].bgInput,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"].bgInput,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].bgInput {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].bgInput,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item input[type="text"].bgInput {
           background: #dadada;
           cursor: no-drop; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item input[type="text"].inputSmaller,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item input[type="text"].inputSmaller,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].inputSmaller {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item input[type="text"].inputSmaller,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item input[type="text"].inputSmaller {
           width: 30%; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item textarea,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item textarea,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item textarea {
-        width: 78%;
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item textarea,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item textarea {
+        width: 70%;
         height: 120px;
         float: left;
         border: 1px solid #ccc;
@@ -411,52 +491,62 @@ body.login {
         text-align: left; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .item .ui-message,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .item .ui-message,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-message {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .item .ui-message,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .item .ui-message {
         float: left;
         width: 99.4%;
         margin: 0; }
     .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn,
     .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn,
-    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn {
+    .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn,
+    .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn {
       text-align: center;
       margin: 0 auto;
       width: 280px; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn input,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn input,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn input {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn input,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn input {
         float: left; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn.btnIcon button {
         float: none;
         display: inline-block;
         padding: 11px 34px 0; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button.visible,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button.visible,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn.btnIcon button.visible {
           display: none; }
           .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn.btnIcon button.visible.active,
           .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn.btnIcon button.visible.active,
-          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible.active {
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn.btnIcon button.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn.btnIcon button.visible.active {
             display: block; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btn-back {
         margin-left: 10px;
-        float: left;
+        float: right;
         padding: 8.5px; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back.visible,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back.visible,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btn-back.visible {
           display: none;
           float: right; }
           .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btn-back.visible.active,
           .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btn-back.visible.active,
-          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible.active {
+          .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btn-back.visible.active,
+          .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btn-back.visible.active {
             display: block; }
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar,
       .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnAlterar {
         float: right;
         background: transparent;
         border: none;
@@ -464,7 +554,8 @@ body.login {
         display: block; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar:before,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar:before,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar:before {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnAlterar:before {
           content: "";
           display: block;
           width: 20px;
@@ -473,28 +564,32 @@ body.login {
           background-size: 100%; }
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnAlterar span,
         .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnAlterar span,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar span {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnAlterar span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnAlterar span {
           display: none; }
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnExcluir,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnExcluir,
-      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnExcluir {
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete,
+      .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnDelete {
         float: right;
         background: transparent;
         border: none;
         cursor: pointer;
         display: block; }
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnExcluir:before,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnExcluir:before,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnExcluir:before {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete:before,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnDelete:before {
           content: "";
           display: block;
           width: 20px;
           height: 20px;
           background: url(../images/icon-delete.png) no-repeat top center;
           background-size: 100%; }
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnExcluir span,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnExcluir span,
-        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnExcluir span {
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContent .boxBtn .btnDelete span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdit .boxBtn .btnDelete span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner form#formContentEdition .boxBtn .btnDelete span,
+        .lightboxOverlay.open .lightboxBlock .lightboxInner .contentDialogForm.user .boxBtn .btnDelete span {
           display: none; }
 
 .lightBoxCad {
@@ -522,43 +617,80 @@ body.login {
         background: #d0623d;
         box-shadow: none; }
 
-#formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table {
+#formResult .ui-panel-content,
+#formPulseira .ui-panel-content,
+#formPrestador .ui-panel-content {
+  padding: 0; }
+#formResult .ui-datatable .ui-datatable-tablewrapper table,
+#formPulseira .ui-datatable .ui-datatable-tablewrapper table,
+#formPrestador .ui-datatable .ui-datatable-tablewrapper table {
   border: 1px solid #f1f1f1; }
-  #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table thead {
+  #formResult .ui-datatable .ui-datatable-tablewrapper table thead,
+  #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead,
+  #formPrestador .ui-datatable .ui-datatable-tablewrapper table thead {
     background: #f1f1f1; }
-    #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table thead tr th {
+    #formResult .ui-datatable .ui-datatable-tablewrapper table thead tr th,
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead tr th,
+    #formPrestador .ui-datatable .ui-datatable-tablewrapper table thead tr th {
       border: none;
       padding: 13px 10px;
       text-align: left; }
-      #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table thead tr th span {
+      #formResult .ui-datatable .ui-datatable-tablewrapper table thead tr th span,
+      #formPulseira .ui-datatable .ui-datatable-tablewrapper table thead tr th span,
+      #formPrestador .ui-datatable .ui-datatable-tablewrapper table thead tr th span {
         font-family: "Open Sans", sans-serif;
         font-size: 14px;
         text-transform: uppercase;
         color: #1d1d1d; }
-  #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr {
+  #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr,
+  #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr,
+  #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr {
     border-bottom: 1px solid #f1f1f1; }
-    #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even) {
+    #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even),
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even),
+    #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr:nth-child(even) {
       background: #fbfbfb; }
-    #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr td {
+    #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td,
+    #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td,
+    #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td {
       border: none;
-      padding: 13px 10px;
+      padding: 10px;
+      vertical-align: middle;
       font-family: "Open Sans", sans-serif;
       font-size: 14px;
       color: #1d1d1d; }
-      #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnEdit {
+      #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable,
+      #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable,
+      #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable {
         float: right;
         background: transparent;
         border: none;
         cursor: pointer;
         display: block; }
-        #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnEdit:before {
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable:before,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable:before,
+        #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable:before {
           content: "";
           display: block;
           width: 20px;
-          height: 20px;
+          height: 20px; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnEdit:before,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnEdit:before,
+        #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnEdit:before {
           background: url(../images/icon-view.png) no-repeat top center;
           background-size: 100%; }
-        #formResult .ui-outputpanel .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnEdit span {
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete,
+        #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete {
+          margin-top: 0; }
+          #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete:before,
+          #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete:before,
+          #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable.btnDelete:before {
+            background: url(../images/icon-delete.png) no-repeat top center;
+            background-size: 100%; }
+        #formResult .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable span,
+        #formPulseira .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable span,
+        #formPrestador .ui-datatable .ui-datatable-tablewrapper table tbody tr td .btnTable span {
           display: none; }
 
 body.newObjectAll .titlePage {
@@ -570,7 +702,8 @@ body.newObjectAll .titlePage {
     font-size: 18px; }
 body.newObjectAll form#formContent,
 body.newObjectAll form#formContentEdit,
-body.newObjectAll form#formContentEdition {
+body.newObjectAll form#formContentEdition,
+body.newObjectAll .contentDialogForm.user {
   background: #fff;
   border: 1px solid #eaeaea;
   max-width: 640px;
@@ -580,17 +713,20 @@ body.newObjectAll form#formContentEdition {
   margin: 30px auto; }
   body.newObjectAll form#formContent .item,
   body.newObjectAll form#formContentEdit .item,
-  body.newObjectAll form#formContentEdition .item {
+  body.newObjectAll form#formContentEdition .item,
+  body.newObjectAll .contentDialogForm.user .item {
     width: 100%;
     padding-bottom: 20px; }
     body.newObjectAll form#formContent .item .ui-helper-hidden-accessible,
     body.newObjectAll form#formContentEdit .item .ui-helper-hidden-accessible,
-    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible {
+    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible,
+    body.newObjectAll .contentDialogForm.user .item .ui-helper-hidden-accessible {
       padding-top: 19px;
       margin-left: -4px; }
     body.newObjectAll form#formContent .item label,
     body.newObjectAll form#formContentEdit .item label,
-    body.newObjectAll form#formContentEdition .item label {
+    body.newObjectAll form#formContentEdition .item label,
+    body.newObjectAll .contentDialogForm.user .item label {
       width: 30%;
       float: left;
       font-family: "Open Sans", sans-serif;
@@ -599,11 +735,13 @@ body.newObjectAll form#formContentEdition {
       padding-top: 17px; }
     body.newObjectAll form#formContent .item .ui-helper-hidden-accessible,
     body.newObjectAll form#formContentEdit .item .ui-helper-hidden-accessible,
-    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible {
+    body.newObjectAll form#formContentEdition .item .ui-helper-hidden-accessible,
+    body.newObjectAll .contentDialogForm.user .item .ui-helper-hidden-accessible {
       position: initial !important; }
     body.newObjectAll form#formContent .item input[type="text"],
     body.newObjectAll form#formContentEdit .item input[type="text"],
-    body.newObjectAll form#formContentEdition .item input[type="text"] {
+    body.newObjectAll form#formContentEdition .item input[type="text"],
+    body.newObjectAll .contentDialogForm.user .item input[type="text"] {
       width: 70%;
       float: left;
       border: 1px solid #ccc;
@@ -615,17 +753,20 @@ body.newObjectAll form#formContentEdition {
       text-align: left; }
       body.newObjectAll form#formContent .item input[type="text"].bgInput,
       body.newObjectAll form#formContentEdit .item input[type="text"].bgInput,
-      body.newObjectAll form#formContentEdition .item input[type="text"].bgInput {
+      body.newObjectAll form#formContentEdition .item input[type="text"].bgInput,
+      body.newObjectAll .contentDialogForm.user .item input[type="text"].bgInput {
         background: #dadada;
         cursor: no-drop; }
       body.newObjectAll form#formContent .item input[type="text"].inputSmaller,
       body.newObjectAll form#formContentEdit .item input[type="text"].inputSmaller,
-      body.newObjectAll form#formContentEdition .item input[type="text"].inputSmaller {
+      body.newObjectAll form#formContentEdition .item input[type="text"].inputSmaller,
+      body.newObjectAll .contentDialogForm.user .item input[type="text"].inputSmaller {
         width: 30%; }
     body.newObjectAll form#formContent .item textarea,
     body.newObjectAll form#formContentEdit .item textarea,
-    body.newObjectAll form#formContentEdition .item textarea {
-      width: 78%;
+    body.newObjectAll form#formContentEdition .item textarea,
+    body.newObjectAll .contentDialogForm.user .item textarea {
+      width: 70%;
       height: 120px;
       float: left;
       border: 1px solid #ccc;
@@ -636,52 +777,62 @@ body.newObjectAll form#formContentEdition {
       text-align: left; }
     body.newObjectAll form#formContent .item .ui-message,
     body.newObjectAll form#formContentEdit .item .ui-message,
-    body.newObjectAll form#formContentEdition .item .ui-message {
+    body.newObjectAll form#formContentEdition .item .ui-message,
+    body.newObjectAll .contentDialogForm.user .item .ui-message {
       float: left;
       width: 99.4%;
       margin: 0; }
   body.newObjectAll form#formContent .boxBtn,
   body.newObjectAll form#formContentEdit .boxBtn,
-  body.newObjectAll form#formContentEdition .boxBtn {
+  body.newObjectAll form#formContentEdition .boxBtn,
+  body.newObjectAll .contentDialogForm.user .boxBtn {
     text-align: center;
     margin: 0 auto;
     width: 280px; }
     body.newObjectAll form#formContent .boxBtn input,
     body.newObjectAll form#formContentEdit .boxBtn input,
-    body.newObjectAll form#formContentEdition .boxBtn input {
+    body.newObjectAll form#formContentEdition .boxBtn input,
+    body.newObjectAll .contentDialogForm.user .boxBtn input {
       float: left; }
     body.newObjectAll form#formContent .boxBtn.btnIcon button,
     body.newObjectAll form#formContentEdit .boxBtn.btnIcon button,
-    body.newObjectAll form#formContentEdition .boxBtn.btnIcon button {
+    body.newObjectAll form#formContentEdition .boxBtn.btnIcon button,
+    body.newObjectAll .contentDialogForm.user .boxBtn.btnIcon button {
       float: none;
       display: inline-block;
       padding: 11px 34px 0; }
       body.newObjectAll form#formContent .boxBtn.btnIcon button.visible,
       body.newObjectAll form#formContentEdit .boxBtn.btnIcon button.visible,
-      body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible {
+      body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible,
+      body.newObjectAll .contentDialogForm.user .boxBtn.btnIcon button.visible {
         display: none; }
         body.newObjectAll form#formContent .boxBtn.btnIcon button.visible.active,
         body.newObjectAll form#formContentEdit .boxBtn.btnIcon button.visible.active,
-        body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible.active {
+        body.newObjectAll form#formContentEdition .boxBtn.btnIcon button.visible.active,
+        body.newObjectAll .contentDialogForm.user .boxBtn.btnIcon button.visible.active {
           display: block; }
     body.newObjectAll form#formContent .boxBtn .btn-back,
     body.newObjectAll form#formContentEdit .boxBtn .btn-back,
-    body.newObjectAll form#formContentEdition .boxBtn .btn-back {
+    body.newObjectAll form#formContentEdition .boxBtn .btn-back,
+    body.newObjectAll .contentDialogForm.user .boxBtn .btn-back {
       margin-left: 10px;
-      float: left;
+      float: right;
       padding: 8.5px; }
       body.newObjectAll form#formContent .boxBtn .btn-back.visible,
       body.newObjectAll form#formContentEdit .boxBtn .btn-back.visible,
-      body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible {
+      body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible,
+      body.newObjectAll .contentDialogForm.user .boxBtn .btn-back.visible {
         display: none;
         float: right; }
         body.newObjectAll form#formContent .boxBtn .btn-back.visible.active,
         body.newObjectAll form#formContentEdit .boxBtn .btn-back.visible.active,
-        body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible.active {
+        body.newObjectAll form#formContentEdition .boxBtn .btn-back.visible.active,
+        body.newObjectAll .contentDialogForm.user .boxBtn .btn-back.visible.active {
           display: block; }
     body.newObjectAll form#formContent .boxBtn .btnAlterar,
     body.newObjectAll form#formContentEdit .boxBtn .btnAlterar,
-    body.newObjectAll form#formContentEdition .boxBtn .btnAlterar {
+    body.newObjectAll form#formContentEdition .boxBtn .btnAlterar,
+    body.newObjectAll .contentDialogForm.user .boxBtn .btnAlterar {
       float: right;
       background: transparent;
       border: none;
@@ -689,7 +840,8 @@ body.newObjectAll form#formContentEdition {
       display: block; }
       body.newObjectAll form#formContent .boxBtn .btnAlterar:before,
       body.newObjectAll form#formContentEdit .boxBtn .btnAlterar:before,
-      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar:before {
+      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar:before,
+      body.newObjectAll .contentDialogForm.user .boxBtn .btnAlterar:before {
         content: "";
         display: block;
         width: 20px;
@@ -698,28 +850,32 @@ body.newObjectAll form#formContentEdition {
         background-size: 100%; }
       body.newObjectAll form#formContent .boxBtn .btnAlterar span,
       body.newObjectAll form#formContentEdit .boxBtn .btnAlterar span,
-      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar span {
+      body.newObjectAll form#formContentEdition .boxBtn .btnAlterar span,
+      body.newObjectAll .contentDialogForm.user .boxBtn .btnAlterar span {
         display: none; }
-    body.newObjectAll form#formContent .boxBtn .btnExcluir,
-    body.newObjectAll form#formContentEdit .boxBtn .btnExcluir,
-    body.newObjectAll form#formContentEdition .boxBtn .btnExcluir {
+    body.newObjectAll form#formContent .boxBtn .btnDelete,
+    body.newObjectAll form#formContentEdit .boxBtn .btnDelete,
+    body.newObjectAll form#formContentEdition .boxBtn .btnDelete,
+    body.newObjectAll .contentDialogForm.user .boxBtn .btnDelete {
       float: right;
       background: transparent;
       border: none;
       cursor: pointer;
       display: block; }
-      body.newObjectAll form#formContent .boxBtn .btnExcluir:before,
-      body.newObjectAll form#formContentEdit .boxBtn .btnExcluir:before,
-      body.newObjectAll form#formContentEdition .boxBtn .btnExcluir:before {
+      body.newObjectAll form#formContent .boxBtn .btnDelete:before,
+      body.newObjectAll form#formContentEdit .boxBtn .btnDelete:before,
+      body.newObjectAll form#formContentEdition .boxBtn .btnDelete:before,
+      body.newObjectAll .contentDialogForm.user .boxBtn .btnDelete:before {
         content: "";
         display: block;
         width: 20px;
         height: 20px;
         background: url(../images/icon-delete.png) no-repeat top center;
         background-size: 100%; }
-      body.newObjectAll form#formContent .boxBtn .btnExcluir span,
-      body.newObjectAll form#formContentEdit .boxBtn .btnExcluir span,
-      body.newObjectAll form#formContentEdition .boxBtn .btnExcluir span {
+      body.newObjectAll form#formContent .boxBtn .btnDelete span,
+      body.newObjectAll form#formContentEdit .boxBtn .btnDelete span,
+      body.newObjectAll form#formContentEdition .boxBtn .btnDelete span,
+      body.newObjectAll .contentDialogForm.user .boxBtn .btnDelete span {
         display: none; }
 
 .ui-panel .ui-panel-content #formPage {
@@ -753,20 +909,167 @@ body.newObjectAll form#formContentEdition {
       background-size: 100%; }
     .ui-panel .ui-panel-content #formPage .btnAlterar span {
       display: none; }
-  .ui-panel .ui-panel-content #formPage .btnExcluir {
+  .ui-panel .ui-panel-content #formPage .btnDelete {
     float: right;
     background: transparent;
     border: none;
     cursor: pointer;
     display: block; }
-    .ui-panel .ui-panel-content #formPage .btnExcluir:before {
+    .ui-panel .ui-panel-content #formPage .btnDelete:before {
       content: "";
       display: block;
       width: 20px;
       height: 20px;
       background: url(../images/icon-delete.png) no-repeat top center;
       background-size: 100%; }
-    .ui-panel .ui-panel-content #formPage .btnExcluir span {
+    .ui-panel .ui-panel-content #formPage .btnDelete span {
       display: none; }
+
+#alterar.active:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.51);
+  display: block; }
+#alterar .ui-dialog {
+  position: absolute;
+  left: 26.3% !important;
+  top: 15% !important;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  width: 47.5% !important; }
+  #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    border-bottom: 1px solid #f1f1f1;
+    color: #5a5a5a;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    padding-bottom: 15px;
+    text-transform: none; }
+  #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 25px; }
+    #alterar .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:before {
+      content: "X";
+      display: block;
+      color: #5a5a5a;
+      font-family: Arial;
+      font-size: 20px; }
+  #alterar .ui-dialog .ui-dialog-content {
+    display: none; }
+  #alterar .ui-dialog .ui-dialog-buttonpane {
+    padding: 10px 29px 20px; }
+    #alterar .ui-dialog .ui-dialog-buttonpane .item {
+      width: 100%;
+      padding-bottom: 20px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-helper-hidden-accessible {
+        padding-top: 19px;
+        margin-left: -4px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-chkbox {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item label {
+        width: 30%;
+        float: left;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        text-align: left;
+        padding-top: 17px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-helper-hidden-accessible {
+        position: initial !important; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"] {
+        width: 70%;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        margin-top: 10px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"].bgInput {
+          background: #dadada;
+          cursor: no-drop; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .item input[type="text"].inputSmaller {
+          width: 30%; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item textarea {
+        width: 78%;
+        height: 120px;
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        font-family: "Open Sans", sans-serif;
+        padding: 8px;
+        background: rgba(247, 247, 247, 0.36);
+        text-align: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .item .ui-message {
+        float: left;
+        width: 99.4%;
+        margin: 0; }
+    #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn {
+      text-align: center;
+      margin: 0 auto;
+      width: 280px; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .ui-button {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn input {
+        float: left; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button {
+        float: none;
+        display: inline-block;
+        padding: 11px 34px 0; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button.visible {
+          display: none; }
+          #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn.btnIcon button.visible.active {
+            display: block; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back {
+        margin-left: 10px;
+        float: left;
+        padding: 8.5px;
+        margin-top: 7px;
+        width: 120px;
+        height: 37px; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back.visible {
+          display: none;
+          float: right; }
+          #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btn-back.visible.active {
+            display: block; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-edit.png) no-repeat top center;
+          background-size: 100%; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnAlterar span {
+          display: none; }
+      #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete {
+        float: right;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: block; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete:before {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          background: url(../images/icon-delete.png) no-repeat top center;
+          background-size: 100%; }
+        #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete span {
+          display: none; }
 
 /*# sourceMappingURL=style.css.map */

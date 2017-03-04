@@ -83,7 +83,7 @@ public class PrestadorSocorroBean {
 //
 //            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
         novo = false;
-
+        
         // Redirecionando
         FacesContext faces = FacesContext.getCurrentInstance();
         ExternalContext context = faces.getExternalContext();
@@ -108,7 +108,7 @@ public class PrestadorSocorroBean {
 
         carregarPrestadores();
 
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "A alteração foi efetuada com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -137,7 +137,7 @@ public class PrestadorSocorroBean {
         carregarPrestadores();
 
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "Prestador excluído com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -167,7 +167,7 @@ public class PrestadorSocorroBean {
         // Após o salvamento a tabela é populada.
         carregarPrestadores();
 
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "Prestador criado com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -224,5 +224,9 @@ public class PrestadorSocorroBean {
 
     public boolean isNovo() {
         return novo;
+    }
+    
+    public boolean teste() {
+        return false;
     }
 }

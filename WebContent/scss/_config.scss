@@ -14,7 +14,8 @@ $black: #000;
 @mixin boxForm(){
     form#formContent,
     form#formContentEdit,
-    form#formContentEdition {
+    form#formContentEdition,
+    .contentDialogForm.user {
         background: $white;
         border: 1px solid #eaeaea;
         max-width: 640px;
@@ -60,7 +61,7 @@ $black: #000;
             }
 
             textarea {
-                width: 78%;
+                width: 70%;
                 height: 120px;
                 float: left;
                 border: 1px solid #ccc;
@@ -104,7 +105,7 @@ $black: #000;
 
             .btn-back {
                 margin-left: 10px;
-                float: left;
+                float: right;
                 padding: 8.5px;
                 &.visible {
                     display: none;
@@ -134,7 +135,7 @@ $black: #000;
                 }
             }
 
-            .btnExcluir {
+            .btnDelete {
                 float: right;
                 background: transparent;
                 border: none;

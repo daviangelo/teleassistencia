@@ -28,8 +28,7 @@ public class CPFConverter implements Converter {
         }
 
         String v = valor.toString();
-        return v.substring(0, 3) + "." + v.substring(3, 6) + "." + v.substring(6, 9) + "-" + v.substring(9, 11) 
-                + "-" + v.substring(12, 14);
+        return v.substring(0, 3) + "." + v.substring(3, 6) + "." + v.substring(6, 9) + "-" + v.substring(9, 11);
     }
 }
 

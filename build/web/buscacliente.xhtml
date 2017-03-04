@@ -26,7 +26,7 @@
                     <h:form id="formBuscar">
                         <p:growl id="growl" showDetail="true" sticky="true" />
 
-                        <p:commandButton action="#{clienteFinalBean.abrirNovoCliente()}"
+                        <p:commandButton action="#{clienteFinalBean.abrirCliente(true)}"
                                          value="Cadastrar Cliente">
                         </p:commandButton>
                     </h:form>
@@ -39,7 +39,7 @@
                     <p:dataTable id="tableResultado" styleClass="lista-cliente"
                                  value="#{clienteFinalBean.listaClientes}" var="cliente">
 
-                        <p:column headerText="Matrícula">
+                        <p:column headerText="Matrícula" sortBy="#{cliente.idClienteFinal}">
                             <h:outputText value="#{cliente.idClienteFinal}" />
                         </p:column>
 
@@ -58,16 +58,38 @@
                         </p:column>
 
                         <p:column style="width:32px; text-align:center">
-                            <p:commandButton action="#{clienteFinalBean.abrirCliente()}" styleClass="btnEdit" 
+                            <p:commandButton action="#{clienteFinalBean.abrirCliente(false)}" styleClass="btnEdit btnTable" 
                                              title="Visualizar/Alterar dados do Cliente">
                                 <f:setPropertyActionListener value="#{cliente}"
                                                              target="#{clienteFinalBean.clienteSelecionado}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton onclick="confirmarExcluir.show()" styleClass="btnDelete btnTable" 
+                                             title="Excluir dados do Cliente">
+                                <f:setPropertyActionListener value="#{cliente}"
+                                                             target="#{clienteFinalBean.clienteSelecionado}" />
+
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
         </div>
+
+        <h:form id="excluir">
+            <p:confirmDialog
+                message="Deseja realmente excluir esse Cliente? Esta ação não poderá ser desfeita."
+                hideEffect="explode" header="Aviso" severity="alert"
+                widgetVar="confirmarExcluir">
+                <p:commandButton id="btnSim" value="Sim"
+                                 actionListener="#{clienteFinalBean.excluirCliente()}"
+                                 oncomplete="confirmarExcluir.hide()" />
+                <p:commandButton id="btnNao" value="Não"
+                                 onclick="confirmarExcluir.hide()" type="button" ajax="true" />
+            </p:confirmDialog>
+        </h:form>
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />

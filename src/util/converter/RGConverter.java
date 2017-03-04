@@ -28,7 +28,7 @@ public class RGConverter implements Converter {
         }
 
         String v = valor.toString();
-        return v.substring(0, 2) + "." + v.substring(2, 5) + "." + v.substring(5, 8) + "-" + v.substring(8, 8);
+        return v.substring(0, 2) + "." + v.substring(2, 5) + "." + v.substring(5, 8) + "-" + v.substring(8, 9);
     }
 }
 

@@ -95,7 +95,7 @@ public class PulseiraBean {
     /**
      * Salva alteração de dados do pulseira selecionado.
      */
-    public void alterarPulseira() {
+    public void alterarPulseira() throws IOException {
         try {
             Pulseira.atualizar(pulseiraSelecionada);
         } catch (Exception e) {
@@ -104,9 +104,15 @@ public class PulseiraBean {
         }
 
         FacesContext context = FacesContext.getCurrentInstance();
+        
+        carregarPulseiras();
 
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "A alteração foi efetuada com sucesso."));
+
+        context.getExternalContext().getFlash().setKeepMessages(true);
+
+        context.getExternalContext().redirect("buscapulseira.xhtml");
     }
 
     /**
@@ -129,7 +135,7 @@ public class PulseiraBean {
         carregarPulseiras();
 
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "Pulseira excluída com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -146,9 +152,7 @@ public class PulseiraBean {
      */
     public void criarPulseira() throws IOException {
         try {
-
             Pulseira.criar(novaPulseira);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,7 +163,7 @@ public class PulseiraBean {
         // Após o salvamento a tabela é populada.
         carregarPulseiras();
 
-        context.addMessage(null, new FacesMessage("Sucesso",
+        context.addMessage(null, new FacesMessage("Sucesso!",
                 "Pulseira criada com sucesso."));
 
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -215,5 +219,13 @@ public class PulseiraBean {
 
     public boolean isNova() {
         return nova;
+    }
+    
+    public boolean verificaUsuario(){
+        if (pulseiraSelecionada.getUsuario() != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

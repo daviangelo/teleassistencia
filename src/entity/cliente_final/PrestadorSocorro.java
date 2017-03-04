@@ -35,7 +35,6 @@ public class PrestadorSocorro implements Serializable {
         super();
         this.telefone = telefone;
         this.nome = nome;
-
     }
 
     @Id
@@ -115,7 +114,6 @@ public class PrestadorSocorro implements Serializable {
      * @throws Exception
      */
     public static List<PrestadorSocorro> obterPrestadores() throws Exception {
-
         return getDAOPrestador().listarTodos();
     }
 
@@ -151,7 +149,6 @@ public class PrestadorSocorro implements Serializable {
      * @throws Exception
      */
     public static List<PrestadorSocorro> obterDesassociados(Integer idUsuario) throws Exception {
-
         return getDAOPrestador().obterDesassociados(idUsuario);
     }
     
