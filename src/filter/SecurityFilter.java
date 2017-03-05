@@ -87,13 +87,21 @@ public class SecurityFilter implements Filter {
 
         autorizado = false;
 
-        if (usuario == null) {
+        String mobile = r.getParameter("mobile");
 
+        if (usuario == null && mobile == null) {
             res.sendRedirect(r.getContextPath() + "/login.xhtml");
             return;
 
         } else {
-            descricaoUsuario = "Login Web";
+
+            if (mobile != null) {
+                descricaoUsuario = "Aplicativo Android";
+                usuario = "app";
+            } else {
+                descricaoUsuario = "Login Web";
+            }
+
             autorizado = true;
 
         }
@@ -132,6 +140,10 @@ public class SecurityFilter implements Filter {
             SessionUserActive.createInstance().addUser(user);
             r.getSession().setAttribute("users", SessionUserActive.createInstance().getUserAtivos());
             r.getSession().setAttribute("tipoLogon", tipoLogon);
+
+            if (mobile != null) {
+                res.sendRedirect("/servidorcentral/localizacao.xhtml");
+            }
 
         } else {
             usuario = null;
