@@ -138,9 +138,9 @@ public class PrestadorSocorro implements Serializable {
      * @throws Exception
      */
     public static PrestadorSocorro obterPrestadorPorID(int idPrestadorSocorro) throws Exception {
-
         return getDAOPrestador().listarPorID(idPrestadorSocorro);
     }
+    
     /**
      * Obtém os prestadores de socorro associados ao usuário buscado.
      *
@@ -176,7 +176,4 @@ public class PrestadorSocorro implements Serializable {
 
         getDAOPrestador().criar(prestadorSocorro);
     }
-    
-    
-
 }

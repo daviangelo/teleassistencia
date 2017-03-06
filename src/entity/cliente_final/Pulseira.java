@@ -113,7 +113,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void apagar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().apagar(pulseira);
     }
 
@@ -125,7 +124,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void atualizar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().atualizar(pulseira);
     }
 
@@ -136,7 +134,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static List<Pulseira> obterPulseiras() throws Exception {
-
         return getDAOPulseira().listarTodos();
     }
 
@@ -159,7 +156,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static List<Pulseira> pesquisar(String palavra) throws Exception {
-
         return getDAOPulseira().pesquisa(palavra);
     }
 
@@ -171,8 +167,31 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void criar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().criar(pulseira);
+    }
+
+    /**
+     * Obtém a pulseira salva no banco de dados correspondente com o idPulseira
+     * pesquisado.
+     *
+     * @param idPulseira
+     * @return
+     * @throws Exception
+     */
+    public static Pulseira obterPulseira(int idPulseira) throws Exception {
+        return getDAOPulseira().listarPorID(idPulseira);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof String)) {
+            Pulseira p = (Pulseira) obj;
+
+            if (idPulseira == p.getIdPulseira()) {
+                return true;
+            }
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

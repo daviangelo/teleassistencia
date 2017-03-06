@@ -23,6 +23,10 @@
             <div class="titlePage">
                 <h2>Dados do Usuário</h2>
             </div>
+            
+            <div class="content-back">
+                <a href="/servidorcentral/dadoscliente.xhtml" class="btn-top-back">Voltar para Cliente</a>
+            </div>
 
             <p:growl id="growl" showDetail="#{clienteFinalBean.showDetail}" sticky="true"/>
 
@@ -151,10 +155,13 @@
 
                             <div class="boxBtn">
                                 <a href="/servidorcentral/dadoscliente.xhtml" class="btn-back">Cancelar</a>
+
                                 <p:commandButton title="Salvar" value="Salvar"
                                                  styleClass="btnBlue"
-                                                 actionListener="#{clienteFinalBean.salvarUsuario()}"
-                                                 update="formContentEdit" />
+                                                 actionListener="#{clienteFinalBean.salvarUsuario()}">
+                                    <f:setPropertyActionListener value="#{clienteFinalBean.dualListPrestador.target}"
+                                                                 target="#{clienteFinalBean.listaPrestadoresSelecionados}" />
+                                </p:commandButton>
                             </div>
                         </p:dialog>
                     </div>
@@ -168,7 +175,7 @@
                     widgetVar="confirmarExcluir">
                     <p:commandButton id="btnSim" value="Sim"
                                      actionListener="#{clienteFinalBean.excluirUsuario()}"
-                                     oncomplete="confirmarExcluir.hide()" />
+                                     oncomplete="confirmarExcluir.hide();" />
                     <p:commandButton id="btnNao" value="Não"
                                      onclick="confirmarExcluir.hide()" type="button" ajax="true" />
                 </p:confirmDialog>
@@ -185,12 +192,12 @@
                     <div class="boxCadastro">
                         <h:form id="formBuscarPulseira">
                             <p:commandButton title="Cadastrar pulseira" value="Cadastrar" ajax="true" 
-                                             styleClass="btn-pageUser"
+                                             styleClass="btn-pageUser btn-colorpick"
                                              action="#{clienteFinalBean.abrirPulseira(true)}">
                             </p:commandButton>
 
                             <p:commandButton title="Associar pulseira" value="Associar" ajax="true" 
-                                             styleClass="btn-associar btn-pageUser" onclick="associarPulseira.show()"
+                                             styleClass="btn-associar btn-pageUser btn-colorpick" onclick="associarPulseira.show()"
                                              rendered="#{not empty clienteFinalBean.listaPulseirasDisponiveis}"/>
                         </h:form>
                     </div>
@@ -234,76 +241,6 @@
                     </p:panel>
                 </h:form>
 
-                <div class="contentDialogForm">
-                    <div class="boxClouse" />
-                    <p:dialog header="Associar Pulseiras à Usuário"
-                              widgetVar="associarPulseira" modal="true" showEffect="fade"
-                              hideEffect="fade" resizable="false" closable="false"  rendered="false">
-                        <h:form id="formDragAndDropPulseira">
-                            <p:fieldset id="campoPulseirasDisponiveis" legend="Pulseiras Disponiveis">
-                                <p:dataTable id="pulseirasDisponiveis" var="pulseira" 
-                                             value="#{clienteFinalBean.listaPulseirasDisponiveis}">
-
-                                    <p:column style="width:20px">
-                                        <h:outputText id="dragIconPulseira" styleClass="ui-icon ui-icon-arrow-4" />
-                                        <p:draggable for="dragIconPulseira" revert="true" helper="clone"/>
-                                    </p:column>
-
-                                    <p:column headerText="Id">
-                                        <h:outputText value="#{pulseira.idPulseira}" />
-                                    </p:column>
-
-                                    <p:column headerText="Código">
-                                        <h:outputText value="#{pulseira.codigoIdentificador}" />
-                                    </p:column>
-
-                                    <p:column headerText="Uso Liberado">
-                                        <h:outputText value="#{pulseira.status}" />
-                                    </p:column>
-
-                                </p:dataTable>
-                            </p:fieldset>
-
-                            <p:fieldset id="pulseirasSelecionadas" legend="Pulseiras Selecionadas" style="margin-top:20px">
-                                <p:outputPanel id="dropAreaPulseira">
-                                    <h:outputText value="!!!Solte aqui!!!" rendered="#{empty clienteFinalBean.listaPulseirasSelecionadas}" style="font-size:24px;" />
-                                    <p:dataTable id="pulseirasSelecionadasTabela" var="pulseira" value="#{clienteFinalBean.listaPulseirasSelecionadas}" rendered="#{not empty clienteFinalBean.listaPulseirasSelecionadas}">
-                                        <p:column headerText="Id">
-                                            <h:outputText value="#{pulseira.idPulseira}" />
-                                        </p:column>
-
-                                        <p:column headerText="Código">
-                                            <h:outputText value="#{pulseira.codigoIdentificador}" />
-                                        </p:column>
-
-                                        <p:column headerText="Uso Liberado">
-                                            <h:outputText value="#{pulseira.status}" />
-                                        </p:column>
-                                    </p:dataTable>
-                                </p:outputPanel>
-                            </p:fieldset>
-
-                            <p:droppable for="pulseirasSelecionadas" tolerance="touch" 
-                                         activeStyleClass="ui-state-highlight" 
-                                         datasource="pulseirasDisponiveis" onDrop="handleDrop">
-                                <p:ajax listener="#{clienteFinalBean.onPulseiraDrop}" 
-                                        update="dropAreaPulseira pulseirasDisponiveis" />
-                            </p:droppable>
-
-
-                            <p:commandButton title="Salvar" value="Associar Pulseiras Selecionadas"
-                                             oncomplete="alterarPulseira.hide();"
-                                             actionListener="#{clienteFinalBean.associarPulseira}"
-                                             update=":formPulseira :formDragAndDropPulseira" ajax="false" />
-                            <p:commandButton title="Cancelar" value="Cancelar associação"
-                                             oncomplete="alterarPulseira.hide();"
-                                             actionListener="#{clienteFinalBean.preparaDialogPulseiras}"
-                                             update=":formPulseira :formDragAndDropPulseira"   ajax="false" />
-
-                        </h:form>
-                    </p:dialog>
-                </div>
-
                 <h:form id="excluirPulseira"> 
                     <p:confirmDialog
                         message="Deseja realmente excluir a associação com essa Pulseira? Esta ação não poderá ser desfeita."
@@ -317,6 +254,30 @@
                                          onclick="confirmarExcluirPulseira.hide()" type="button"  ajax="true"/>
                     </p:confirmDialog>
                 </h:form>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <div class="box-list">
+                        <p:dialog header="Alterar Pulseira(s) associada(s) ao Usuário"
+                                  widgetVar="associarPulseira" modal="true" showEffect="fade"
+                                  hideEffect="fade" resizable="false" closable="true">
+                            <h:form>
+                                <p:pickList id="pickListPulseira" value="#{clienteFinalBean.dualListPulseira}" 
+                                            var="pulseira" itemLabel="#{pulseira.codigoIdentificador}" itemValue="#{pulseira.idPulseira}" />
+                                <div class="box-btn-picklist">
+                                    <p:commandButton title="Alterar Pulseira(s) associada(s)" value="Alterar"
+                                                     styleClass="btn-associar btn-pageUser btn-picklist-alterar"
+                                                     action="#{clienteFinalBean.associarPulseira(false)}"/>
+
+                                    <p:commandButton id="btnNao" value="Cancelar" 
+                                                     styleClass="btn-picklist-cancelar"
+                                                     title="Cancelar alteração de pulseiras associadas"
+                                                     onclick="associarPulseira.hide()" type="button"  ajax="true"/>
+                                </div>
+                            </h:form>
+                        </p:dialog>
+                    </div>
+                </div>
             </p:panel>
 
             <p:panel id="painelPrestadores" rendered="#{!clienteFinalBean.usuarioNovo}">
@@ -330,12 +291,12 @@
                     <div class="boxCadastro">
                         <h:form id="formBuscarPrestador">
                             <p:commandButton title="Cadastrar prestador" value="Cadastrar" ajax="true" 
-                                             styleClass="btn-pageUser"
+                                             styleClass="btn-pageUser btn-colorpick"
                                              action="#{clienteFinalBean.abrirPrestador(true)}">
                             </p:commandButton>
 
                             <p:commandButton title="Associar prestador" value="Associar" ajax="true" 
-                                             styleClass="btn-associar btn-pageUser" onclick="associarPrestador.show()"
+                                             styleClass="btn-associar btn-pageUser btn-colorpick" onclick="associarPrestador.show()"
                                              rendered="#{not empty clienteFinalBean.listaPrestadoresDisponiveis}"/>
                         </h:form>
                     </div>
@@ -393,17 +354,32 @@
                                          onclick="confirmarExcluirPrestador.hide()" type="button"  ajax="true"/>
                     </p:confirmDialog>
                 </h:form>
+
+                <div class="contentDialogForm">
+                    <div class="boxClouse" />
+                    <div class="box-list">
+                        <p:dialog header="Alterar Prestador(es) associado(s) ao Usuário"
+                                  widgetVar="associarPrestador" modal="true" showEffect="fade"
+                                  hideEffect="fade" resizable="false" closable="true">
+                            <h:form>
+                                <p:pickList id="pickListPrestador" value="#{clienteFinalBean.dualListPrestador}" 
+                                            var="prestador" itemLabel="#{prestador.nome}" itemValue="#{prestador.idPrestadorSocorro}" />
+
+                                <div class="box-btn-picklist">
+                                    <p:commandButton title="Alterar prestador(es) associado(s)" value="Alterar"
+                                                     styleClass="btn-associar btn-pageUser btn-picklist-alterar" oncomplete="associarPrestador.hide();"
+                                                     action="#{clienteFinalBean.associarPrestador(false)}"/>
+                                    <p:commandButton id="btnNao" value="Cancelar" 
+                                                     styleClass="btn-picklist-cancelar"
+                                                     title="Cancelar alteração de prestadores associados"
+                                                     onclick="associarPrestador.hide()" type="button"  ajax="true"/>
+                                </div>
+                            </h:form>
+                        </p:dialog>
+                    </div>
+                </div>
             </p:panel>
         </div>
-
-        <!--<div class="box-list">
-            <h:form>
-                <h3 style="margin-top: 0">Basic PickList</h3>
-                <p:pickList id="pickList" value="#{clienteFinalBean.dualListPrestador}" var="prestador" itemLabel="#{prestador.nome}" itemValue="#{prestador.idPrestadorSocorro}" />
-
-                <p:commandButton id="salvarAssociacao" value="Salvar" action="#{clienteFinalBean.associarPrestador()}" style="margin-top:5px" />
-            </h:form>
-        </div>-->
 
         <ui:insert name="footer" > 
             <ui:include src="subtemplate/_footer.xhtml" />
@@ -413,13 +389,6 @@
     <ui:insert name="commonFooter" >
         <ui:include src="subtemplate/_commonFooter.xhtml" />
     </ui:insert>
-
-    <script type="text/javascript">
-        function handleDrop(event, ui) {
-            var droppedPulseira = ui.draggable;
-            droppedPulseira.fadeOut('fast');
-        }
-    </script>
 
     <script type="text/javascript" src="js/jquery.quick.search.js"></script>
 </html>

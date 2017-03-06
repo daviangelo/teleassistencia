@@ -33,9 +33,11 @@
             <file>file:/C:/projetos/ServidorCentral/src/entity/cliente_final/Usuario.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadospulseira.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/entity/Registro.java</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/registro.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosprestadorusuario.xhtml</file>
-            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadoscliente.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/subtemplate/_header.xhtml</file>
+            <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/RegistroMB.java</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/src/manager/crud/ClienteFinalBean.java</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadosusuario.xhtml</file>
             <file>file:/C:/Users/pc/Documents/GitHub/teleassistencia/WebContent/dadospulseirausuario.xhtml</file>

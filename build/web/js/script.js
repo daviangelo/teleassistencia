@@ -78,27 +78,25 @@ var global = {
             $('.ui-dialog').removeClass('active');
         });
 
-        $('.contentDialogForm .boxClouse, .ui-dialog-titlebar-close, .btn-cancelar').on('click', function (event) {
+        $('.contentDialogForm .boxClouse, .btn-picklist-cancelar, .ui-dialog-titlebar-close, .btn-cancelar').on('click', function (event) {
             event.preventDefault();
             $('.contentDialogForm .boxClouse').removeClass('active');
             $('.ui-dialog').addClass('active');
             $('#excluir').removeClass('active');
         });
     },
-    
-    sessionStore: function() {
+    sessionStore: function () {
         function includStorage(nameCidade) {
             sessionStorage.setItem('cidade', nameCidade);
         }
-        
+
         $('.login .ui-button').on('click', function (event) {
             var nameUser = $('input#j_idt8:nomeUsuario').val();
             includStorage(nameUser);
-            if(!$('input#j_idt8:nomeUsuario') == "" && !$('input#j_idt8:senha') == "") {
+            if (!$('input#j_idt8:nomeUsuario') == "" && !$('input#j_idt8:senha') == "") {
             }
         });
     },
-    
     init: function () {
         global.profileHeader();
         global.sessionStore();
@@ -144,10 +142,32 @@ var lightboxClient = {
     }
 }
 
+var picklist = {
+    searchpicklist: function () {
+        var campSearch = '<input type="text" id="search" class="searchTop" placeholder="Busca..."> ';
+        $(campSearch).insertBefore('.ui-picklist-list');
+         
+       setTimeout(function() {
+            $('#search').keyup(function () {
+            console.log('teste') 
+            _this = this;
+            $.each($('.ui-picklist-source').find('li'), function () {               
+                if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) == -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+        }, 3000);
+    },
+}
+
 $(document).ready(function () {
     global.init();
     lightboxClient.cadClient();
     lightboxClient.cadPrestador();
+    picklist.searchpicklist();
 
     $('.btnDelete').on('click', function (event) {
         event.preventDefault();

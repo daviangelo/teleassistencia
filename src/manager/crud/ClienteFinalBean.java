@@ -6,7 +6,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import entity.cliente_final.ClienteFinal;
 import entity.cliente_final.PrestadorSocorro;
@@ -15,6 +14,9 @@ import java.io.IOException;
 import com.google.common.collect.Lists;
 import entity.cliente_final.Pulseira;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.model.DualListModel;
 
@@ -45,8 +47,9 @@ public class ClienteFinalBean {
     private List<Pulseira> listaPulseirasDisponiveis = new ArrayList<>();
     private List<Pulseira> listaPulseirasSelecionadas = new ArrayList<>();
     private List<Pulseira> listaPulseirasExibicao = new ArrayList<>();
-    
+
     private DualListModel<PrestadorSocorro> dualListPrestador;
+    private DualListModel<Pulseira> dualListPulseira;
 
     private boolean clienteNovo, usuarioNovo, pulseiraNova, prestadorNovo, showDetail;
 
@@ -216,6 +219,22 @@ public class ClienteFinalBean {
         this.prestadorNovo = prestadorNovo;
     }
 
+    public DualListModel<PrestadorSocorro> getDualListPrestador() {
+        return dualListPrestador;
+    }
+
+    public void setDualListPrestador(DualListModel<PrestadorSocorro> dualListPrestador) {
+        this.dualListPrestador = dualListPrestador;
+    }
+
+    public DualListModel<Pulseira> getDualListPulseira() {
+        return dualListPulseira;
+    }
+
+    public void setDualListPulseira(DualListModel<Pulseira> dualListPulseira) {
+        this.dualListPulseira = dualListPulseira;
+    }
+
     //-------------------------Cliente
     /**
      * Carrega todos os cliente para popular tabela.
@@ -259,35 +278,67 @@ public class ClienteFinalBean {
      * @throws java.io.IOException
      */
     public void salvarCliente() throws IOException {
-        String mensagem;
+        boolean clienteValido;
 
         if (clienteNovo) {
-            try {
-                ClienteFinal.criar(novoCliente);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            novoCliente = new ClienteFinal();
-
-            mensagem = "Cliente criado com sucesso.";
+            clienteValido = validarCliente(novoCliente);
         } else {
-            try {
-                ClienteFinal.atualizar(clienteSelecionado);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            mensagem = "A alteração foi efetuada com sucesso.";
+            clienteValido = validarCliente(clienteSelecionado);
         }
 
-        // Após o salvamento a tabela é populada.
-        carregarClientes();
+        if (clienteValido) {
+            String mensagem = "";
 
-        showDetail = true;
+            if (clienteNovo) {
+                try {
+                    ClienteFinal.criar(novoCliente);
 
-        redirecionarComMensagem("buscacliente.xhtml", mensagem, "Sucesso!");
+                    novoCliente = new ClienteFinal();
+
+                    mensagem = "Cliente criado com sucesso.";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    ClienteFinal.atualizar(clienteSelecionado);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                mensagem = "A alteração foi efetuada com sucesso.";
+            }
+
+            showDetail = true;
+
+            // Após o salvamento a tabela é populada.
+            carregarClientes();
+
+            redirecionarComMensagem("buscacliente.xhtml", mensagem, "Sucesso!");
+        }
+    }
+
+    /**
+     * Verifica os dados do cliente
+     *
+     * @return true (cliente válido)/ false (cliente inválido)
+     */
+    private boolean validarCliente(ClienteFinal c) {
+        try {
+            if (!ClienteFinal.pesquisar(c.getRazaoSocial()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um cliente cadastrado com esse Nome.");
+                return false;
+            }
+            if (!ClienteFinal.pesquisar(c.getInscricaoFederal()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um cliente cadastrado com este CNPJ.");
+                return false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
     }
 
     /**
@@ -298,11 +349,19 @@ public class ClienteFinalBean {
      */
     public String abrirCliente(boolean novo) {
         if (!novo) {
+            try {
+                clienteSelecionado = ClienteFinal.obterClientePorID(clienteSelecionado.getIdClienteFinal());
+            } catch (Exception ex) {
+                Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            listaUsuarios.clear();
             listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
 
             clienteNovo = novo;
         } else {
             clienteNovo = novo;
+            novoCliente = new ClienteFinal();
         }
 
         showDetail = false;
@@ -321,6 +380,12 @@ public class ClienteFinalBean {
      */
     public String excluirCliente() throws Exception {
         try {
+            Set<Usuario> listaUsuariosC = clienteSelecionado.getUsuarios();
+
+            for (Usuario u : listaUsuariosC) {
+                usuarioSelecionado = Usuario.obterUsuarioPorID(u.getIdUsuario());
+                excluirUsuarioAssociacoes();
+            }
             ClienteFinal.apagar(clienteSelecionado);
         } catch (Exception e) {
             e.printStackTrace();
@@ -357,12 +422,13 @@ public class ClienteFinalBean {
                 preparaDialogPulseiras();
                 preparaDialogPrestadores();
             } else {
-                System.out.println("Usuario nao encontrado");
+                System.out.println("Usuário nao encontrado");
             }
 
             listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
         } else {
             usuarioNovo = novo;
+            novoUsuario = new Usuario();
         }
 
         showDetail = false;
@@ -379,39 +445,72 @@ public class ClienteFinalBean {
      * @throws java.io.IOException
      */
     public void salvarUsuario() throws IOException {
-        String mensagem;
+        boolean usuarioValido;
 
         if (usuarioNovo) {
-            novoUsuario.setClienteFinal(clienteSelecionado);
-            clienteSelecionado.getUsuarios().add(novoUsuario);
-
-            try {
-                ClienteFinal.atualizar(clienteSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            listaUsuarios = Lists.newArrayList(clienteSelecionado.getUsuarios());
-
-            novoUsuario = new Usuario();
-
-            mensagem = "Usuario criado com sucesso.";
+            usuarioValido = validarUsuario(novoUsuario);
         } else {
-            try {
-                Usuario.atualizar(usuarioSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            mensagem = "A alteração foi efetuada com sucesso.";
+            usuarioValido = validarUsuario(usuarioSelecionado);
         }
 
-        // Após o salvamento a tabela é populada.
-        carregarClientes();
+        if (usuarioValido) {
+            String mensagem;
 
-        showDetail = true;
+            if (usuarioNovo) {
+                novoUsuario.setClienteFinal(clienteSelecionado);
+                clienteSelecionado.getUsuarios().add(novoUsuario);
 
-        redirecionarComMensagem("dadoscliente.xhtml", mensagem, "Sucesso!");
+                try {
+                    ClienteFinal.atualizar(clienteSelecionado);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                listaUsuarios = Lists.newArrayList(clienteSelecionado.getUsuarios());
+
+                novoUsuario = new Usuario();
+
+                mensagem = "Usuário criado com sucesso.";
+            } else {
+                try {
+                    Usuario.atualizar(usuarioSelecionado);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mensagem = "A alteração foi efetuada com sucesso.";
+            }
+
+            // Após o salvamento a tabela é populada.
+            carregarClientes();
+
+            showDetail = true;
+
+            redirecionarComMensagem("dadoscliente.xhtml", mensagem, "Sucesso!");
+        }
+    }
+
+    /**
+     * Verifica os dados do usuário
+     *
+     * @return true (usuário válido)/ false (usuário inválido)
+     */
+    private boolean validarUsuario(Usuario u) {
+        try {
+            if (!Usuario.pesquisar(u.getCpf()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um usuário cadastrado com esse CPF.");
+                return false;
+            }
+
+            if (!Usuario.pesquisar(u.getRg()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um usuário cadastrado com esse RG.");
+                return false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
     }
 
     /**
@@ -421,21 +520,42 @@ public class ClienteFinalBean {
      * @throws Exception
      */
     public String excluirUsuario() throws Exception {
-        try {
-            Usuario.apagar(usuarioSelecionado);
-            listaUsuarios = Usuario.obterUsuarios();
-            clienteSelecionado = listaUsuarios.get(0).getClienteFinal();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        excluirUsuarioAssociacoes();
 
         usuarioSelecionado = new Usuario();
 
         showDetail = true;
 
-        redirecionarComMensagem("dadoscliente.xhtml", "Sucesso!", "Usuário excluído com sucesso.");
+        redirecionarComMensagem("dadoscliente.xhtml", "Usuário excluído com sucesso.", "Sucesso!");
 
         return null;
+    }
+
+    public void excluirUsuarioAssociacoes() {
+        try {
+            Set<PrestadorSocorro> listaPrestadores = usuarioSelecionado.getPrestadoresSocorro();
+
+            for (PrestadorSocorro p : listaPrestadores) {
+                desassociarPrestador(p);
+            }
+
+            if (usuarioSelecionado.getPulseiras() != null) {
+                Set<Pulseira> listaPulseiras = usuarioSelecionado.getPulseiras();
+
+                for (Pulseira p : listaPulseiras) {
+                    desassociarPulseira(p);
+                }
+            }
+
+            Usuario.apagar(usuarioSelecionado);
+
+            clienteSelecionado = ClienteFinal.obterClientePorID(clienteSelecionado.getIdClienteFinal());
+
+            listaUsuarios.clear();
+            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //-------------------------Pulseira
@@ -469,71 +589,102 @@ public class ClienteFinalBean {
      * @throws java.io.IOException
      */
     public void salvarPulseira() throws IOException {
-        String mensagem;
+        if (validarPulseira(pulseiraSelecionada)) {
+            String mensagem;
 
-        if (pulseiraNova) {
-            try {
-                Pulseira.criar(pulseiraSelecionada);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (pulseiraNova) {
+                try {
+                    Pulseira.criar(pulseiraSelecionada);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                listaPulseirasSelecionadas.add(pulseiraSelecionada);
+                associarPulseira(true);
+
+                pulseiraSelecionada = new Pulseira();
+
+                mensagem = "Pulseira criada e associada com sucesso.";
+            } else {
+                try {
+                    Pulseira.atualizar(pulseiraSelecionada);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mensagem = "Pulseira alterada com sucesso.";
             }
 
-            listaPulseirasSelecionadas.add(pulseiraSelecionada);
-            associarPulseira();
+            showDetail = true;
 
-            pulseiraSelecionada = new Pulseira();
+            redirecionarComMensagem("dadosusuario.xhtml", mensagem, "Sucesso!");
+        }
+    }
 
-            mensagem = "Pulseira criada e associada com sucesso.";
-        } else {
-            try {
-                Pulseira.atualizar(pulseiraSelecionada);
-            } catch (Exception e) {
-                e.printStackTrace();
+    /**
+     * Verifica os dados da pulseira
+     *
+     * @return true (pulseira válido)/ false (pulseira inválido)
+     */
+    private boolean validarPulseira(Pulseira p) {
+        try {
+            if (!Pulseira.pesquisar(p.getCodigoIdentificador()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe uma pulseira cadastrada com esse Código Identificador.");
+                return false;
             }
-
-            mensagem = "Pulseira alterada com sucesso.";
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        showDetail = true;
-
-        redirecionarComMensagem("dadosusuario.xhtml", mensagem, "Sucesso!");
+        return true;
     }
 
     /**
      * Desassocia a pulseira selecionada.
      *
-     * @return
      * @throws Exception
      */
-    public String desassociarPulseira() throws Exception {
+    public void desassociarPulseira(Pulseira p) throws Exception {
         try {
-            pulseiraSelecionada.setUsuario(null);
-            usuarioSelecionado.getPulseiras().remove(pulseiraSelecionada);
-            Pulseira.atualizar(pulseiraSelecionada);
+            p.setUsuario(null);
+            usuarioSelecionado.getPulseiras().remove(p);
+            Pulseira.atualizar(p);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        pulseiraSelecionada = new Pulseira();
-
         usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
-        listaPulseirasExibicao = new ArrayList<>(usuarioSelecionado.getPulseiras());
-
-        preparaDialogPulseiras();
-
-        showDetail = true;
-
-        redirecionarComMensagem("dadosusuario.xhtml", "Sucesso!", "Pulseira desassociada com sucesso.");
-
-        return null;
     }
 
     /**
      * Salva a associacao das pulseiras escolhidas.
+     *
+     * @param nova
      */
-    public void associarPulseira() {
+    public void associarPulseira(boolean nova) {
+        if (!nova) {
+            listaPulseirasSelecionadas = preencherPulseirasSelecionadas();
+
+            for (Pulseira p : listaPulseirasExibicao) {
+                if (!listaPulseirasSelecionadas.contains(p)) {
+                    try {
+                        desassociarPulseira(p);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+
         listaPulseirasSelecionadas.forEach(pulseira -> ((Pulseira) pulseira).setUsuario(usuarioSelecionado));
-        usuarioSelecionado.getPulseiras().addAll(listaPulseirasSelecionadas);
+
+        if (usuarioSelecionado.getPulseiras() != null) {
+            usuarioSelecionado.getPulseiras().clear();
+            usuarioSelecionado.getPulseiras().addAll(listaPulseirasSelecionadas);
+        } else {
+            usuarioSelecionado.setPulseiras(new HashSet<>(listaPulseirasSelecionadas));
+        }
+
         try {
             Usuario.atualizar(usuarioSelecionado);
         } catch (Exception e) {
@@ -545,8 +696,36 @@ public class ClienteFinalBean {
         preparaDialogPulseiras();
 
         if (!pulseiraNova) {
-            exibirMensagem("Pulseiras associadas com sucesso.");
+            //exibirMensagem("Pulseiras associadas com sucesso.");
+            showDetail = true;
+            redirecionarComMensagem("dadosusuario.xhtml", "Pulseiras associadas alteradas com sucesso.", "Sucesso!");
         }
+    }
+
+    /**
+     * Método responsável por pegar os valores presentes na lista usada pelo
+     * componente do PrimeFaces e retornar os mesmos em uma lista do tipo
+     * Pulseira.
+     *
+     * @return List<Pulseira>
+     */
+    public List<Pulseira> preencherPulseirasSelecionadas() {
+        List<Pulseira> listaPulseiras = new ArrayList<>();
+
+        for (int i = 0; i < dualListPulseira.getTarget().size(); i++) {
+            Object o = dualListPulseira.getTarget().get(i);
+            int id = Integer.parseInt(o.toString());
+
+            Pulseira p;
+            try {
+                p = Pulseira.obterPulseira(id);
+                listaPulseiras.add(p);
+            } catch (Exception e) {
+                exibirMensagem("Erro", "Erro ao buscar Prestador por id.");
+            }
+        }
+
+        return listaPulseiras;
     }
 
     /**
@@ -560,6 +739,10 @@ public class ClienteFinalBean {
             e.printStackTrace();
             System.out.println("Erro ao obter prestadores de socorro");
         }
+
+        listaPulseirasSelecionadas = listaPulseirasExibicao;
+
+        dualListPulseira = new DualListModel<Pulseira>(listaPulseirasDisponiveis, listaPulseirasSelecionadas);
     }
 
     //-------------------------Prestador
@@ -584,38 +767,63 @@ public class ClienteFinalBean {
      * @throws java.io.IOException
      */
     public void salvarPrestador() throws IOException {
-        String mensagem;
+        if (validarPrestador(prestadorSelecionado)) {
+            String mensagem;
 
-        if (prestadorNovo) {
-            try {
-                PrestadorSocorro.criar(prestadorSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (prestadorNovo) {
+                try {
+                    PrestadorSocorro.criar(prestadorSelecionado);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                listaPrestadoresSelecionados.add(prestadorSelecionado);
+                associarPrestador(true);
+
+                prestadorSelecionado = new PrestadorSocorro();
+
+                showDetail = true;
+
+                mensagem = "Prestador criado e associado com sucesso.";
+            } else {
+                try {
+                    PrestadorSocorro.atualizar(prestadorSelecionado);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                showDetail = true;
+
+                mensagem = "Prestador alterado com sucesso.";
             }
-
-            listaPrestadoresSelecionados.add(prestadorSelecionado);
-            associarPrestador();
-
-            prestadorSelecionado = new PrestadorSocorro();
 
             showDetail = true;
 
-            mensagem = "Prestador criado e associado com sucesso.";
-        } else {
-            try {
-                PrestadorSocorro.atualizar(prestadorSelecionado);
-            } catch (Exception e) {
-                e.printStackTrace();
+            redirecionarComMensagem("dadosusuario.xhtml", mensagem, "Sucesso!");
+        }
+    }
+
+    /**
+     * Verifica os dados do prestador
+     *
+     * @return true (prestador válido)/ false (prestador inválido)
+     */
+    private boolean validarPrestador(PrestadorSocorro p) {
+        try {
+            if (!PrestadorSocorro.pesquisar(p.getNome()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um prestador de socorro cadastrado com esse Nome.");
+                return false;
             }
 
-            showDetail = true;
-
-            mensagem = "Prestador alterado com sucesso.";
+            if (!PrestadorSocorro.pesquisar(p.getTelefone()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um prestador de socorro cadastrado com esse Telefone.");
+                return false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        showDetail = true;
-
-        redirecionarComMensagem("dadosusuario.xhtml", mensagem, "Sucesso!");
+        return true;
     }
 
     /**
@@ -630,7 +838,6 @@ public class ClienteFinalBean {
             usuarioSelecionado.getPrestadoresSocorro().remove(prestadorSelecionado);
             PrestadorSocorro.atualizar(prestadorSelecionado);
             Usuario.atualizar(usuarioSelecionado);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -653,9 +860,34 @@ public class ClienteFinalBean {
     }
 
     /**
-     * Salva a associacao dos prestadores de socorro escolhidoss.
+     * Exclui a associação com o prestador recebido.
+     *
+     * @param p
+     * @throws Exception
      */
-    public void associarPrestador() {
+    public void desassociarPrestador(PrestadorSocorro p) throws Exception {
+        try {
+            p.getUsuarios().remove(usuarioSelecionado);
+            usuarioSelecionado.getPrestadoresSocorro().remove(p);
+            PrestadorSocorro.atualizar(p);
+            Usuario.atualizar(usuarioSelecionado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        usuarioSelecionado = Usuario.obterUsuarioPorID(usuarioSelecionado.getIdUsuario());
+    }
+
+    /**
+     * Salva a associacao dos prestadores de socorro escolhidoss.
+     *
+     * @param novo
+     */
+    public void associarPrestador(boolean novo) {
+        if (!novo) {
+            listaPrestadoresSelecionados = preencherPrestadoresSelecionados();
+        }
+
         listaPrestadoresSelecionados.stream().forEach((p) -> {
             if (p.getUsuarios() != null) {
                 p.getUsuarios().add(usuarioSelecionado);
@@ -665,6 +897,7 @@ public class ClienteFinalBean {
             }
         });
 
+        usuarioSelecionado.getPrestadoresSocorro().clear();
         usuarioSelecionado.getPrestadoresSocorro().addAll(listaPrestadoresSelecionados);
 
         try {
@@ -678,8 +911,35 @@ public class ClienteFinalBean {
         preparaDialogPrestadores();
 
         if (!prestadorNovo) {
-            exibirMensagem("Prestadores de Socorro associados com sucesso.");
+            showDetail = true;
+            redirecionarComMensagem("dadosusuario.xhtml", "Prestadores de Socorro associados alterados com sucesso.", "Sucesso!");
         }
+    }
+
+    /**
+     * Método responsável por pegar os valores presentes na lista usada pelo
+     * componente do PrimeFaces e retornar os mesmos em uma lista do tipo
+     * PrestadorSocorro.
+     *
+     * @return List<PrestadorSocorro>
+     */
+    public List<PrestadorSocorro> preencherPrestadoresSelecionados() {
+        List<PrestadorSocorro> listaPrestadores = new ArrayList<>();
+
+        for (int i = 0; i < dualListPrestador.getTarget().size(); i++) {
+            Object o = dualListPrestador.getTarget().get(i);
+            int id = Integer.parseInt(o.toString());
+
+            PrestadorSocorro p;
+            try {
+                p = PrestadorSocorro.obterPrestadorPorID(id);
+                listaPrestadores.add(p);
+            } catch (Exception e) {
+                exibirMensagem("Erro", "Erro ao buscar Prestador por id.");
+            }
+        }
+
+        return listaPrestadores;
     }
 
     /**
@@ -687,27 +947,24 @@ public class ClienteFinalBean {
      */
     public synchronized void preparaDialogPrestadores() {
         List<PrestadorSocorro> listaPrestadorAssociados = new ArrayList<>();
+        listaPrestadorAssociados.clear();
         listaPrestadorAssociados.addAll(usuarioSelecionado.getPrestadoresSocorro());
 
         List<PrestadorSocorro> listaPrestadores = new ArrayList<>();
 
         try {
-            listaPrestadores = PrestadorSocorro.obterPrestadores();
+            listaPrestadores = PrestadorSocorro.obterDesassociados(usuarioSelecionado.getIdUsuario());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erro ao obter prestadores de socorro");
         }
 
-        for (PrestadorSocorro p : listaPrestadores) {
-            if (listaPrestadorAssociados.contains(p)) {
-                listaPrestadores.remove(p);
-            }
-        }
-
+        listaPrestadoresDisponiveis.clear();
         listaPrestadoresDisponiveis.addAll(listaPrestadores);
+
         listaPrestadoresSelecionados = new ArrayList<>();
         listaPrestadoresSelecionados.addAll(listaPrestadorAssociados);
-        
+
         dualListPrestador = new DualListModel<PrestadorSocorro>(listaPrestadoresDisponiveis, listaPrestadoresSelecionados);
     }
 
@@ -738,10 +995,10 @@ public class ClienteFinalBean {
         listaPrestadoresDisponiveis.remove(prestador);
     }
 
-    private void exibirMensagem(String mensagem) {
+    private void exibirMensagem(String mensagem, String titulo) {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        context.addMessage(null, new FacesMessage("Sucesso", mensagem));
+        context.addMessage(null, new FacesMessage(titulo, mensagem));
     }
 
     private void redirecionar(String pagina) {
@@ -768,14 +1025,5 @@ public class ClienteFinalBean {
             e.printStackTrace();
             System.out.println("Erro ao redirecionar para página " + pagina);
         }
-    }
-    
-    
-    public DualListModel<PrestadorSocorro> getDualListPrestador() {
-        return dualListPrestador;
-    }
- 
-    public void setDualListPrestador(DualListModel<PrestadorSocorro> dualListPrestador) {
-        this.dualListPrestador = dualListPrestador;
     }
 }

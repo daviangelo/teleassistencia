@@ -112,7 +112,8 @@ label {
     float: left; }
     .pageHeader nav.pageNavigator ul li {
       display: inline-block;
-      padding: 18px 0; }
+      padding: 18px 0;
+      position: relative; }
       .pageHeader nav.pageNavigator ul li.current {
         background: #83c6ea; }
         .pageHeader nav.pageNavigator ul li.current a {
@@ -125,6 +126,19 @@ label {
         display: block;
         border-right: 1px solid rgba(255, 255, 255, 0.15);
         padding: 0 17px; }
+      .pageHeader nav.pageNavigator ul li .submit {
+        display: none;
+        position: absolute;
+        top: 56px;
+        background: #fff;
+        z-index: 999;
+        border: 1px solid #eaeaea; }
+        .pageHeader nav.pageNavigator ul li .submit li.current {
+          background: transparent; }
+        .pageHeader nav.pageNavigator ul li .submit li a {
+          color: #1d1d1d; }
+      .pageHeader nav.pageNavigator ul li:hover .submit {
+        display: block; }
   .pageHeader .boxLogin {
     float: right; }
     .pageHeader .boxLogin .boxContent {
@@ -216,6 +230,26 @@ form#excluirUsuario .ui-dialog {
   left: 27% !important;
   top: 24% !important;
   padding: 10px; }
+
+.content-back {
+  position: absolute;
+  top: 100px; }
+  .content-back a {
+    padding: 5px 20px;
+    color: #8c8c8c;
+    font-family: "Open Sans", sans-serif;
+    display: inline-block;
+    font-size: 13px; }
+    .content-back a:before {
+      content: "";
+      display: block;
+      width: 11px;
+      height: 12px;
+      background: url(../images/arrow-picklist-left.png) no-repeat;
+      background-size: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px; }
 
 .ui-dialog-titlebar-close {
   width: 17px;
@@ -329,6 +363,12 @@ form#excluir .ui-confirm-dialog {
   text-align: center;
   border-radius: 2px;
   color: #fff; }
+  .ui-button.btn-picklist-alterar, .ui-button.btn-colorpick {
+    background: #60a2da !important; }
+  .ui-button.btn-picklist-cancelar {
+    padding: 5px;
+    margin-left: 10px;
+    background: #ccc; }
   .ui-button.btn-pageUser {
     padding: 5px;
     margin-top: 0;
@@ -1071,5 +1111,76 @@ body.newObjectAll .contentDialogForm.user {
           background-size: 100%; }
         #alterar .ui-dialog .ui-dialog-buttonpane .boxBtn .btnDelete span {
           display: none; }
+
+.ui-picklist {
+  width: 100%; }
+  .ui-picklist tbody tr td {
+    background: #f7f7f7; }
+    .ui-picklist tbody tr td:nth-child(3) {
+      display: inline-block;
+      margin-left: 15px;
+      width: 280px; }
+    .ui-picklist tbody tr td #search {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #e4e4e4;
+      font-family: "Open Sans", sans-serif; }
+    .ui-picklist tbody tr td ul.ui-picklist-list {
+      height: 215px;
+      margin: 0;
+      overflow-x: hidden;
+      padding: 0;
+      width: 100%; }
+      .ui-picklist tbody tr td ul.ui-picklist-list li {
+        color: #404040;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        padding: 5px;
+        width: 100%; }
+      .ui-picklist tbody tr td ul.ui-picklist-list li.ui-state-highlight {
+        background: #a7d0ca;
+        border-radius: 1px;
+        color: #ffffff; }
+      .ui-picklist tbody tr td ul.ui-picklist-list li.ui-state-hover {
+        background: #efefef; }
+    .ui-picklist tbody tr td:nth-child(2) {
+      background: transparent;
+      display: inline-block;
+      padding-left: 9px;
+      width: 35px; }
+      .ui-picklist tbody tr td:nth-child(2) button.ui-button {
+        background: transparent;
+        margin: 30px 0 0 0;
+        padding: 0;
+        height: 29px; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button span {
+          display: none; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button:first-child {
+          margin: 0; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button:before {
+          content: "";
+          display: block;
+          height: 30px;
+          width: 32px; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button.ui-picklist-button-add:before {
+          background: url(../images/arrow-picklist-right.png) no-repeat top center;
+          background-size: 50%; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button.ui-picklist-button-add-all:before {
+          background: url(../images/arrow-picklist-right-all.png) no-repeat top center;
+          background-size: 50%; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button.ui-picklist-button-remove-all:before {
+          background: url(../images/arrow-picklist-left-all.png) no-repeat top center;
+          background-size: 50%; }
+        .ui-picklist tbody tr td:nth-child(2) button.ui-button.ui-picklist-button-remove:before {
+          background: url(../images/arrow-picklist-left.png) no-repeat top center;
+          background-size: 50%; }
+    .ui-picklist tbody tr td:nth-child(1) {
+      display: inline-block;
+      width: 270px; }
+
+.box-btn-picklist {
+  text-align: center; }
+  .box-btn-picklist .ui-button.btn-pageUser.btn-associar {
+    margin-left: 0; }
 
 /*# sourceMappingURL=style.css.map */

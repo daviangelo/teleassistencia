@@ -130,7 +130,6 @@ public class ClienteFinal implements Serializable {
      * @throws Exception
      */
     public static List<ClienteFinal> pesquisar(String palavra) throws Exception {
-
         return getDAOCliente().pesquisa(palavra);
     }
 
@@ -167,7 +166,6 @@ public class ClienteFinal implements Serializable {
      * @throws Exception
      */
     public static void apagar(ClienteFinal clienteFinal) throws Exception {
-
         getDAOCliente().apagar(clienteFinal);
     }
 

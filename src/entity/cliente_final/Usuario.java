@@ -22,8 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import persistence.dao.DAO;
-import positioning.GeographicalCoordinate;
+import persistence.dao.DAOUsuario;
 
 @Entity
 @Table(name = "usuario")
@@ -36,9 +35,9 @@ public class Usuario implements Serializable {
 
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
-    private Set<Pulseira> pulseiras = new HashSet<>();
-    private static DAO<Usuario> daoUsuario;
-    private Registro ultimoRegistro; 
+    private Set<Pulseira> pulseiras;
+    private static DAOUsuario daoUsuario;
+    private Registro ultimoRegistro;
 
     public Usuario() {
     }
@@ -84,11 +83,13 @@ public class Usuario implements Serializable {
     public Set<Pulseira> getPulseiras() {
         return pulseiras;
     }
-    
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_prestador_socorro", joinColumns = 
-     {@JoinColumn(name = "id_usuario")},inverseJoinColumns =
-     {@JoinColumn(name = "id_prestador_socorro")})
+    @JoinTable(name = "usuario_prestador_socorro", joinColumns
+            = {
+                @JoinColumn(name = "id_usuario")}, inverseJoinColumns
+            = {
+                @JoinColumn(name = "id_prestador_socorro")})
     public Set<PrestadorSocorro> getPrestadoresSocorro() {
         return prestadoresSocorro;
     }
@@ -129,12 +130,11 @@ public class Usuario implements Serializable {
     public void setUltimoRegistro(Registro ultimoRegistro) {
         this.ultimoRegistro = ultimoRegistro;
     }
-    
 
     @Transient
-    public static DAO<Usuario> getDAOUsuario() {
+    public static DAOUsuario getDAOUsuario() {
         if (daoUsuario == null) {
-            daoUsuario = new DAO<>(Usuario.class);
+            daoUsuario = new DAOUsuario();
         }
         return daoUsuario;
     }
@@ -147,7 +147,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static void apagar(Usuario usuario) throws Exception {
-
         getDAOUsuario().apagar(usuario);
     }
 
@@ -158,7 +157,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static List<Usuario> obterUsuarios() throws Exception {
-
         return getDAOUsuario().listarTodos();
     }
 
@@ -170,7 +168,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static void atualizar(Usuario usuario) throws Exception {
-
         getDAOUsuario().atualizar(usuario);
     }
 
@@ -183,8 +180,19 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static Usuario obterUsuarioPorID(int idUsuario) throws Exception {
-
         return getDAOUsuario().listarPorID(idUsuario);
+    }
+
+    /**
+     * Obtém a lista com todos os usuários salvos no banco de dados
+     * correspondentes com a palavra pesquisada.
+     *
+     * @param palavra Palavara a ser buscada.
+     * @return
+     * @throws Exception
+     */
+    public static List<Usuario> pesquisar(String palavra) throws Exception {
+        return getDAOUsuario().pesquisa(palavra);
     }
 
     @Override
@@ -220,7 +228,4 @@ public class Usuario implements Serializable {
         }
         return true;
     }
-    
-    
-
 }

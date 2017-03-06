@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <h:head>
         <title>Resgistro de cliente</title>
         <ui:insert name="commonHeader" > 
@@ -18,13 +18,11 @@
         <ui:insert name="header" >
             <ui:include src="subtemplate/_header.xhtml" />
         </ui:insert>
-        
+
         <div class="wrapper">
             <h:form id="formInserir">
                 <h:panelGrid columns="2" cellspacing="10" style="margin-left:100px">
-
-
-                    <p:outputLabel value="Temperatura:"></p:outputLabel>
+                    <p:outputLabel value="Temperatura:"/>
 
                     <h:selectOneMenu value="#{registro_mb.registro.tipoTemperatura}">
                         <f:selectItems value="#{registro_mb.registro.tipoTemperaturas}" />
@@ -38,36 +36,35 @@
 
                 </h:panelGrid>
             </h:form>
+
+            <p:panel header="Consultar os Dados">
+                <h:form id="form1">
+                    <p:outputPanel id="pnlTabela">
+                        <p:commandButton value="Mostrar os Dados" action="#{registro_mb.consultar}"
+                                         update=":form1" ajax="true"></p:commandButton>
+                        <p />
+
+                        <p:dataTable id="tableConsulta" value="#{registro_mb.lista}" var="linha">
+                            <p:column headerText="ID">
+                                <h:outputText value="#{linha.id}" />
+                            </p:column>
+                            <p:column headerText="Temperatura">
+                                <h:outputText value="#{linha.temperaturaNome}" />
+                            </p:column>
+                            <p:column headerText="Horario">
+                                <h:outputText value="#{linha.horario}" />
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton value="Enviar" icon="ui-icon-search"
+                                                 action="#{pesq_op_mb.teste}" ajax="false"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </h:form>
+
+            </p:panel>
         </div>
 
-        <p:panel header="Consultar os Dados">
-
-            <h:form id="form1">
-                <p:outputPanel id="pnlTabela">
-                    <p:commandButton value="Mostrar os Dados" action="#{registro_mb.consultar}"
-                                     update=":form1" ajax="true"></p:commandButton>
-                    <p />
-
-                    <p:dataTable id="tableConsulta" value="#{registro_mb.lista}" var="linha">
-                        <p:column headerText="ID">
-                            <h:outputText value="#{linha.id}" />
-                        </p:column>
-                        <p:column headerText="Temperatura">
-                            <h:outputText value="#{linha.temperaturaNome}" />
-                        </p:column>
-                        <p:column headerText="Horario">
-                            <h:outputText value="#{linha.horario}" />
-                        </p:column>
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton value="Enviar" icon="ui-icon-search"
-                                             action="#{pesq_op_mb.teste}" ajax="false"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:outputPanel>
-            </h:form>
-
-        </p:panel>
-        
         <ui:insert name="header" >
             <ui:include src="subtemplate/_commonFooter.xhtml" />
         </ui:insert>
