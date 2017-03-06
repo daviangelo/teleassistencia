@@ -1,14 +1,20 @@
 package entity.cliente_final;
 
+import entity.Registro;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -29,6 +35,7 @@ public class Pulseira implements Serializable {
     private String codigoIdentificador;
     private boolean liberadaUso;
     private Usuario usuario;
+    private Set<Registro> registros = new HashSet<>();
     private static DAOPulseira daoPulseira;
 
     /**
@@ -75,6 +82,15 @@ public class Pulseira implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    @OneToMany(mappedBy = "pulseira", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    public Set<Registro> getRegistros() {
+        return registros;
+    }
+
+    public void setRegistros(Set<Registro> registros) {
+        this.registros = registros;
     }
 
     @Transient

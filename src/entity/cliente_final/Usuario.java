@@ -1,5 +1,6 @@
 package entity.cliente_final;
 
+import entity.Registro;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import persistence.dao.DAOUsuario;
-import positioning.GeographicalCoordinate;
 
 @Entity
 @Table(name = "usuario")
@@ -32,12 +32,12 @@ public class Usuario implements Serializable {
     private String nome;
     private String cpf;
     private String rg;
-    private GeographicalCoordinate ultimaLocalizacao;
 
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
     private Set<Pulseira> pulseiras;
     private static DAOUsuario daoUsuario;
+    private Registro ultimoRegistro;
 
     public Usuario() {
     }
@@ -85,9 +85,11 @@ public class Usuario implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_prestador_socorro", joinColumns = 
-     {@JoinColumn(name = "id_usuario")},inverseJoinColumns =
-     {@JoinColumn(name = "id_prestador_socorro")})
+    @JoinTable(name = "usuario_prestador_socorro", joinColumns
+            = {
+                @JoinColumn(name = "id_usuario")}, inverseJoinColumns
+            = {
+                @JoinColumn(name = "id_prestador_socorro")})
     public Set<PrestadorSocorro> getPrestadoresSocorro() {
         return prestadoresSocorro;
     }
@@ -121,15 +123,13 @@ public class Usuario implements Serializable {
     }
 
     @Transient
-    public GeographicalCoordinate getUltimaLocalizacao() {
-        return ultimaLocalizacao;
+    public Registro getUltimoRegistro() {
+        return ultimoRegistro;
     }
 
-    public void setUltimaLocalizacao(GeographicalCoordinate ultimaLocalizacao) {
-        this.ultimaLocalizacao = ultimaLocalizacao;
+    public void setUltimoRegistro(Registro ultimoRegistro) {
+        this.ultimoRegistro = ultimoRegistro;
     }
-    
-    
 
     @Transient
     public static DAOUsuario getDAOUsuario() {
@@ -228,7 +228,4 @@ public class Usuario implements Serializable {
         }
         return true;
     }
-    
-    
-
 }
