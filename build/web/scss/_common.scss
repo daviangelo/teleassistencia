@@ -22,6 +22,29 @@ form#excluirUsuario {
     padding: 10px;
 }
 
+.content-back {
+    position: absolute;
+    top: 100px;
+    a {
+        padding: 5px 20px;
+        color: #8c8c8c;
+        font-family: $font1;
+        display: inline-block;
+        font-size: 13px;
+        &:before {
+            content: "";
+            display: block;
+            width: 11px;
+            height: 12px;
+            background: url(../images/arrow-picklist-left.png) no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    }
+}
+
 // clouse lightbox
 .ui-dialog-titlebar-close {
     width: 17px;
@@ -165,6 +188,15 @@ form#excluir {
     text-align: center;
     border-radius: 2px;
     color: $white;
+    &.btn-picklist-alterar,
+    &.btn-colorpick {   
+        background: #60a2da !important;
+    }
+    &.btn-picklist-cancelar {
+        padding: 5px;
+        margin-left: 10px;
+        background: #ccc;
+    }
     &.btn-pageUser {
         padding: 5px;
         margin-top: 0;
@@ -669,5 +701,112 @@ body.newObjectAll {
                 }
             }
         }
+    }
+}
+
+//pick list
+.ui-picklist {
+    width: 100%;
+    tbody {
+        tr {
+            td {
+                background: #f7f7f7;
+                &:nth-child(3) {
+                    display: inline-block;
+                    margin-left: 15px;
+                    width: 280px;
+                }
+                #search {
+                    width: 100%;
+                    padding: 5px;
+                    border: 1px solid #e4e4e4;
+                    font-family: $font1;
+                }
+                ul.ui-picklist-list {
+                    height: 215px;
+                    margin: 0;
+                    overflow-x: hidden;
+                    padding: 0;
+                    width: 100%;
+                    li {
+                        color: #404040;
+                        font-family: 'Open Sans', sans-serif;
+                        font-size: 15px;
+                        padding: 5px;
+                        width: 100%;
+                    }
+                    li.ui-state-highlight {
+                        background: rgb(167, 208, 202);
+                        border-radius: 1px;
+                        color: #ffffff;
+                    }
+                    li.ui-state-hover {
+                        background: #efefef;
+                    }
+                }
+                &:nth-child(2) {
+                    background: transparent;
+                    display: inline-block;
+                    padding-left: 9px;
+                    width: 35px;
+                    button.ui-button {
+                        background: transparent;
+                        margin: 30px 0 0 0;
+                        padding: 0;
+                        height: 29px;
+                        span {
+                            display: none;
+                        }
+                        &:first-child {
+                            margin: 0;
+                        }
+
+                        &:before {
+                            content: "";
+                            display: block;
+                            height: 30px;
+                            width: 32px;
+                        }
+                        &.ui-picklist-button-add {
+                            &:before {
+                                background: url(../images/arrow-picklist-right.png) no-repeat top center;
+                                background-size: 50%;
+                            }
+                        }
+
+                        &.ui-picklist-button-add-all {
+                            &:before {
+                                background: url(../images/arrow-picklist-right-all.png) no-repeat top center;
+                                background-size: 50%;
+                            }
+                        }
+
+                        &.ui-picklist-button-remove-all {
+                            &:before {
+                                background: url(../images/arrow-picklist-left-all.png) no-repeat top center;
+                                background-size: 50%;
+                            }
+                        }
+
+                        &.ui-picklist-button-remove {
+                            &:before {
+                                background: url(../images/arrow-picklist-left.png) no-repeat top center;
+                                background-size: 50%;
+                            }
+                        }
+                    }
+                }
+                &:nth-child(1) {
+                    display: inline-block;
+                    width: 270px;
+                }
+            }
+        }
+    }
+}
+.box-btn-picklist {
+    text-align: center;
+    .ui-button.btn-pageUser.btn-associar {
+        margin-left: 0;
     }
 }

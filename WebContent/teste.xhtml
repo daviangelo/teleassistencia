@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Pulseiras</title>
+
+        <ui:insert name="commonHeader" > 
+            <ui:include src="subtemplate/_commonHeader.xhtml" />
+        </ui:insert>
+    </h:head>
+
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="subtemplate/_header.xhtml" />
+        </ui:insert>
+
+        <div class="wrapper">
+
+
+            <div class="box-list">
+                <h:form>
+                    <p:pickList id="pickListPulseira" value="#{clienteFinalBean.dualListPulseira}" 
+                                var="pulseira" itemLabel="#{pulseira.codigoIdentificador}" itemValue="#{pulseira.idPulseira}" />
+
+                    <p:commandButton id="citySubmit" value="Submit" update="displayCities" 
+                                     oncomplete="PF('cityDialog').show()" style="margin-top:5px" />
+
+                    <p:commandButton title="Associar prestador(es)" value="Associar"
+                                     styleClass="btn-associar btn-pageUser"
+                                     action="#{clienteFinalBean.associarPulseira()}"/>
+
+                    <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="cityDialog">
+                        <h:panelGrid id="displayCities" columns="2">
+                            <h:outputText value="Source: " style="font-weight:bold" />
+                            <ui:repeat value="#{clienteFinalBean.dualListPulseira.source}" var="item">
+                                <h:outputText value="#{item}" style="margin-right:5px" />
+                            </ui:repeat>
+
+                            <h:outputText value="Target: " style="font-weight:bold" />
+                            <ui:repeat value="#{clienteFinalBean.dualListPulseira.target}" var="item">
+                                <h:outputText value="#{item}" style="margin-right:5px" />
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </div>         
+        </div>
+
+        <ui:insert name="footer" > 
+            <ui:include src="subtemplate/_footer.xhtml" />
+        </ui:insert>
+    </h:body>
+
+    <ui:insert name="commonFooter" >
+        <ui:include src="subtemplate/_commonFooter.xhtml" />
+    </ui:insert>
+
+    <script type="text/javascript" src="js/jquery.quick.search.js"></script>
+</html>

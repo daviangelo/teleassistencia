@@ -14,47 +14,43 @@ import persistence.GestorBancoDados;
 import util.CastUtil;
 
 /**
- * @author Davi Lessa
- * 15/1/2017
+ * @author Davi Lessa 15/1/2017
  */
-public class DAOPulseira extends DAO<Pulseira>{
+public class DAOPulseira extends DAO<Pulseira> {
 
     public DAOPulseira() {
         super(Pulseira.class);
     }
-    
-     /**
-	 * Pesquisa para buscar prestadores de socorro que a entrada 'campo' corresponnda a
-	 * uma das colunas existentes.
-	 * 
-	 * @param campo
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Pulseira> pesquisa(String campo) throws Exception {
-		Session session = GestorBancoDados.getInstancia().getSession();
-		Criteria criteria = session.createCriteria(Pulseira.class);
-		
-		criteria.add(Restrictions.or(/*Restrictions.eq("matriculaFinal", 1)
-				.ignoreCase(), */ Restrictions.eq("codigoIdentificador", campo).ignoreCase()));
-		System.out.println(criteria.list().size());
-		List<Pulseira> lista = CastUtil.castList(Pulseira.class,
-				criteria.list());
 
-		return lista;
+    /**
+     * Pesquisa para buscar prestadores de socorro que a entrada 'campo'
+     * corresponnda a uma das colunas existentes.
+     *
+     * @param campo
+     * @return
+     * @throws Exception
+     */
+    public List<Pulseira> pesquisa(String campo) throws Exception {
+        Session session = GestorBancoDados.getInstancia().getSession();
+        Criteria criteria = session.createCriteria(Pulseira.class);
 
-	}
-    
-	public List<Pulseira> obterDesassociadas() throws Exception {
-		Session session = GestorBancoDados.getInstancia().getSession();
-		Criteria criteria = session.createCriteria(Pulseira.class);
-		
-		criteria.add( Restrictions.isNull("usuario"));
-		System.out.println(criteria.list().size());
-		List<Pulseira> lista = CastUtil.castList(Pulseira.class,
-				criteria.list());
+        criteria.add(Restrictions.or(/*Restrictions.eq("matriculaFinal", 1)
+				.ignoreCase(), */Restrictions.eq("codigoIdentificador", campo).ignoreCase()));
+        List<Pulseira> lista = CastUtil.castList(Pulseira.class,
+                criteria.list());
 
-		return lista;
-	}
-    
+        return lista;
+
+    }
+
+    public List<Pulseira> obterDesassociadas() throws Exception {
+        Session session = GestorBancoDados.getInstancia().getSession();
+        Criteria criteria = session.createCriteria(Pulseira.class);
+
+        criteria.add(Restrictions.isNull("usuario"));
+        List<Pulseira> lista = CastUtil.castList(Pulseira.class,
+                criteria.list());
+
+        return lista;
+    }
 }

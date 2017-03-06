@@ -23,7 +23,7 @@
             <div class="titlePage">
                 <h2>Dados do cliente</h2>
             </div>
-            
+
             <p:growl id="growl" showDetail="#{clienteFinalBean.showDetail}" sticky="true"/>
 
             <p:panel id="painelNovoCliente" rendered="#{clienteFinalBean.clienteNovo}">
@@ -68,7 +68,7 @@
                     <div class="boxBtn">
                         <h:commandButton title="Salvar" value="Salvar"
                                          action="#{clienteFinalBean.salvarCliente()}" />
-
+                        
                         <a href="/servidorcentral/buscacliente.xhtml" class="btn-back">Cancelar</a>
                     </div>
                 </h:form>

@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import persistence.dao.DAO;
+import persistence.dao.DAOUsuario;
 import positioning.GeographicalCoordinate;
 
 @Entity
@@ -37,7 +37,7 @@ public class Usuario implements Serializable {
     private ClienteFinal clienteFinal;
     private Set<PrestadorSocorro> prestadoresSocorro = new HashSet<>();
     private Set<Pulseira> pulseiras;
-    private static DAO<Usuario> daoUsuario;
+    private static DAOUsuario daoUsuario;
 
     public Usuario() {
     }
@@ -132,9 +132,9 @@ public class Usuario implements Serializable {
     
 
     @Transient
-    public static DAO<Usuario> getDAOUsuario() {
+    public static DAOUsuario getDAOUsuario() {
         if (daoUsuario == null) {
-            daoUsuario = new DAO<>(Usuario.class);
+            daoUsuario = new DAOUsuario();
         }
         return daoUsuario;
     }
@@ -147,7 +147,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static void apagar(Usuario usuario) throws Exception {
-
         getDAOUsuario().apagar(usuario);
     }
 
@@ -158,7 +157,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static List<Usuario> obterUsuarios() throws Exception {
-
         return getDAOUsuario().listarTodos();
     }
 
@@ -170,7 +168,6 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static void atualizar(Usuario usuario) throws Exception {
-
         getDAOUsuario().atualizar(usuario);
     }
 
@@ -183,8 +180,19 @@ public class Usuario implements Serializable {
      * @throws Exception
      */
     public static Usuario obterUsuarioPorID(int idUsuario) throws Exception {
-
         return getDAOUsuario().listarPorID(idUsuario);
+    }
+
+    /**
+     * Obtém a lista com todos os usuários salvos no banco de dados
+     * correspondentes com a palavra pesquisada.
+     *
+     * @param palavra Palavara a ser buscada.
+     * @return
+     * @throws Exception
+     */
+    public static List<Usuario> pesquisar(String palavra) throws Exception {
+        return getDAOUsuario().pesquisa(palavra);
     }
 
     @Override

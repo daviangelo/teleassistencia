@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import persistence.dao.DAO;
 import persistence.dao.DAOPulseira;
 
 /**
@@ -98,7 +97,6 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void apagar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().apagar(pulseira);
     }
 
@@ -110,22 +108,20 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void atualizar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().atualizar(pulseira);
     }
-    
-     /**
+
+    /**
      * Obtém a lista com todos os pulseiras salvos no banco de dados.
      *
      * @return
      * @throws Exception
      */
     public static List<Pulseira> obterPulseiras() throws Exception {
-
         return getDAOPulseira().listarTodos();
     }
-    
-     /**
+
+    /**
      * Obtém a lista com todos as pulseiras dessasociadas a usuário.
      *
      * @return
@@ -134,7 +130,7 @@ public class Pulseira implements Serializable {
     public static List<Pulseira> obterDesassociadas() throws Exception {
         return getDAOPulseira().obterDesassociadas();
     }
-    
+
     /**
      * Obtém a lista com todos os pulseiras salvos no banco de dados
      * correspondentes com a palavra pesquisada.
@@ -144,10 +140,9 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static List<Pulseira> pesquisar(String palavra) throws Exception {
-
         return getDAOPulseira().pesquisa(palavra);
     }
-    
+
     /**
      * Salva um novo pulseira no banco de dados.
      *
@@ -156,8 +151,31 @@ public class Pulseira implements Serializable {
      * @throws Exception
      */
     public static void criar(Pulseira pulseira) throws Exception {
-
         getDAOPulseira().criar(pulseira);
+    }
+
+    /**
+     * Obtém a pulseira salva no banco de dados correspondente com o idPulseira
+     * pesquisado.
+     *
+     * @param idPulseira
+     * @return
+     * @throws Exception
+     */
+    public static Pulseira obterPulseira(int idPulseira) throws Exception {
+        return getDAOPulseira().listarPorID(idPulseira);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof String)) {
+            Pulseira p = (Pulseira) obj;
+
+            if (idPulseira == p.getIdPulseira()) {
+                return true;
+            }
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

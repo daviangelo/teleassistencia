@@ -9,6 +9,8 @@ import entity.cliente_final.Pulseira;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -94,25 +96,29 @@ public class PulseiraBean {
 
     /**
      * Salva alteração de dados do pulseira selecionado.
+     *
+     * @throws java.io.IOException
      */
     public void alterarPulseira() throws IOException {
-        try {
-            Pulseira.atualizar(pulseiraSelecionada);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (validarPulseira(pulseiraSelecionada)) {
+            try {
+                Pulseira.atualizar(pulseiraSelecionada);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            carregarPulseiras();
+
+            context.addMessage(null, new FacesMessage("Sucesso!",
+                    "A alteração foi efetuada com sucesso."));
+
+            context.getExternalContext().getFlash().setKeepMessages(true);
+
+            context.getExternalContext().redirect("buscapulseira.xhtml");
         }
-
-        FacesContext context = FacesContext.getCurrentInstance();
-        
-        carregarPulseiras();
-
-        context.addMessage(null, new FacesMessage("Sucesso!",
-                "A alteração foi efetuada com sucesso."));
-
-        context.getExternalContext().getFlash().setKeepMessages(true);
-
-        context.getExternalContext().redirect("buscapulseira.xhtml");
     }
 
     /**
@@ -151,24 +157,26 @@ public class PulseiraBean {
      * @throws IOException
      */
     public void criarPulseira() throws IOException {
-        try {
-            Pulseira.criar(novaPulseira);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (validarPulseira(novaPulseira)) {
+            try {
+                Pulseira.criar(novaPulseira);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            novaPulseira = new Pulseira();
+
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            // Após o salvamento a tabela é populada.
+            carregarPulseiras();
+
+            context.addMessage(null, new FacesMessage("Sucesso!",
+                    "Pulseira criada com sucesso."));
+
+            context.getExternalContext().getFlash().setKeepMessages(true);
+
+            context.getExternalContext().redirect("buscapulseira.xhtml");
         }
-        novaPulseira = new Pulseira();
-
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        // Após o salvamento a tabela é populada.
-        carregarPulseiras();
-
-        context.addMessage(null, new FacesMessage("Sucesso!",
-                "Pulseira criada com sucesso."));
-
-        context.getExternalContext().getFlash().setKeepMessages(true);
-
-        context.getExternalContext().redirect("buscapulseira.xhtml");
     }
 
     public String getCampoBusca() {
@@ -212,6 +220,8 @@ public class PulseiraBean {
     public void abrirNovaPulseira() throws IOException {
         nova = true;
 
+        novaPulseira = new Pulseira();
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         context.getExternalContext().redirect("dadospulseira.xhtml");
@@ -220,12 +230,36 @@ public class PulseiraBean {
     public boolean isNova() {
         return nova;
     }
-    
-    public boolean verificaUsuario(){
-        if (pulseiraSelecionada.getUsuario() != null){
+
+    public boolean verificaUsuario() {
+        if (pulseiraSelecionada.getUsuario() != null) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Verifica os dados da pulseira
+     *
+     * @return true (pulseira válido)/ false (pulseira inválido)
+     */
+    private boolean validarPulseira(Pulseira p) {
+        try {
+            if (!Pulseira.pesquisar(p.getCodigoIdentificador()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe uma pulseira cadastrada com esse Código Identificador.");
+                return false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
+    }
+
+    private void exibirMensagem(String mensagem, String titulo) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.addMessage(null, new FacesMessage(titulo, mensagem));
     }
 }

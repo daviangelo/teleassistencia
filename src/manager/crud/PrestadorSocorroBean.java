@@ -6,9 +6,13 @@
 package manager.crud;
 
 import entity.cliente_final.PrestadorSocorro;
+import entity.cliente_final.Usuario;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -83,7 +87,7 @@ public class PrestadorSocorroBean {
 //
 //            listaUsuarios = new ArrayList<>(clienteSelecionado.getUsuarios());
         novo = false;
-        
+
         // Redirecionando
         FacesContext faces = FacesContext.getCurrentInstance();
         ExternalContext context = faces.getExternalContext();
@@ -97,23 +101,25 @@ public class PrestadorSocorroBean {
      * Salva alteração de dados do prestador de socorro selecionado.
      */
     public void alterarPrestador() throws IOException {
-        try {
-            PrestadorSocorro.atualizar(prestadorSelecionado);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (validarPrestador(prestadorSelecionado)) {
+            try {
+                PrestadorSocorro.atualizar(prestadorSelecionado);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            carregarPrestadores();
+
+            context.addMessage(null, new FacesMessage("Sucesso!",
+                    "A alteração foi efetuada com sucesso."));
+
+            context.getExternalContext().getFlash().setKeepMessages(true);
+
+            context.getExternalContext().redirect("buscaprestador.xhtml");
         }
-
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        carregarPrestadores();
-
-        context.addMessage(null, new FacesMessage("Sucesso!",
-                "A alteração foi efetuada com sucesso."));
-
-        context.getExternalContext().getFlash().setKeepMessages(true);
-
-        context.getExternalContext().redirect("buscaprestador.xhtml");
     }
 
     /**
@@ -124,8 +130,12 @@ public class PrestadorSocorroBean {
      *
      */
     public String excluirPrestador() throws Exception {
-
         try {
+            Set<Usuario> listaUsuarios = prestadorSelecionado.getUsuarios();
+
+            for (Usuario u : listaUsuarios) {
+                desassociarUsuario(u);
+            }
 
             PrestadorSocorro.apagar(prestadorSelecionado);
         } catch (Exception e) {
@@ -148,32 +158,51 @@ public class PrestadorSocorroBean {
     }
 
     /**
+     * Exclui a associação com o usuário recebido.
+     *
+     * @param u
+     * @throws Exception
+     */
+    public void desassociarUsuario(Usuario u) throws Exception {
+        try {
+            u.getPrestadoresSocorro().remove(prestadorSelecionado);
+            prestadorSelecionado.getUsuarios().remove(u);
+            Usuario.atualizar(u);
+            PrestadorSocorro.atualizar(prestadorSelecionado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        prestadorSelecionado = PrestadorSocorro.obterPrestadorPorID(prestadorSelecionado.getIdPrestadorSocorro());
+    }
+
+    /**
      * Salva o novo cliente no banco de dados.
      *
      * @throws IOException
      */
     public void criarPrestador() throws IOException {
-        try {
+        if (validarPrestador(novoPrestador)) {
+            try {
+                PrestadorSocorro.criar(novoPrestador);
 
-            PrestadorSocorro.criar(novoPrestador);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            novoPrestador = new PrestadorSocorro();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            // Após o salvamento a tabela é populada.
+            carregarPrestadores();
+
+            context.addMessage(null, new FacesMessage("Sucesso!",
+                    "Prestador criado com sucesso."));
+
+            context.getExternalContext().getFlash().setKeepMessages(true);
+
+            context.getExternalContext().redirect("buscaprestador.xhtml");
         }
-        novoPrestador = new PrestadorSocorro();
-
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        // Após o salvamento a tabela é populada.
-        carregarPrestadores();
-
-        context.addMessage(null, new FacesMessage("Sucesso!",
-                "Prestador criado com sucesso."));
-
-        context.getExternalContext().getFlash().setKeepMessages(true);
-
-        context.getExternalContext().redirect("buscaprestador.xhtml");
-
     }
 
     public String getCampoBusca() {
@@ -217,6 +246,8 @@ public class PrestadorSocorroBean {
     public void abrirNovoPrestador() throws IOException {
         novo = true;
 
+        novoPrestador = new PrestadorSocorro();
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         context.getExternalContext().redirect("dadosprestador.xhtml");
@@ -225,8 +256,37 @@ public class PrestadorSocorroBean {
     public boolean isNovo() {
         return novo;
     }
-    
+
     public boolean teste() {
         return false;
+    }
+
+    /**
+     * Verifica os dados do prestador
+     *
+     * @return true (prestador válido)/ false (prestador inválido)
+     */
+    private boolean validarPrestador(PrestadorSocorro p) {
+        try {
+            if (!PrestadorSocorro.pesquisar(p.getNome()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um prestador de socorro cadastrado com esse Nome.");
+                return false;
+            }
+
+            if (!PrestadorSocorro.pesquisar(p.getTelefone()).isEmpty()) {
+                exibirMensagem("Erro!", "Já existe um prestador de socorro cadastrado com esse Telefone.");
+                return false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFinalBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
+    }
+
+    private void exibirMensagem(String mensagem, String titulo) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.addMessage(null, new FacesMessage(titulo, mensagem));
     }
 }
